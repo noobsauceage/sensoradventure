@@ -8,3 +8,22 @@ Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -data /Users/daft/sen
 
 !ENTRY org.eclipse.core.net 1 0 2012-06-12 13:18:57.804
 !MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2012-06-12 13:37:00.439
+!MESSAGE Failed to load properties file for project 'SensorAdventure'
+
+!ENTRY org.eclipse.ui 4 4 2012-06-12 13:49:38.245
+!MESSAGE Invalid preference page path: XML Syntax
+!SESSION 2012-06-12 13:49:39.460 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.6.0_31
+java.vendor=Apple Inc.
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/daft/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -data /Users/daft/sensoradventure -keyring /Users/daft/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.net 1 0 2012-06-12 13:49:48.693
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.ui 4 4 2012-06-12 13:53:56.670
+!MESSAGE Invalid preference page path: XML Syntax
