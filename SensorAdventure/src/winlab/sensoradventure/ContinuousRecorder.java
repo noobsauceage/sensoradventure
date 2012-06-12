@@ -1,6 +1,6 @@
 package winlab.sensoradventure;
 
-
+import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
@@ -110,13 +110,20 @@ public class ContinuousRecorder {
 				FORMAT, BUFFERSIZE);
 		track = new AudioTrack(STREAM, SAMPLE, CHANNELO,
 				FORMAT, BUFFERSIZE, MODE);
-	
 
 		asyncTask = new start();
 		asyncTask.execute();
 	}
 	
+	public void play(){
+		track.play();
+	}
+	
 	public void stop(){
+		track.pause();
+	}
+	
+	public void cancel(){
 		asyncTask.cancel(true);
 		recorder.stop();
 		recorder.release();
@@ -127,17 +134,16 @@ public class ContinuousRecorder {
 	private class start extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... n) {
+			play = false;
 			short[][] buffers = new short[3][256];
 			int i = 0;
 			recorder.startRecording();
-			track.play();
-
+			//track.play();
 			while (!isCancelled()) {
 
 				buffer = buffers[i++ % buffers.length];
 				recorder.read(buffer, 0, buffer.length);
 				track.write(buffer, 0, buffer.length);
-				//data = buffer;
 				publishProgress();
 			}
 			
@@ -145,6 +151,6 @@ public class ContinuousRecorder {
 
 		}
 	}
-
+	
 
 };
