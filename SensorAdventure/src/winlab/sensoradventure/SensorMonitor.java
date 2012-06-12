@@ -30,9 +30,9 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-									// maybe  want to extend as service to run in background
+									// extend service if needed
 public class SensorMonitor extends Activity implements SensorEventListener {
-    private static final String DEBUG_TAG = "SensorLoggerService";
+    private static final String LOG_TAG = "SensorLoggerService";
  
     // Globals:
     private SensorManager sensorManager = null;
@@ -81,7 +81,7 @@ public class SensorMonitor extends Activity implements SensorEventListener {
 				captureFiles.get(i).println("`timestamp`" + "," + getFields(ourSensor.getType()));
 				
 	        } catch( Exception e) {
-	            //Log.e( LOG_TAG, ex.getMessage(), e );
+	            Log.e( LOG_TAG, e.getMessage(), e );
 	        	//Toast.makeText(getBaseContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
 	        }
         }
@@ -112,7 +112,7 @@ public class SensorMonitor extends Activity implements SensorEventListener {
 	}
     
     
-    /*
+    /*	// Might need for SQLite
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -132,13 +132,13 @@ public class SensorMonitor extends Activity implements SensorEventListener {
     }
  	*/
  	
-    @Override
+    //@Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // do nothing
     }
  
     
-    @Override
+    //@Override
     public void onSensorChanged(SensorEvent event) {
         Sensor sensor = event.sensor;
         int index = sensors.indexOf(sensor);
@@ -167,7 +167,7 @@ public class SensorMonitor extends Activity implements SensorEventListener {
         */
     }
      
-    /*
+    /*	// Might need this for SQLite
     private class SensorEventLoggerTask extends
     	AsyncTask<SensorEvent, Void, Void> {
         @Override
