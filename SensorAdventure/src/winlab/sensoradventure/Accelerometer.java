@@ -14,7 +14,7 @@ import android.os.*;
 //import android.util.Log;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
-
+ 
 public class Accelerometer extends Service implements
 SensorEventListener {
 //	private static final String TAG = "MyService";

@@ -14,7 +14,7 @@ import android.os.*;
 //import android.util.Log;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
-
+ 
 public class Linear_Acceleration extends Service implements
 SensorEventListener{
 	private TelephonyManager telephonyManager;
