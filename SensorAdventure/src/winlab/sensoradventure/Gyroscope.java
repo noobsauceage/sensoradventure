@@ -5,6 +5,7 @@ import java.io.FileWriter;
 
 import android.app.Service;
 //import android.content.Context;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -13,12 +14,12 @@ import android.hardware.SensorManager;
 import android.os.*;
 //import android.util.Log;
 //import android.telephony.TelephonyManager;
+import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 public class Gyroscope extends Service implements
 SensorEventListener {
-	//private TelephonyManager telephonyManager=(TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-	//private String imei=telephonyManager.getDeviceId();
+	private TelephonyManager telephonyManager;
 	private SensorManager mSensorManager;
 	private Sensor mSensor;
 	private String fileName = "Gyroscope.txt";
@@ -41,7 +42,8 @@ SensorEventListener {
 				file.setWritable(true);
 				Toast.makeText(this,"Data will be saved in " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
 				FileWriter output = new FileWriter(file);
-				//output.write("Phone ID: "+imei);
+				telephonyManager=(TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+				output.write("Phone ID: "+ telephonyManager.getDeviceId());
 				output.write("\nTimestamp           x (rad/s)        y (rad/s)        z (rad/s)");
 				output.close();
 			} catch (Exception e) {
@@ -53,6 +55,8 @@ SensorEventListener {
 				Toast.makeText(this,"Data is saved in " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
 				Toast.makeText(this,"Sorry! The gyroscope is not found in the device.", Toast.LENGTH_LONG).show();
 				FileWriter output = new FileWriter(file);
+				telephonyManager=(TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+				output.write("Phone ID: "+ telephonyManager.getDeviceId());
 				output.write("The gyroscope is not found in the device.\n");
 				output.close();
 
