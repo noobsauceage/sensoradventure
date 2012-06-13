@@ -22,6 +22,7 @@
         <service android:enabled="true" android:name=".Accelerometer" />
         <service android:enabled="true" android:name=".Linear_Acceleration" />
         <service android:enabled="true" android:name=".Gyroscope" />
+        <service android:enabled="true" android:name=".AccelerometerSQLite_Service" />
     </application>
 
 </manifest>
