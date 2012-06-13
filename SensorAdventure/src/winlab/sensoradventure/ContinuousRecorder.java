@@ -8,6 +8,12 @@ import android.media.AudioTrack;
 import android.media.MediaRecorder.AudioSource;
 import android.os.AsyncTask;
 
+/* This class may require the following permissions:
+ * 	<uses-permission android:name="android.permission.RECORD_AUDIO" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+ */
+
 public class ContinuousRecorder {
 
 	private int MIC;
