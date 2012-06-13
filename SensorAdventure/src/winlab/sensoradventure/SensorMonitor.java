@@ -82,14 +82,8 @@ public class SensorMonitor extends Activity implements SensorEventListener {
 				
 	        } catch( Exception e) {
 	            Log.e( LOG_TAG, e.getMessage(), e );
-	        	//Toast.makeText(getBaseContext(), e.getMessage(),Toast.LENGTH_SHORT).show();
 	        }
         }
-        /*
-        Toast.makeText(getBaseContext(),
-				testNames.get(0),
-				Toast.LENGTH_SHORT).show();
-        */
     }
     
 	private String getFields(int type) {
@@ -145,8 +139,6 @@ public class SensorMonitor extends Activity implements SensorEventListener {
      	
         PrintWriter thiscaptureFile;
         
-        //timestamp = event.timestamp;
-        //value = event.values[0];
         timestamp = System.currentTimeMillis();
         
         thiscaptureFile = captureFiles.get(index);
@@ -158,13 +150,6 @@ public class SensorMonitor extends Activity implements SensorEventListener {
         	}
         	thiscaptureFile.println();
 		}
-        
-        /*
-        new SensorEventLoggerTask().execute(event);
-        // stop the service
-        sensorManager.unregisterListener(this);
-        stopSelf();
-        */
     }
      
     /*	// Might need this for SQLite
