@@ -1,0 +1,9 @@
+package winlab.sensoradventure;
+
+import android.preference.PreferenceActivity;
+
+public class Preferences extends PreferenceActivity {
+	public void onCreate() {
+setContentView(R.layout.preferences)
+	}
+}

@@ -1,0 +1,7 @@
+package winlab.sensoradventure;
+
+import android.app.PreferenceActivity;
+
+public class Preferences extends PreferenceActivity {
+
+}
