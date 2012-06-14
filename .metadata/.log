@@ -105,3 +105,19 @@ org.eclipse.jgit.api.errors.InvalidConfigurationException: No value for key bran
 	at org.eclipse.egit.ui.internal.pull.PullOperationUI.execute(PullOperationUI.java:117)
 	at org.eclipse.egit.ui.internal.pull.PullOperationUI$1.run(PullOperationUI.java:92)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+!SESSION 2012-06-14 12:22:33.032 -----------------------------------------------
+eclipse.buildId=M20120208-0800
+java.version=1.6.0_33
+java.vendor=Apple Inc.
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -keyring /Users/daft/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -keyring /Users/daft/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.resources 2 10035 2012-06-14 12:22:49.224
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.core.net 1 0 2012-06-14 12:23:17.646
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
+
+!ENTRY org.eclipse.ui 4 4 2012-06-14 12:49:45.127
+!MESSAGE Invalid preference page path: XML Syntax
