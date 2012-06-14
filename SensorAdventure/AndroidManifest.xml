@@ -19,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Preferences"></activity>
         <service android:enabled="true" android:name=".Accelerometer" />
         <service android:enabled="true" android:name=".Linear_Acceleration" />
         <service android:enabled="true" android:name=".Gyroscope" />
