@@ -12,6 +12,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -197,15 +199,28 @@ public class Sensor_SQLite {
                     dst.transferFrom(src, 0, src.size());
                     src.close();
                     dst.close();
-                    Toast.makeText(context, backupDB.toString(), Toast.LENGTH_LONG).show();
+        			Message msg = handler.obtainMessage();
+        			msg.arg1 = 1;
+        			handler.sendMessage(msg);
 
             }
         } catch (Exception e) {
 
-            Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+			Message msg = handler.obtainMessage();
+			msg.arg1 = 2;
+			handler.sendMessage(msg);
 
 
         }
-    }	
+    }
+	
+	private final Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+              if(msg.arg1 == 1)
+                    Toast.makeText(context,"/temp/SensorDatabase", Toast.LENGTH_LONG).show();
+              if(msg.arg1 == 2)
+            	  	Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
+        }
+    };
 	
 }
