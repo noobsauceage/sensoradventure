@@ -14,18 +14,18 @@ public class PreferencesSensorSelector extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sensorlist);
 
-		// still needs to be implemented, listadapter of sensors fills a checkbox listview to select 
+		// still needs to be implemented, listadapter of sensors fills a
+		// checkbox listview to select
 		// specific sensors to log
-		
+
 		/*
-		SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		ArrayList<Sensor> items = new ArrayList<Sensor>();
-		List<Sensor> sensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
-		for (int i = 0; i < sensors.size(); ++i)
-			items.add(sensors.get(i));
-		ArrayAdapter sensorAdapter = new ArrayAdapter(this, R.layout.sensor_row, R.id.text1,
-				items);
-		setListAdapter(sensorAdapter);
-		*/
+		 * SensorManager sensorManager = (SensorManager)
+		 * getSystemService(SENSOR_SERVICE); ArrayList<Sensor> items = new
+		 * ArrayList<Sensor>(); List<Sensor> sensors =
+		 * sensorManager.getSensorList(Sensor.TYPE_ALL); for (int i = 0; i <
+		 * sensors.size(); ++i) items.add(sensors.get(i)); ArrayAdapter
+		 * sensorAdapter = new ArrayAdapter(this, R.layout.sensor_row,
+		 * R.id.text1, items); setListAdapter(sensorAdapter);
+		 */
 	}
 }
