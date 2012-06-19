@@ -1,4 +1,4 @@
-package winlab.sensoradventure;
+package winlab.contexts;
 
 public class Defs {
 
