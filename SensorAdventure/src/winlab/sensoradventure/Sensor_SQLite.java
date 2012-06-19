@@ -29,7 +29,7 @@ public class Sensor_SQLite {
 	private static final String DATABASE_NAME = "SensorDatabase";
 	private static final String DATABASE_TABLE[] = { "AccelerometerTable",
 			"LinearAccelerometerTable", "GyroscopeTable", "MagneticTable",
-			"MicrophoneTable" };
+			"MicrophoneTable"};
 	private static final int DATABASE_VERSION = 1;
 
 	private final Context context;
@@ -58,8 +58,7 @@ public class Sensor_SQLite {
 			db.execSQL("create table "
 					+ DATABASE_TABLE[DATABASE_TABLE.length - 1] + " ("
 					+ KEY_ROWID + " integer primary key autoincrement, "
-					+ KEY_SAMPLE + " text not null);");
-
+					+ KEY_SAMPLE + " blob not null);");
 		}
 
 		@Override
@@ -98,7 +97,7 @@ public class Sensor_SQLite {
 		return db.insert(DATABASE_TABLE[i], null, initialValues);
 	}
 
-	public long insertMic(String sample) {
+	public long insertMic(byte[] sample) {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_SAMPLE, sample);
 		return db.insert(DATABASE_TABLE[DATABASE_TABLE.length - 1], null,
@@ -151,9 +150,9 @@ public class Sensor_SQLite {
 			File data = Environment.getDataDirectory();
 
 			if (sd.canWrite()) {
-				String currentDBPath = "//data//" + "winlab.sensoradventure"
-						+ "//databases//" + "SensorDatabase";
-				String backupDBPath = "/temp/SensorDatabase";
+				String currentDBPath = "//data//" + "winlab.CR"
+						+ "//databases//" + "SensorDatabase2";
+				String backupDBPath = "/temp/SensorDatabase2";
 				File currentDB = new File(data, currentDBPath);
 				File backupDB = new File(sd, backupDBPath);
 
