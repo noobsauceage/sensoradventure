@@ -1,18 +1,21 @@
 package winlab.sensoradventure;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+
+import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.media.MediaRecorder.AudioSource;
 import android.os.AsyncTask;
-
-/* This class may require the following permissions:
- * 	<uses-permission android:name="android.permission.RECORD_AUDIO" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.WAKE_LOCK" />
- */
+import android.os.Environment;
 
 public class ContinuousRecorder {
 
@@ -24,12 +27,28 @@ public class ContinuousRecorder {
 	private int BUFFERSIZE;
 	private int STREAM;
 	private int MODE;
+	private int i = 0;
 	private AudioRecord recorder;
 	private AudioTrack track;
 	private AsyncTask<Void, Void, Void> asyncTask;
+	private AsyncTask<Void,Void,Void> ast;
 	private short[] buffer;
+	private Sensor_SQLite sqla;
+	//private FileWriter output;
 
-	public ContinuousRecorder() {
+	private FileChannel f;
+	private boolean flag = true;
+	private Context context;
+
+	private String fileName = "PCM.txt";
+	private File path = Environment
+			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+	private File file = new File(path, fileName);
+	private FileOutputStream output;
+
+
+
+	public ContinuousRecorder(Context con) {
 		setMic(AudioSource.MIC);
 		setSamplingRate(44100);
 		setChannelInput(AudioFormat.CHANNEL_IN_MONO);
@@ -39,6 +58,12 @@ public class ContinuousRecorder {
 				FORMAT));
 		setStream(AudioManager.STREAM_MUSIC);
 		setMode(AudioTrack.MODE_STREAM);
+
+		context = con;
+		sqla = new Sensor_SQLite(context);
+
+
+
 
 	}
 	public ContinuousRecorder(int mic, int sample, int channeli, int channelo,
@@ -53,17 +78,15 @@ public class ContinuousRecorder {
 		setMode(mode);
 
 	}
-	
+
 	public void setMic(int mic2) {
 		MIC = mic2;
-
 	}
 	public void setSamplingRate(int i) {
 		SAMPLE = i;
 	}
 	public void setChannelInput(int channelInMono) {
 		CHANNELI = channelInMono;
-
 	}
 	public void setChannelOutput(int channelOutMono) {
 		CHANNELO = channelOutMono;
@@ -81,7 +104,7 @@ public class ContinuousRecorder {
 	public void setMode(int modeStream) {
 		MODE = modeStream;
 	}
-	
+
 	public int getMic(){
 		return MIC;
 	}
@@ -109,25 +132,29 @@ public class ContinuousRecorder {
 	public short[] getBuffer(){
 		return buffer;
 	}
-	
+
 	public void record(){
 		recorder = new AudioRecord(MIC, SAMPLE, CHANNELI,
 				FORMAT, BUFFERSIZE);
 		track = new AudioTrack(STREAM, SAMPLE, CHANNELO,
 				FORMAT, BUFFERSIZE, MODE);
 
+		sqla.open();
+		sqla.deleteTable();
+
 		asyncTask = new start();
 		asyncTask.execute();
+
 	}
-	
+
 	public void play(){
 		track.play();
 	}
-	
+
 	public void stop(){
 		track.pause();
 	}
-	
+
 	public void cancel(){
 		asyncTask.cancel(true);
 		recorder.stop();
@@ -135,25 +162,86 @@ public class ContinuousRecorder {
 		track.stop();
 		track.release();
 	}
-	
+
 	private class start extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... n) {
+
+			try {
+				output = new FileOutputStream(file);
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
 			short[][] buffers = new short[3][256];
-			int i = 0;
+			byte[] a = new byte[256];
 			recorder.startRecording();
 			while (!isCancelled()) {
 
 				buffer = buffers[i++ % buffers.length];
-				recorder.read(buffer, 0, buffer.length);
-				track.write(buffer, 0, buffer.length);
+
+				recorder.read(a,0, 256);
+
+				track.write(a,0,256);
+
+				try {
+					output.write(a);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if (flag && i>=2){
+					ast = new fill();
+					ast.execute();
+					flag = false;
+				}
+
+				try {
+					output.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 				publishProgress();
+
+
 			}
-			
+
 			return null;
+		}
+	}
+	
+	
+	private class fill extends AsyncTask<Void,Void,Void>{
+
+
+		@Override
+		protected Void doInBackground(Void... params) {
+		
+			
+			try {
+				FileInputStream fin = new FileInputStream(file);
+				byte content[] = new byte[256];
+				for(int j = 0; j<i;j++){
+				fin.read(content);
+				sqla.insertMic(content);}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			sqla.copy();
+			return null;
+			
 
 		}
 	}
 	
+}
 
-};
+

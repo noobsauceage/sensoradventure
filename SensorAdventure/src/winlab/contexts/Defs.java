@@ -1,5 +1,7 @@
 package winlab.contexts;
 
+import android.location.Location;
+
 public class Defs {
 
 	public final static int ACC_MOVE_WALK = 1;
@@ -9,4 +11,32 @@ public class Defs {
 	public final static int LIGHT_LIGHT = 10;
 	public final static int LIGHT_DARK = 100;
 
+	
+	public boolean isInPocket() {
+		return isDark() && isClose();
+	}
+	
+	public boolean isDark() {
+		return getLight() >= LIGHT_DARK;
+	}
+	
+	public boolean isClose() {
+		return getProximity() <= PROX_CLOSE;
+	}
+	
+	public boolean isDriving(Location location) {
+		return isOnRoad() && isCarMoving(location);
+	}
+	
+	public boolean isCarMoving(Location location) {
+		// Realistically, it must be > than some tolerance
+		return location.getSpeed() > 0;
+	}
+	
+	public boolean isOnRoad() {
+		// TO DO.....
+		return true;
+	}
+	
+	
 }
