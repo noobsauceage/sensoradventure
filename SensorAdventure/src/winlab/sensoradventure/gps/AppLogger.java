@@ -2,8 +2,6 @@
  * 
  */
 package winlab.sensoradventure.gps;
-
-
 import android.util.Log;
 
 public class AppLogger {

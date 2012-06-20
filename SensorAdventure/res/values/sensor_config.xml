@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <sensor_configuration>
+   		<microphone>
+   			  <mic_audio_source>"MIC"</mic_audio_source>
+   			  <mic_sampling_rate>"44.1"</mic_sampling_rate>
+   			  <mic_channel_input>"CHANNEL_IN_MONO"</mic_channel_input>
+   			  <mic_channel_audio>"ENCODING_PCM_16BIT"</mic_channel_audio>
+ 	     </microphone>
+ 	     <gps>
+  			  <gps_provider>"GPS_PROVIDER"</gps_provider>
+  	 	  	  <gps_loggingrate>"1"</gps_loggingrate>
+   		 </gps>
+   		 <store_file_db>"db"</store_file_db>
+	 </sensor_configuration> 
+</resources>
