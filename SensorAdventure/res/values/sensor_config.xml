@@ -11,6 +11,9 @@
   			  <gps_provider>"GPS_PROVIDER"</gps_provider>
   	 	  	  <gps_loggingrate>"1"</gps_loggingrate>
    		 </gps>
+   		 <other_sensors>
+                 <sensors_loggingrate>"1"</sensors_loggingrate>
+         <other_sensors>
    		 <store_file_db>"db"</store_file_db>
 	 </sensor_configuration> 
 </resources>
