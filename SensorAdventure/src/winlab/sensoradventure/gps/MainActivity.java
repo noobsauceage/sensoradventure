@@ -1,9 +1,4 @@
- 
 package winlab.sensoradventure.gps;
- 
- 
-
- 
 import winlab.sensoradventure.R;
 import android.app.Activity;
 import android.app.AlarmManager;
