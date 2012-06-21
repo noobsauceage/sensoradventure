@@ -35,6 +35,13 @@ public class ControlSensorActivity extends Activity implements OnClickListener {
 	boolean sensor[]={true,true,true,true,false,false,false,false,false,false,false,false,false};
     boolean sensorSQL[]={true,true,true,false,false,false,false,false,false,false,false,false,false,false};
     //note that SQLite version has one more sensor "Microphone"
+    
+    //sensor list responding to boolean array (in order):  
+    // Accelerometer, MagneticField, Orientation, Gyroscope, Light,
+    // Pressure, Temperature (device temperature), Proximity,  
+    //Gravity, Linear Acceleration, Rotation Vector, Relative humidity, Ambient Temperature
+    //(and Microphone for SQLite version)
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
