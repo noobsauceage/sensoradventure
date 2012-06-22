@@ -17,26 +17,21 @@ public class SensorGUIActivity extends ExpandableListActivity
 	    public void onCreate(Bundle bundle)
 	    {
 	        super.onCreate(bundle);
-	        setContentView(R.layout.main);
-	        ArrayList<String> groupNames = new ArrayList<String>();
-	        String[] sensorNames = {"Accelerometer","Temperature","Gravity","Gyroscope","Light","Magnetic Field"};
-	        ArrayList<ArrayList<Sensor>> sensors = new ArrayList<ArrayList<Sensor>>(); 
-	        ArrayList<Sensor> sensor = new ArrayList<Sensor>();
-	        ArrayList<Boolean> checks = new ArrayList<Boolean>();
-	        checks.add(false);
-	        checks.add(false);
+	        setContentView(R.layout.guimain);
 	        
-	        groupNames.add( "Gyroscope" );
-		    groupNames.add( "Microphone" );
-	        sensor.add(new Sensor("Sampling Rate","Hz")); 
-	        sensor.add(new Sensor("Buffer Size", ""));
-	        sensors.add( sensor );
-	        sensor = new ArrayList<Sensor>();
-			sensor.add( new Sensor( "Sampling Rate","Hz"));
-	        sensors.add( sensor );
+	        ArrayList<Parent> parents = new ArrayList<Parent>();
+	        ArrayList<Child> normalSensor = new ArrayList<Child>();
+	        normalSensor.add(new Child("Sampling Rate","Hz"));
+	        ArrayList<Child> micChild = new ArrayList<Child>();
+	        micChild.add(new Child("Sampling Rate","Hz"));
+	        micChild.add(new Child("Buffer Size", ""));
+	        parents.add(new Parent("Gyroscope",normalSensor,true));
+	        parents.add(new Parent("Microphone",micChild,false));
 
-			sensorAdapter = new SensorAdapter( this,groupNames, sensors,checks );
+
+			sensorAdapter = new SensorAdapter( this,parents );
 			setListAdapter( sensorAdapter );
+
 	    }
 
 	    public void onContentChanged  () {
@@ -49,11 +44,14 @@ public class SensorGUIActivity extends ExpandableListActivity
 	            int groupPosition,
 	            int childPosition,
 	            long id) {
-	        CheckBox cb = (CheckBox)v.findViewById( R.id.checkBox1);
-	        cb.toggle();
+	        CheckBox cb = (CheckBox)v.findViewById(R.id.checkBox1);
+			cb.toggle();
+	        
 
 	        return false;
 	    }
+	    
+
 	    
 
 	    	

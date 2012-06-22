@@ -15,29 +15,20 @@ import java.util.ArrayList;
 public class SensorAdapter extends BaseExpandableListAdapter {
 	
     private Context context;
-    private ArrayList<String> groups;
-    private ArrayList<ArrayList<Sensor>> sensors;
+    private ArrayList<Parent> parents;
     private LayoutInflater inflater;
-    private int group = 0;
-   
-  
-    private ArrayList<Boolean> checkboxStatus = new ArrayList<Boolean>();
-
+    
     public SensorAdapter(Context context, 
-                        ArrayList<String> groups,
-						ArrayList<ArrayList<Sensor>> sensors, ArrayList<Boolean> values ) { 
+                        ArrayList<Parent> parents) { 
         this.context = context;
-		this.groups = groups;
-        this.sensors = sensors;
+		this.parents = parents;
         inflater = LayoutInflater.from( context );
-        this.checkboxStatus = values;
-        
 
-        
     }
 
     public Object getChild(int groupPosition, int childPosition) {
-        return sensors.get( groupPosition ).get( childPosition );
+
+        return parents.get( groupPosition ).getChild( childPosition );
     }
 
     public long getChildId(int groupPosition, int childPosition) {
@@ -50,28 +41,27 @@ public class SensorAdapter extends BaseExpandableListAdapter {
             v = convertView;
         else
             v = inflater.inflate(R.layout.child_row, parent, false); 
-        Sensor c = (Sensor)getChild( groupPosition, childPosition );
-		TextView field = (TextView)v.findViewById( R.id.childname );
+        Child achild = (Child)getChild( groupPosition, childPosition );
+		TextView field = (TextView)v.findViewById( R.id.field );
 		if( field != null )
-			field.setText( c.getField() );
-		TextView unit = (TextView)v.findViewById( R.id.Unit );
-
-
+			field.setText( achild.getField() );
+		TextView unit = (TextView)v.findViewById( R.id.unit );
+		if( unit != null)
+			unit.setText(achild.getUnit());
 		
-
         return v;
     }
 
     public int getChildrenCount(int groupPosition) {
-        return sensors.get( groupPosition ).size();
+        return parents.get(groupPosition).getChildren().size();
     }
 
     public Object getGroup(int groupPosition) {
-        return groups.get( groupPosition );        
+        return parents.get( groupPosition );        
     }
 
     public int getGroupCount() {
-        return groups.size();
+        return parents.size();
     }
 
     public long getGroupId(int groupPosition) {
@@ -84,13 +74,14 @@ public class SensorAdapter extends BaseExpandableListAdapter {
             v = convertView;
         else
             v = inflater.inflate(R.layout.group_row, parent, false); 
-        String gt = (String)getGroup( groupPosition );
-		TextView sensorGroup = (TextView)v.findViewById( R.id.childname );
-		if( gt != null )
-			sensorGroup.setText( gt );
+        
+		TextView name = (TextView)v.findViewById( R.id.name );
+		if( name != null )
+			name.setText( parents.get(groupPosition).getName() );
+		CheckBox cb = (CheckBox)v.findViewById(R.id.checkBox1);
+		if( cb != null)
+			cb.setChecked(parents.get(groupPosition).getState());
 
-
-		
         return v;
     }
 
