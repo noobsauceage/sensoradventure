@@ -24,6 +24,9 @@
         <service android:enabled="true" android:name=".Linear_Acceleration" />
         <service android:enabled="true" android:name=".Gyroscope" />
         <service android:enabled="true" android:name=".AccelerometerSQLite_Service" />
+        
+        <activity android:name=".winlab.SensorGUI.SensorGUIActivity" />
+        <activity android:name=".winlab.sensoradventure.gps.MainActivity" />
     </application>
 
 </manifest>
