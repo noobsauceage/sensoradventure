@@ -11,6 +11,15 @@ public class Defs {
 	public final static int LIGHT_LIGHT = 10;
 	public final static int LIGHT_DARK = 100;
 
+	public int getLight() {
+		//TODO
+		return 0;
+	}
+	
+	public int getProximity() {
+		//TODO
+		return 0;
+	}
 	
 	public boolean isInPocket() {
 		return isDark() && isClose();
@@ -37,6 +46,6 @@ public class Defs {
 		// TO DO.....
 		return true;
 	}
-	
+
 	
 }
