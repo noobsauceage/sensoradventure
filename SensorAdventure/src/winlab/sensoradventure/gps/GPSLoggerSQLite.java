@@ -36,8 +36,8 @@ public class GPSLoggerSQLite {
 	public static final String KEY_PROVIDER = "PROVIDER";
 	public static final String KEY_SAMPLE = "sample";
 	private static final String TAG = "SQLtable";
-	private static final String DATABASE_NAME = "SensorDatabase1";
-	private static final String DATABASE_TABLE =  "gps_new";
+	private static final String DATABASE_NAME = "SensorDatabase";
+	private static final String DATABASE_TABLE =  "gps";
 	private static final int DATABASE_VERSION = 1;
 
 	private final Context context;

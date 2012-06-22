@@ -113,17 +113,14 @@ public class GPSloggerServicedb extends Service implements LocationListener{
         accuracy = location.getAccuracy();
 	}
 
-	@Override
 	public void onProviderDisabled(String provider) {
 		AppLog.logString("GPSloggerServicedb.onProviderDisabled().");
 	}
 
-	@Override
 	public void onProviderEnabled(String provider) {
 		AppLog.logString("GPSloggerServicedb.onProviderEnabled().");
 	}
 
-	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		AppLog.logString("GPSloggerServicedb.onStatusChanged().");
 	}
@@ -190,7 +187,7 @@ public class GPSloggerServicedb extends Service implements LocationListener{
 			String device_id =  TelephonyMgr1.getDeviceId();    
 			 data.open();
 			 long currentDeviceTime=Calendar.getInstance().getTimeInMillis();
-			 data.insertgpsrow(currentDeviceTime,device_id, latitude, longitude, altitude,bearing,accuracy,1);
+			 data.insertgpsrow(currentDeviceTime,device_id, latitude, longitude, altitude,bearing,accuracy,provider,1);
 			 String result = "device_id(IMEI)       timestamp (ms)            LAT (degrees)            LONG (degrees)          ALT (degrees)        BEARING         ACCURACY     PROVIDER \n";
 			 Cursor c = data.getAllgpsdata(1);
 				if (c.moveToFirst()) {
