@@ -12,40 +12,39 @@ public class Defs {
 	public final static int LIGHT_DARK = 100;
 
 	public int getLight() {
-		//TODO
+		// TODO
 		return 0;
 	}
-	
+
 	public int getProximity() {
-		//TODO
+		// TODO
 		return 0;
 	}
-	
+
 	public boolean isInPocket() {
 		return isDark() && isClose();
 	}
-	
+
 	public boolean isDark() {
 		return getLight() >= LIGHT_DARK;
 	}
-	
+
 	public boolean isClose() {
 		return getProximity() <= PROX_CLOSE;
 	}
-	
+
 	public boolean isDriving(Location location) {
 		return isOnRoad() && isCarMoving(location);
 	}
-	
+
 	public boolean isCarMoving(Location location) {
 		// Realistically, it must be > than some tolerance
 		return location.getSpeed() > 0;
 	}
-	
+
 	public boolean isOnRoad() {
 		// TO DO.....
 		return true;
 	}
 
-	
 }

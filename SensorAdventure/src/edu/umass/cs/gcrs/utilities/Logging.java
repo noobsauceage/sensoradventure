@@ -15,44 +15,45 @@ import java.util.logging.Logger;
 import java.util.logging.SocketHandler;
 
 /**
- *
+ * 
  * @author westy
  */
 public class Logging {
-  
-  /**
-     * Sets up the logger.
-     *
-     * @param	logLevel
-     * @param	logFilename
-     */
-    public static void setupLogger(Logger logger, String logLevel, String logFilename) {
-        Level level=null;
-        try {
-            level=Level.parse(logLevel);
-        } catch(Exception e) {
-            level=Level.FINE;
-        }
-	logger.setLevel(level);
-	logger.setUseParentHandlers(false);
-	
-	try {
-	    Handler ch = new ConsoleHandler();
-	    ch.setLevel(level);
-	    logger.addHandler(ch);
-	} catch(Exception e) {
-	    logger.warning("Unable to attach ConsoleHandler to logger!");
-	    e.printStackTrace();
+
+	/**
+	 * Sets up the logger.
+	 * 
+	 * @param logLevel
+	 * @param logFilename
+	 */
+	public static void setupLogger(Logger logger, String logLevel,
+			String logFilename) {
+		Level level = null;
+		try {
+			level = Level.parse(logLevel);
+		} catch (Exception e) {
+			level = Level.FINE;
+		}
+		logger.setLevel(level);
+		logger.setUseParentHandlers(false);
+
+		try {
+			Handler ch = new ConsoleHandler();
+			ch.setLevel(level);
+			logger.addHandler(ch);
+		} catch (Exception e) {
+			logger.warning("Unable to attach ConsoleHandler to logger!");
+			e.printStackTrace();
+		}
+
+		try {
+			Handler fh = new FileHandler(logFilename, 40000000, 45);
+			fh.setLevel(level);
+			logger.addHandler(fh);
+		} catch (Exception e) {
+			logger.warning("Unable to attach FileHandler to logger!");
+			e.printStackTrace();
+		}
 	}
-	
-	try {
-	    Handler fh = new FileHandler(logFilename, 40000000, 45);
-	    fh.setLevel(level);
-	    logger.addHandler(fh);
-	} catch(Exception e) {
-	    logger.warning("Unable to attach FileHandler to logger!");
-	    e.printStackTrace();
-        }
-    } 
-  
+
 }

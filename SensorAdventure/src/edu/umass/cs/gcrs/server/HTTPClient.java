@@ -23,7 +23,6 @@ import edu.umass.cs.gcrs.utilities.Utils;
 //import edu.umass.cs.gcrs.gcrs.GCRS;
 //import edu.umass.cs.gcrs.server.HOST;
 
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,61 +30,69 @@ import android.util.Log;
 public class HTTPClient {
 
 	public static String HOST = "http://umassmobilityfirst.net";
-	
-	/** 
-	   * Register a new username on the GCRS server. A guid is returned by the server.
-	   * Generates a public / private key pair which is saved in preferences and sent to the server with the username.
-	   * 
-	   * Query format: registerEntity?name=<userName>&publickey=<publickey> 
-	   * 
-	   * @param username 
-	   * @return guid
-	   * @throws IOException 
-	   * @throws NoSuchAlgorithmException  
-	   * 
-	   */
-	  public static String registerNewUser(String username) throws IOException, NoSuchAlgorithmException {
 
-	    KeyPair keyPair = KeyPairGenerator.getInstance(Protocol.RASALGORITHM).generateKeyPair();
-	    //saveKeyPairToPreferences(username, keyPair);
+	/**
+	 * Register a new username on the GCRS server. A guid is returned by the
+	 * server. Generates a public / private key pair which is saved in
+	 * preferences and sent to the server with the username.
+	 * 
+	 * Query format: registerEntity?name=<userName>&publickey=<publickey>
+	 * 
+	 * @param username
+	 * @return guid
+	 * @throws IOException
+	 * @throws NoSuchAlgorithmException
+	 * 
+	 */
+	public static String registerNewUser(String username) throws IOException,
+			NoSuchAlgorithmException {
 
-	    PublicKey publicKey = keyPair.getPublic();
-	    byte[] publicKeyBytes = publicKey.getEncoded();
-	    String publicKeyString = Utils.toHex(publicKeyBytes);
+		KeyPair keyPair = KeyPairGenerator.getInstance(Protocol.RASALGORITHM)
+				.generateKeyPair();
+		// saveKeyPairToPreferences(username, keyPair);
 
-	    String command = createQuery(Protocol.REGISTERENTITY, Protocol.NAME, URIEncoderDecoder.quoteIllegal(username, ""), Protocol.PUBLICKEY, publicKeyString);
-	    String response = sendGetCommand(command);
+		PublicKey publicKey = keyPair.getPublic();
+		byte[] publicKeyBytes = publicKey.getEncoded();
+		String publicKeyString = Utils.toHex(publicKeyBytes);
 
-	    //saveKeyPairToPreferences(response, keyPair);
+		String command = createQuery(Protocol.REGISTERENTITY, Protocol.NAME,
+				URIEncoderDecoder.quoteIllegal(username, ""),
+				Protocol.PUBLICKEY, publicKeyString);
+		String response = sendGetCommand(command);
 
-	    if (response.startsWith(Protocol.BADRESPONSE)) {
-	      //throw (new RuntimeException("Bad response to command: " + command));
-	    	return lookupUserGuid(username);
-	    } else {
-	      return response;
-	    }
-	  }
+		// saveKeyPairToPreferences(response, keyPair);
 
-	  /** 
-	   * Obtains the guid of the username from the GCRS server. 
-	   * 
-	   * Query format: lookupEntity?name=<userName> 
-	   * 
-	   * @param username 
-	   * @return guid
-	   * @throws IOException  
-	   * 
-	   */
-	  public static String lookupUserGuid(String username) throws IOException {
-	    String command = createQuery(Protocol.LOOKUPENTITY, Protocol.NAME, URIEncoderDecoder.quoteIllegal(username, ""));
-	    String response = sendGetCommand(command);
+		if (response.startsWith(Protocol.BADRESPONSE)) {
+			// throw (new RuntimeException("Bad response to command: " +
+			// command));
+			return lookupUserGuid(username);
+		} else {
+			return response;
+		}
+	}
 
-	    if (response.startsWith(Protocol.BADRESPONSE)) {
-	      throw (new RuntimeException("Bad response: " + response + " Command: " + command));
-	    } else {
-	      return response;
-	    }
-	  }
+	/**
+	 * Obtains the guid of the username from the GCRS server.
+	 * 
+	 * Query format: lookupEntity?name=<userName>
+	 * 
+	 * @param username
+	 * @return guid
+	 * @throws IOException
+	 * 
+	 */
+	public static String lookupUserGuid(String username) throws IOException {
+		String command = createQuery(Protocol.LOOKUPENTITY, Protocol.NAME,
+				URIEncoderDecoder.quoteIllegal(username, ""));
+		String response = sendGetCommand(command);
+
+		if (response.startsWith(Protocol.BADRESPONSE)) {
+			throw (new RuntimeException("Bad response: " + response
+					+ " Command: " + command));
+		} else {
+			return response;
+		}
+	}
 
 	/**
 	 * Creates a http query string from the given action string and a variable

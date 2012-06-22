@@ -33,7 +33,7 @@ public class ContinuousRecorder {
 	private AsyncTask<Void, Void, Void> asyncTask;
 	private AsyncTask<Void,Void,Void> ast;
 	private short[] buffer;
-	private Sensor_SQLite sqla;
+	private Sensors_SQLite sqla;
 	//private FileWriter output;
 
 	private FileChannel f;
@@ -60,12 +60,13 @@ public class ContinuousRecorder {
 		setMode(AudioTrack.MODE_STREAM);
 
 		context = con;
-		sqla = new Sensor_SQLite(context);
+		sqla = new Sensors_SQLite(context);
 
 
 
 
 	}
+
 	public ContinuousRecorder(int mic, int sample, int channeli, int channelo,
 			int format, int buffersize, int stream, int mode) {
 		setMic(mic);

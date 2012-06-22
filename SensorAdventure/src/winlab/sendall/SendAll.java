@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import edu.umass.cs.gcrs.server.HTTPClient;
+
 public class SendAll extends Activity {
 
 	private Map<String, String> id_data = new HashMap<String, String>();
@@ -89,7 +90,7 @@ public class SendAll extends Activity {
 
 				// Open a HTTP connection to the URL
 				// conn = (HttpURLConnection) url.openConnection();
-				
+
 				// Verify all hosts / certs
 				try {
 					HostnameVerifier hv = new HostnameVerifier() {
@@ -106,12 +107,11 @@ public class SendAll extends Activity {
 				} catch (Exception e) {
 					// nothing
 				}
-				
+
 				// Open HTTPS connection
 				conn = (HttpsURLConnection) url.openConnection();
-				//conn.setSSLSocketFactory(context.getSocketFactory());/////////////////
-				//conn.setSSLSocketFactory(newSslSocketFactory(this));/////////////////
-				
+				// conn.setSSLSocketFactory(context.getSocketFactory());/////////////////
+				// conn.setSSLSocketFactory(newSslSocketFactory(this));/////////////////
 
 				// Allow Inputs
 				conn.setDoInput(true);
@@ -225,67 +225,46 @@ public class SendAll extends Activity {
 	}
 
 	/*
-	private SSLSocketFactory newSslSocketFactory(Context context) {
-		try {
-			KeyStore trusted = KeyStore.getInstance("BKS");
-			InputStream in = context.getResources().openRawResource(
-					R.raw.mystore);
-			try {
-				trusted.load(in, "goobypls".toCharArray());
-			} finally {
-				in.close();
-			}
-			//SSLSocketFactory sf = new SSLSocketFactory(trusted);
-			return new SSLSocketFactory(trusted);
-		} catch (Exception e) {
-			throw new AssertionError(e);
-		}
-	}
-	*/
-    /*
-	private SSLSocketFactory newSslSocketFactory() {
-		File pKeyFile = new File("/d1/cvs_all/aidapuser_1f5d_2011_03_1192.pfx");
-		String pKeyPassword = "UB#20abba";
-		KeyManagerFactory keyManagerFactory = KeyManagerFactory
-				.getInstance("SunX509");
-		KeyStore keyStore = KeyStore.getInstance("PKCS12");
-		InputStream keyInput = new FileInputStream(pKeyFile);
-		keyStore.load(keyInput, pKeyPassword.toCharArray());
-		keyInput.close();
-		keyManagerFactory.init(keyStore, pKeyPassword.toCharArray());
-		SSLContext context = SSLContext.getInstance("TLS");
-		context.init(keyManagerFactory.getKeyManagers(), null,
-				new SecureRandom());
-		SSLSocketFactory sockFact = context.getSocketFactory();
-		return sockFact;
-		
-	}
-	*/
+	 * private SSLSocketFactory newSslSocketFactory(Context context) { try {
+	 * KeyStore trusted = KeyStore.getInstance("BKS"); InputStream in =
+	 * context.getResources().openRawResource( R.raw.mystore); try {
+	 * trusted.load(in, "goobypls".toCharArray()); } finally { in.close(); }
+	 * //SSLSocketFactory sf = new SSLSocketFactory(trusted); return new
+	 * SSLSocketFactory(trusted); } catch (Exception e) { throw new
+	 * AssertionError(e); } }
+	 */
 	/*
-	private SSLSocketFactory newSslSocketFactory(Context context) {
-		// KeyStore keyStore = ...;
-		try {
-			KeyStore trusted = KeyStore.getInstance("BKS");
-			InputStream in = context.getResources().openRawResource(
-					R.raw.mystore);
-			try {
-				trusted.load(in, "goobypls".toCharArray());
-			} finally {
-				in.close();
-			}
-			// SSLSocketFactory sf = new SSLSocketFactory(trusted);
-			TrustManagerFactory tmf = TrustManagerFactory.getInstance("X509");
-			tmf.init(trusted);
-			SSLContext sslcontext = SSLContext.getInstance("TLS");
-			sslcontext.init(null, tmf.getTrustManagers(), null);
-			return sslcontext.getSocketFactory();
-
-		} catch (Exception e) {
-			throw new AssertionError(e);
-		}
-
-	}
-	*/
+	 * private SSLSocketFactory newSslSocketFactory() { File pKeyFile = new
+	 * File("/d1/cvs_all/aidapuser_1f5d_2011_03_1192.pfx"); String pKeyPassword
+	 * = "UB#20abba"; KeyManagerFactory keyManagerFactory = KeyManagerFactory
+	 * .getInstance("SunX509"); KeyStore keyStore =
+	 * KeyStore.getInstance("PKCS12"); InputStream keyInput = new
+	 * FileInputStream(pKeyFile); keyStore.load(keyInput,
+	 * pKeyPassword.toCharArray()); keyInput.close();
+	 * keyManagerFactory.init(keyStore, pKeyPassword.toCharArray()); SSLContext
+	 * context = SSLContext.getInstance("TLS");
+	 * context.init(keyManagerFactory.getKeyManagers(), null, new
+	 * SecureRandom()); SSLSocketFactory sockFact = context.getSocketFactory();
+	 * return sockFact;
+	 * 
+	 * }
+	 */
+	/*
+	 * private SSLSocketFactory newSslSocketFactory(Context context) { //
+	 * KeyStore keyStore = ...; try { KeyStore trusted =
+	 * KeyStore.getInstance("BKS"); InputStream in =
+	 * context.getResources().openRawResource( R.raw.mystore); try {
+	 * trusted.load(in, "goobypls".toCharArray()); } finally { in.close(); } //
+	 * SSLSocketFactory sf = new SSLSocketFactory(trusted); TrustManagerFactory
+	 * tmf = TrustManagerFactory.getInstance("X509"); tmf.init(trusted);
+	 * SSLContext sslcontext = SSLContext.getInstance("TLS");
+	 * sslcontext.init(null, tmf.getTrustManagers(), null); return
+	 * sslcontext.getSocketFactory();
+	 * 
+	 * } catch (Exception e) { throw new AssertionError(e); }
+	 * 
+	 * }
+	 */
 
 	public static class miTM implements javax.net.ssl.TrustManager,
 			javax.net.ssl.X509TrustManager {
@@ -319,15 +298,14 @@ public class SendAll extends Activity {
 	private static void trustAllHttpsCertificates() throws Exception {
 
 		// Create a trust manager that does not validate certificate chains:
-		javax.net.ssl.TrustManager[] trustAllCerts =
-		new javax.net.ssl.TrustManager[1];
+		javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
 		javax.net.ssl.TrustManager tm = new miTM();
 		trustAllCerts[0] = tm;
-		javax.net.ssl.SSLContext sc =
-		javax.net.ssl.SSLContext.getInstance("SSL");
+		javax.net.ssl.SSLContext sc = javax.net.ssl.SSLContext
+				.getInstance("SSL");
 		sc.init(null, trustAllCerts, null);
-		javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(
-		sc.getSocketFactory());
+		javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sc
+				.getSocketFactory());
 
 	}
 
