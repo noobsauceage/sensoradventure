@@ -109,7 +109,6 @@ public class GPSloggerService extends Service implements LocationListener{
         accuracy = location.getAccuracy();
 	}
 
-	@Override
 	public void onProviderDisabled(String provider) {
 		AppLog.logString("GPSloggerService.onProviderDisabled().");
 	}
