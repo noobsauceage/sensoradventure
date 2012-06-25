@@ -26,7 +26,7 @@ public class Sensors_SQLite {
 	public static final String KEY_SAMPLE = "sample";
 	private static final String TAG = "SQLtable";
 
-	private static final String DATABASE_NAME = "SensorDatabase";
+	private static final String DATABASE_NAME = "SensorDatabase3";
 	private static final String DATABASE_TABLE[] = { "AccelerometerTable",
 			"MagneticTable", "OrientationTable", "GyroscopeTable",
 			"LightTable", "PressureTable", "TemperatureTable",
@@ -152,11 +152,21 @@ public class Sensors_SQLite {
 		return db.insert(DATABASE_TABLE[i], null, initialValues);
 	}
 
-	public long insertMic(byte[] sample) {
-		ContentValues initialValues = new ContentValues();
-		initialValues.put(KEY_SAMPLE, sample);
-		return db.insert(DATABASE_TABLE[DATABASE_TABLE.length - 1], null,
-				initialValues);
+	public void insertMic(byte[] sample) {
+		ContentValues initialvalues = new ContentValues();
+		initialvalues.put(KEY_SAMPLE, sample);
+		db.insert(DATABASE_TABLE[DATABASE_TABLE.length - 1], null,
+				initialvalues);
+	}
+	
+	public void prepareTransaction(){
+		db.beginTransaction();
+		
+	}
+	public void endTransaction(){
+		
+	db.setTransactionSuccessful();
+	db.endTransaction();
 	}
 
 	// ---deletes a particular title---
