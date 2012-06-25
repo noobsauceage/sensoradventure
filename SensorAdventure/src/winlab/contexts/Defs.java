@@ -2,9 +2,9 @@ package winlab.contexts;
 
 import android.content.Context;
 import android.hardware.Sensor;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.location.Location;
+
+import winlab.sensoradventure.SensorMonitor;
 
 public class Defs {
 
@@ -32,11 +32,14 @@ public class Defs {
 		 * sensorManager.registerListener((SensorEventListener) this,
 		 * lightSensor, SensorManager.SENSOR_DELAY_NORMAL); }
 		 */
+		Sensor lightSensor = SensorMonitor.sensors.get(5);
 		return 0;
 	}
 
 	public int getProximity() {
 		// TODO
+		Sensor proxSensor = SensorMonitor.sensors.get(8);
+		
 		return 0;
 	}
 

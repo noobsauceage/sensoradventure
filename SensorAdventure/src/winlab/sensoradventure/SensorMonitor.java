@@ -20,9 +20,9 @@ public class SensorMonitor extends Activity implements SensorEventListener {
 	private static final String LOG_TAG = "SensorLoggerService";
 
 	// Globals:
-	private SensorManager sensorManager = null;
+	public SensorManager sensorManager = null;
 	// private Sensor sensor = null;
-	private List<Sensor> sensors;
+	public static List<Sensor> sensors;
 	public float value;
 	public long timestamp;
 	public List<PrintWriter> captureFiles = new ArrayList<PrintWriter>();
