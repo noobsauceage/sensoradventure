@@ -1,8 +1,18 @@
 package winlab.contexts;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 
 public class Defs {
+
+	Context context;
+
+	public Defs(Context context) {
+		this.context = context;
+	}
 
 	public final static int ACC_MOVE_WALK = 1;
 	public final static int ACC_MOVE_RUN = 5;
@@ -13,6 +23,15 @@ public class Defs {
 
 	public int getLight() {
 		// TODO
+		/*
+		 * SensorManager sensorManager = (SensorManager) context
+		 * .getSystemService(Context.SENSOR_SERVICE); Sensor lightSensor =
+		 * sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+		 * 
+		 * if (lightSensor != null) {
+		 * sensorManager.registerListener((SensorEventListener) this,
+		 * lightSensor, SensorManager.SENSOR_DELAY_NORMAL); }
+		 */
 		return 0;
 	}
 
@@ -34,17 +53,8 @@ public class Defs {
 	}
 
 	public boolean isDriving(Location location) {
-		return isOnRoad() && isCarMoving(location);
-	}
-
-	public boolean isCarMoving(Location location) {
 		// Realistically, it must be > than some tolerance
 		return location.getSpeed() > 0;
-	}
-
-	public boolean isOnRoad() {
-		// TO DO.....
-		return true;
 	}
 
 }

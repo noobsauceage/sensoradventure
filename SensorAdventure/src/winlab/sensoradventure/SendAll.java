@@ -1,4 +1,4 @@
-package winlab.sendall;
+package winlab.sensoradventure;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
