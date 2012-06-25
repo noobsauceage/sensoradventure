@@ -224,9 +224,10 @@ public class ContinuousRecorder {
 
 				recorder.read(a, 0, 256); // Reads the raw audio data into byte
 											// buffer a.
-
+				
 				track.write(a, 0, 256); // Writes the byte buffer of raw audio
 										// data to the speakers.
+				i++;
 
 				// Write the byte buffer to "PCM.txt"
 				try {
