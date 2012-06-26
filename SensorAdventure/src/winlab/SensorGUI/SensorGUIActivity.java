@@ -45,60 +45,30 @@ public class SensorGUIActivity extends ExpandableListActivity {
 	}
 
 	public void onGroupExpand(int groupPosition) {
-		String str;
-		str = SensorAdapter.value[0] + "*" + SensorAdapter.value[20] + "*"
-				+ SensorAdapter.value[40] + "*" + SensorAdapter.value[60] + "*"
-				+ SensorAdapter.value[61];
-		Toast.makeText(this, str, Toast.LENGTH_LONG).show();
-		for (int i = 0; i < parents.size(); i++)
-			parents.get(i).setState(sensorAdapter.checkbox[i].isChecked());
-
-		for (int i = 0; i < parents.size(); i++)
-			if (expanded[i])
-				for (int j = 0; j < sensorAdapter.getChildrenCount(i); j++)
-					if (sensorAdapter.edittext[i * 20 + j] != null) {
-
-						if (sensorAdapter.edittext[i * 20 + j].getText()
-								.toString().length() == 0)
-							SensorAdapter.value[i * 20 + j] = null;
-						else
-							SensorAdapter.value[i * 20 + j] = sensorAdapter.edittext[i
-									* 20 + j].getText().toString();
-					}
-		str = SensorAdapter.value[0] + "*" + SensorAdapter.value[20] + "*"
-				+ SensorAdapter.value[40] + "*" + SensorAdapter.value[60] + "*"
-				+ SensorAdapter.value[61];
-		Toast.makeText(this, str, Toast.LENGTH_LONG).show();
-		// else sensorAdapter.value[i*20+j]=null;*/
+		update();
 		expanded[groupPosition] = true;
 	}
 
 	public void onGroupCollapse(int groupPosition) {
-		String str;
-		str = SensorAdapter.value[0] + "*" + SensorAdapter.value[20] + "*"
-				+ SensorAdapter.value[40] + "*" + SensorAdapter.value[60] + "*"
-				+ SensorAdapter.value[61];
-		Toast.makeText(this, str, Toast.LENGTH_LONG).show();
-
+		update();
+		expanded[groupPosition] = false;
+	}
+	
+	private void update(){
 		for (int i = 0; i < parents.size(); i++)
 			parents.get(i).setState(sensorAdapter.checkbox[i].isChecked());
 		for (int i = 0; i < parents.size(); i++)
 			if (expanded[i])
 				for (int j = 0; j < sensorAdapter.getChildrenCount(i); j++)
-					if (sensorAdapter.edittext[i * 20 + j] != null) {
+					if (sensorAdapter.edittext[i + j] != null) {
 
-						if (sensorAdapter.edittext[i * 20 + j].getText()
+						if (sensorAdapter.edittext[i + j].getText()
 								.toString().length() == 0)
-							SensorAdapter.value[i * 20 + j] = null;
+							SensorAdapter.value[i + j] = null;
 						else
-							SensorAdapter.value[i * 20 + j] = sensorAdapter.edittext[i
-									* 20 + j].getText().toString();
+							SensorAdapter.value[i  + j] = sensorAdapter.edittext[i
+									+ j].getText().toString();
 					}
-		str = SensorAdapter.value[0] + "*" + SensorAdapter.value[20] + "*"
-				+ SensorAdapter.value[40] + "*" + SensorAdapter.value[60] + "*"
-				+ SensorAdapter.value[61];
-		Toast.makeText(this, str, Toast.LENGTH_LONG).show();
-		// else sensorAdapter.value[i*20+j]=null;*/
-		expanded[groupPosition] = false;
+
 	}
 }

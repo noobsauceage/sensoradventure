@@ -52,9 +52,9 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		TextView unit = (TextView) v.findViewById(R.id.unit);
 		if (unit != null)
 			unit.setText(achild.getUnit());
-		edittext[groupPosition*20+childPosition]=(EditText) v.findViewById(R.id.Field);
-        if (edittext[groupPosition*20+childPosition]!=null)
-        	edittext[groupPosition*20+childPosition].setText(value[groupPosition*20+childPosition]);
+		edittext[groupPosition+childPosition]=(EditText) v.findViewById(R.id.Field);
+        if (edittext[groupPosition+childPosition]!=null)
+        	edittext[groupPosition+childPosition].setText(value[groupPosition+childPosition]);
 		return v;
 	}
 
