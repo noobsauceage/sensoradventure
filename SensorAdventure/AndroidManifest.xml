@@ -22,8 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Preferences" />
-        <activity android:name=".PreferencesSensorSelector" />
         <activity android:name=".SensorMonitor" />
         <activity android:name=".winlab.SensorGUI.SensorGUIActivity" />
         <activity android:name=".winlab.sensoradventure.gps.MainActivity" />

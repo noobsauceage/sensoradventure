@@ -13,15 +13,6 @@ public class SensorAdventureActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		final Button button = (Button) findViewById(R.id.button1);
-		button.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				Intent Prefs = new Intent(SensorAdventureActivity.this,
-						Preferences.class);
-				startActivity(Prefs);
-			}
-		});
-
 	}
 
 }

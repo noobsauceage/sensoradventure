@@ -161,7 +161,6 @@ public class MainActivity extends Activity {
 	}
 
 	private View.OnClickListener btnClick = new View.OnClickListener() {
-		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.start_logging: {
