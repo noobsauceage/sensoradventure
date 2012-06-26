@@ -2,7 +2,6 @@ package winlab.SensorGUI;
 
 import java.util.ArrayList;
 
-import winlab.sensoradventure.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class SensorAdapter extends BaseExpandableListAdapter {
@@ -17,7 +17,9 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 	private Context context;
 	private ArrayList<Parent> parents;
 	private LayoutInflater inflater;
-
+    public CheckBox[] checkbox=new CheckBox[100];
+    public EditText[] edittext=new EditText[100];
+    public static String[] value = new String[100]; 
 	public SensorAdapter(Context context, ArrayList<Parent> parents) {
 		this.context = context;
 		this.parents = parents;
@@ -50,7 +52,9 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		TextView unit = (TextView) v.findViewById(R.id.unit);
 		if (unit != null)
 			unit.setText(achild.getUnit());
-
+		edittext[groupPosition*20+childPosition]=(EditText) v.findViewById(R.id.Field);
+        if (edittext[groupPosition*20+childPosition]!=null)
+        	edittext[groupPosition*20+childPosition].setText(value[groupPosition*20+childPosition]);
 		return v;
 	}
 
@@ -82,10 +86,11 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		TextView name = (TextView) v.findViewById(R.id.name);
 		if (name != null)
 			name.setText(parents.get(groupPosition).getName());
-		CheckBox cb = (CheckBox) v.findViewById(R.id.checkBox1);
-		if (cb != null)
-			cb.setChecked(parents.get(groupPosition).getState());
-
+		checkbox[groupPosition] = (CheckBox) v.findViewById(R.id.checkBox1);
+		if (checkbox[groupPosition] != null)
+		{
+			checkbox[groupPosition].setChecked(parents.get(groupPosition).getState());
+		}
 		return v;
 	}
 
@@ -103,5 +108,4 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 
 	public void onGroupExpanded(int groupPosition) {
 	}
-
 }
