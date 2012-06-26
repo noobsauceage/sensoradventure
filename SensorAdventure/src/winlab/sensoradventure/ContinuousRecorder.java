@@ -25,7 +25,7 @@ import android.util.Log;
  * 	android.permission.RECORD_AUDIO
  android.permission.WRITE_EXTERNAL_STORAGE
  * Written by G.D.C.
- */
+ */ 
 public class ContinuousRecorder {
 
 	private int MIC; // The audio source for recording
