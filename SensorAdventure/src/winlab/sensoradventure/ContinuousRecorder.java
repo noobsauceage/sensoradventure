@@ -1,12 +1,10 @@
 package winlab.sensoradventure;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 
 import android.content.Context;
 import android.media.AudioFormat;
@@ -16,59 +14,71 @@ import android.media.AudioTrack;
 import android.media.MediaRecorder.AudioSource;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 
+/* This is a class that implements continuous time recording.
+ * It makes use of the AudioTrack & AudioRecord classes available
+ * in the Android SDK. Buffer data can be logged in two ways:
+ * one is the file stored on the disc and the other is an internal
+ * SQLite database.
+ * This class requires the following permissions:
+ * 	android.permission.RECORD_AUDIO
+ android.permission.WRITE_EXTERNAL_STORAGE
+ * Written by G.D.C.
+ */
 public class ContinuousRecorder {
 
-	private int MIC;
-	private int SAMPLE;
-	private int CHANNELI;
-	private int CHANNELO;
-	private int FORMAT;
-	private int BUFFERSIZE;
-	private int STREAM;
-	private int MODE;
-	private int i = 0;
-	private AudioRecord recorder;
-	private AudioTrack track;
-	private AsyncTask<Void, Void, Void> asyncTask;
-	private AsyncTask<Void,Void,Void> ast;
-	private short[] buffer;
-	private Sensors_SQLite sqla;
-	//private FileWriter output;
+	private int MIC; // The audio source for recording
+	private int SAMPLE; // Sampling rate: Typically 8000,16000,44100,etc.
+	private int CHANNELI; // Channel Input configuration (Mono, Stereo)
+	private int CHANNELO; // Channel output configuration (Mono, Stereo)
+	private int FORMAT; // Encoding format. Can select PCM 8Bit or 16Bit.
+	private int BUFFERSIZE; /*
+							 * Buffersize. This is only used currently to create
+							 * AudioTrack & Record objects. The actual buffer
+							 * used is of constant size 256.
+							 */
 
-	private FileChannel f;
-	private boolean flag = true;
-	private Context context;
-
-	private String fileName = "PCM.txt";
+	private int STREAM; // Output streaming. Default is music.
+	private int MODE; // Output mode. Set to stream.
+	private int i = 0; /*
+						 * An updating index number modularly acted upon by
+						 * buffer length. Also used to keep track of how many
+						 * buffers are written to the file "PCM.txt"
+						 */
+	private AudioRecord recorder; // Used to record audio into a byte buffer.
+	private AudioTrack track; // Used to play audio from a byte buffer.
+	private AsyncTask<Void, Void, Void> asyncTask; // Asynchronous task.
+	private AsyncTask<Void, Void, Void> ast; // Asynchronous task.
+	private Sensors_SQLite sqla; // SQLite Database helper.
+	private Context context; // Program context needed to create SQLite helper.
+	private String fileName = "PCM.txt"; // Filename of the raw audio data.
 	private File path = Environment
-			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-	private File file = new File(path, fileName);
-	private FileOutputStream output;
+			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS); // Location
+																					// of
+																					// file.
+	private File file = new File(path, fileName); // Raw audio data file.
+	private FileOutputStream output; // Used to write to above file.
 
-
-
+	// Creates the default C.R. with optimal settings.
 	public ContinuousRecorder(Context con) {
 		setMic(AudioSource.MIC);
 		setSamplingRate(44100);
 		setChannelInput(AudioFormat.CHANNEL_IN_MONO);
 		setChannelOutput(AudioFormat.CHANNEL_OUT_MONO);
 		setEncodingFormat(AudioFormat.ENCODING_PCM_16BIT);
-		setBufferSize(AudioRecord.getMinBufferSize(SAMPLE, CHANNELI,
-				FORMAT));
+		setBufferSize(AudioRecord.getMinBufferSize(SAMPLE, CHANNELI, FORMAT));
 		setStream(AudioManager.STREAM_MUSIC);
 		setMode(AudioTrack.MODE_STREAM);
 
 		context = con;
 		sqla = new Sensors_SQLite(context);
 
-
-
-
 	}
 
+	// Creates a customized C.R. where all parameters need to be set.
 	public ContinuousRecorder(int mic, int sample, int channeli, int channelo,
-			int format, int buffersize, int stream, int mode) {
+			int format, int buffersize, int stream, int mode, Context con) {
 		setMic(mic);
 		setSamplingRate(sample);
 		setChannelInput(channeli);
@@ -78,85 +88,110 @@ public class ContinuousRecorder {
 		setStream(stream);
 		setMode(mode);
 
+		context = con;
+		sqla = new Sensors_SQLite(context);
+
 	}
 
+	// Below are the set functions which assign values to the private members.
 	public void setMic(int mic2) {
 		MIC = mic2;
 	}
+
 	public void setSamplingRate(int i) {
 		SAMPLE = i;
 	}
+
 	public void setChannelInput(int channelInMono) {
 		CHANNELI = channelInMono;
 	}
+
 	public void setChannelOutput(int channelOutMono) {
 		CHANNELO = channelOutMono;
 	}
+
 	public void setEncodingFormat(int encodingPcm16bit) {
 		FORMAT = encodingPcm16bit;
 
 	}
+
 	public void setBufferSize(int BufferSize) {
 		BUFFERSIZE = BufferSize;
 	}
+
 	public void setStream(int streamMusic) {
 		STREAM = streamMusic;
 	}
+
 	public void setMode(int modeStream) {
 		MODE = modeStream;
 	}
 
-	public int getMic(){
+	// Below are the get functions which allow the user to retrieve the data of
+	// the private members.
+	public int getMic() {
 		return MIC;
 	}
-	public int getSamplingRate(){
+
+	public int getSamplingRate() {
 		return SAMPLE;
 	}
-	public int getChannelInput(){
+
+	public int getChannelInput() {
 		return CHANNELI;
 	}
-	public int getChannelOutput(){
+
+	public int getChannelOutput() {
 		return CHANNELO;
 	}
-	public int getEncodingFormat(){
+
+	public int getEncodingFormat() {
 		return FORMAT;
 	}
-	public int getBufferSize(){
+
+	public int getBufferSize() {
 		return BUFFERSIZE;
 	}
-	public int getStream(){
+
+	public int getStream() {
 		return STREAM;
 	}
-	public int getMode(){
+
+	public int getMode() {
 		return MODE;
 	}
-	public short[] getBuffer(){
-		return buffer;
-	}
 
-	public void record(){
-		recorder = new AudioRecord(MIC, SAMPLE, CHANNELI,
-				FORMAT, BUFFERSIZE);
-		track = new AudioTrack(STREAM, SAMPLE, CHANNELO,
-				FORMAT, BUFFERSIZE, MODE);
+	/*
+	 * Record method instantiates the AudioRecord & AudioTrack objects as well
+	 * as the SQLite Helper and the asynchronous task used to do background
+	 * recording & playing.
+	 */
+
+	public void record() {
+		recorder = new AudioRecord(MIC, SAMPLE, CHANNELI, FORMAT, BUFFERSIZE);
+		track = new AudioTrack(STREAM, SAMPLE, CHANNELO, FORMAT, BUFFERSIZE,
+				MODE);
 
 		sqla.open();
 		sqla.deleteTable();
 
-		asyncTask = new start();
+		asyncTask = new start(); // See below for the start class defintion.
 		asyncTask.execute();
 
 	}
 
-	public void play(){
+	// Enables continuous audio playback.
+	public void play() {
 		track.play();
 	}
 
-	public void stop(){
+	// Disables continuous audio playback.
+	public void stop() {
 		track.pause();
 	}
 
-	public void cancel(){
+	// Cancels recording operation.
+	public void cancel() {
 		asyncTask.cancel(true);
 		recorder.stop();
 		recorder.release();
@@ -168,6 +203,8 @@ public class ContinuousRecorder {
 		@Override
 		protected Void doInBackground(Void... n) {
 
+			// Create the F.O.S. to write the byte buffer to the file.
+
 			try {
 				output = new FileOutputStream(file);
 			} catch (FileNotFoundException e1) {
@@ -175,59 +212,78 @@ public class ContinuousRecorder {
 				e1.printStackTrace();
 			}
 
-			short[][] buffers = new short[3][256];
-			byte[] a = new byte[256];
-			recorder.startRecording();
+			byte[] a = new byte[256]; // Holding place for raw audio data.
+			recorder.startRecording(); // Method of AudioRecorder; begins
+										// recording.
+
+			long begin = System.currentTimeMillis();
+			long end = 0;
+			// Loop will continue until the AsyncTask is terminated.
+			// This is most quickly achieved by calling cancel().
 			while (!isCancelled()) {
 
-				buffer = buffers[i++ % buffers.length];
+				recorder.read(a, 0, 256); // Reads the raw audio data into byte
+											// buffer a.
+				
+				track.write(a, 0, 256); // Writes the byte buffer of raw audio
+										// data to the speakers.
+				i++;
 
-				recorder.read(a,0, 256);
-
-				track.write(a,0,256);
-
+				// Write the byte buffer to "PCM.txt"
 				try {
 					output.write(a);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				if (flag && i>=2){
-					ast = new fill();
-					ast.execute();
-					flag = false;
-				}
 
-				try {
-					output.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
+				// Publish progress of AsyncTask on the main thread.
 				publishProgress();
 
-
 			}
+			end = System.currentTimeMillis();
+			Log.e("APP", Long.toString(end - begin));
+			System.out.println(end - begin);
+
+			// Close the output file.
+			try {
+				output.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// Begin the asynchronous task of writing to the SQLite database.
+			ast = new fill();
+			ast.execute();
+			System.out.println("end");
 
 			return null;
 		}
 	}
-	
-	
-	private class fill extends AsyncTask<Void,Void,Void>{
 
+	// AsyncTask that writes to SQLite database.
+	private class fill extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-		
-			
+
+			sqla.prepareTransaction(); // Prepares the SQLite database for batch
+										// inputs.
+			long begin = System.currentTimeMillis();
+
 			try {
-				FileInputStream fin = new FileInputStream(file);
-				byte content[] = new byte[256];
-				for(int j = 0; j<i;j++){
-				fin.read(content);
-				sqla.insertMic(content);}
+				FileInputStream fin = new FileInputStream(file); // Create a FIS
+																	// to read
+																	// from the
+																	// file.
+				byte content[] = new byte[256]; // Array to store the data from
+												// the file.
+				for (int j = 0; j < i; j++) { // Loop through the number of byte
+												// arrays stored in file.
+					fin.read(content); // Read file data into buffer.
+					sqla.insertMic(content); // Insert buffer as a blob into
+												// SQLite database.
+				}
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -235,14 +291,15 @@ public class ContinuousRecorder {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			sqla.endTransaction(); // Ends the batch transaction.
+			long end = System.currentTimeMillis();
+			Log.e("SQL", Long.toString(end - begin));
+			sqla.copy(); // Copies SQLite database to SDCard.
+			sqla.close(); // Closes SQLite database.
 
-			sqla.copy();
 			return null;
-			
 
 		}
 	}
-	
+
 }
-
-
