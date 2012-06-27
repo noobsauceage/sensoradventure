@@ -70,19 +70,25 @@ public class BTloggerActivity extends Activity {
 		// csv field names
 		captureFile.println("`timestamp`" + "," + "`numDevices`"+ "," + "`macList`");
 
-		//btnScanDevice = (Button) findViewById(R.id.scandevice);
-
-		//stateBluetooth = (TextView) findViewById(R.id.bluetoothstate);
+		
 		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-		//listDevicesFound = (ListView) findViewById(R.id.devicesfound);
+		/*
+		btnScanDevice = (Button) findViewById(R.id.scandevice);
+
+		stateBluetooth = (TextView) findViewById(R.id.bluetoothstate);
+		listDevicesFound = (ListView) findViewById(R.id.devicesfound);
 		btArrayAdapter = new ArrayAdapter<String>(BTloggerActivity.this,
 				android.R.layout.simple_list_item_1);
 		listDevicesFound.setAdapter(btArrayAdapter);
 
+		btnScanDevice.setOnClickListener(btnScanDeviceOnClickListener);
+		
+		*/
+		
 		CheckBlueToothState();
 
-		//btnScanDevice.setOnClickListener(btnScanDeviceOnClickListener);
+		
 	}
 
 	public void onStart() {
