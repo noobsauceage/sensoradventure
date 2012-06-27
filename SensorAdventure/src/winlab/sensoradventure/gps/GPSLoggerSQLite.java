@@ -23,7 +23,7 @@ import android.widget.Toast;
 /**
  * This is the GPSloggerSQLite where we specify the columns and create , insert
  * table into Database The Database name is SensorDatabase and DATABASE_TABLE
- * name is gps
+ * name is 
  */
 public class GPSLoggerSQLite {
 
