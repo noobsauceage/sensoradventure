@@ -4,10 +4,8 @@ package winlab.SensorGUI;
  * structure of [TextView] [CheckBox] into the group row and a data
  * structure of [TextView][EditText][TextView] into a child row.
  * To use this GUI, you need to make sure you have the following XML files:
- * guimain.xml
  * group_row.xml
  * child_row.xml
- * menu.xml
  * Written by G.D.C. and Xianyi Gao.
  */
 
