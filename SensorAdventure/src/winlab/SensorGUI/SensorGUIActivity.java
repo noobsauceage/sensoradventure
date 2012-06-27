@@ -1,5 +1,15 @@
 package winlab.SensorGUI;
 
+/* To use this GUI, you need to make sure you have the following XML files:
+ * guimain.xml
+ * group_row.xml
+ * child_row.xml
+ * Currently, the GUI has strange problems when there are many groups
+ * on the screen and throws NullPointerException randomly.
+ * Also there appears to be a memory leak. These are all being looked into
+ * currently.
+ */
+
 import android.os.Bundle;
 import android.widget.Toast;
 import android.app.ExpandableListActivity;
