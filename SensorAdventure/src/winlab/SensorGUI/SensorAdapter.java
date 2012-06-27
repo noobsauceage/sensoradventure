@@ -2,6 +2,8 @@ package winlab.SensorGUI;
 
 import java.util.ArrayList;
 
+import winlab.sensoradventure.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
