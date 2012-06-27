@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 //import android.util.Log;
 
-public class SensorGraphicalUserInterfaceActivity extends ExpandableListActivity {
+public class SensorGUIActivity extends ExpandableListActivity {
 	private SensorAdapter sensorAdapter;
 	private ArrayList<Parent> parents = new ArrayList<Parent>();
 	private ArrayList<Child> normalSensor = new ArrayList<Child>();
