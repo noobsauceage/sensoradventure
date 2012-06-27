@@ -8,6 +8,9 @@ package winlab.SensorGUI;
  * on the screen and throws NullPointerException randomly.
  * Also there appears to be a memory leak. These are all being looked into
  * currently.
+ * DO NOT set the ELV's height to "wrap_content" unless you specify
+ * the height of the parent/group. The program will appear as if
+ * it is not working!
  */
 
 import android.os.Bundle;
