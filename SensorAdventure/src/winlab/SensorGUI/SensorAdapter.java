@@ -11,6 +11,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import winlab.sensoradventure.R;
+
 public class SensorAdapter extends BaseExpandableListAdapter {
 
 	private Context context;
