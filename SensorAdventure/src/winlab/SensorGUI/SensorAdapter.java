@@ -17,14 +17,17 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 	private Context context;
 	private ArrayList<Parent> parents;
 	private LayoutInflater inflater;
-    public CheckBox[] checkbox=new CheckBox[100];
-    public EditText[] edittext=new EditText[100];
-    public static String[] value = new String[100]; 
+    public CheckBox[] checkbox;
+    public EditText[] edittext;
+    public static String[] value;; 
 	public SensorAdapter(Context context, ArrayList<Parent> parents) {
 		this.context = context;
 		this.parents = parents;
 		inflater = LayoutInflater.from(context);
-
+		
+		checkbox = new CheckBox[parents.size()];
+		edittext = new EditText[parents.size()];
+		value = new String[parents.size()];
 	}
 
 	public Object getChild(int groupPosition, int childPosition) {
@@ -52,9 +55,9 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		TextView unit = (TextView) v.findViewById(R.id.unit);
 		if (unit != null)
 			unit.setText(achild.getUnit());
-		edittext[groupPosition*20+childPosition]=(EditText) v.findViewById(R.id.Field);
-        if (edittext[groupPosition*20+childPosition]!=null)
-        	edittext[groupPosition*20+childPosition].setText(value[groupPosition*20+childPosition]);
+		edittext[groupPosition]=(EditText) v.findViewById(R.id.Field);
+        if (edittext[groupPosition]!=null)
+        	edittext[groupPosition].setText(value[groupPosition]);
 		return v;
 	}
 

@@ -15,7 +15,7 @@ public class SensorGUIActivity extends ExpandableListActivity {
 	private ArrayList<Parent> parents = new ArrayList<Parent>();
 	private ArrayList<Child> normalSensor = new ArrayList<Child>();
 	private ArrayList<Child> micChild = new ArrayList<Child>();
-	private boolean[] expanded = new boolean[100];
+	private boolean[] expanded;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -25,16 +25,15 @@ public class SensorGUIActivity extends ExpandableListActivity {
 
 		normalSensor.add(new Child("Sampling Rate", "Hz"));
 
-		micChild.add(new Child("Sampling Rate", "Hz"));
-		micChild.add(new Child("Buffer Size", ""));
 		parents.add(new Parent("Gyroscope", normalSensor, false));
 		parents.add(new Parent("Magnetic Field", normalSensor, false));
 		parents.add(new Parent("Linear Acceleration", normalSensor, false));
-		parents.add(new Parent("Microphone", micChild, false));
+		parents.add(new Parent("Microphone", normalSensor, false));
 
 		sensorAdapter = new SensorAdapter(this, parents);
+		expanded = new boolean[parents.size()];
 		setListAdapter(sensorAdapter);
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < parents.size(); i++) {
 			SensorAdapter.value[i] = null;
 			expanded[i] = false;
 		}
@@ -45,60 +44,31 @@ public class SensorGUIActivity extends ExpandableListActivity {
 	}
 
 	public void onGroupExpand(int groupPosition) {
-		String str;
-		str = SensorAdapter.value[0] + "*" + SensorAdapter.value[20] + "*"
-				+ SensorAdapter.value[40] + "*" + SensorAdapter.value[60] + "*"
-				+ SensorAdapter.value[61];
-		Toast.makeText(this, str, Toast.LENGTH_LONG).show();
-		for (int i = 0; i < parents.size(); i++)
-			parents.get(i).setState(sensorAdapter.checkbox[i].isChecked());
-
-		for (int i = 0; i < parents.size(); i++)
-			if (expanded[i])
-				for (int j = 0; j < sensorAdapter.getChildrenCount(i); j++)
-					if (sensorAdapter.edittext[i * 20 + j] != null) {
-
-						if (sensorAdapter.edittext[i * 20 + j].getText()
-								.toString().length() == 0)
-							SensorAdapter.value[i * 20 + j] = null;
-						else
-							SensorAdapter.value[i * 20 + j] = sensorAdapter.edittext[i
-									* 20 + j].getText().toString();
-					}
-		str = SensorAdapter.value[0] + "*" + SensorAdapter.value[20] + "*"
-				+ SensorAdapter.value[40] + "*" + SensorAdapter.value[60] + "*"
-				+ SensorAdapter.value[61];
-		Toast.makeText(this, str, Toast.LENGTH_LONG).show();
-		// else sensorAdapter.value[i*20+j]=null;*/
+		update();
 		expanded[groupPosition] = true;
 	}
 
 	public void onGroupCollapse(int groupPosition) {
-		String str;
-		str = SensorAdapter.value[0] + "*" + SensorAdapter.value[20] + "*"
-				+ SensorAdapter.value[40] + "*" + SensorAdapter.value[60] + "*"
-				+ SensorAdapter.value[61];
-		Toast.makeText(this, str, Toast.LENGTH_LONG).show();
+		update();
+		expanded[groupPosition] = false;
+	}
 
+	public void update() {
 		for (int i = 0; i < parents.size(); i++)
 			parents.get(i).setState(sensorAdapter.checkbox[i].isChecked());
 		for (int i = 0; i < parents.size(); i++)
-			if (expanded[i])
-				for (int j = 0; j < sensorAdapter.getChildrenCount(i); j++)
-					if (sensorAdapter.edittext[i * 20 + j] != null) {
+			if (expanded[i]) {
+				for (int j = 0; j < parents.size(); j++)
+					if (sensorAdapter.edittext[j] != null) {
 
-						if (sensorAdapter.edittext[i * 20 + j].getText()
-								.toString().length() == 0)
-							SensorAdapter.value[i * 20 + j] = null;
+						if (sensorAdapter.edittext[j].getText().toString()
+								.length() == 0)
+							SensorAdapter.value[j] = null;
 						else
-							SensorAdapter.value[i * 20 + j] = sensorAdapter.edittext[i
-									* 20 + j].getText().toString();
+							SensorAdapter.value[j] = sensorAdapter.edittext[j]
+									.getText().toString();
 					}
-		str = SensorAdapter.value[0] + "*" + SensorAdapter.value[20] + "*"
-				+ SensorAdapter.value[40] + "*" + SensorAdapter.value[60] + "*"
-				+ SensorAdapter.value[61];
-		Toast.makeText(this, str, Toast.LENGTH_LONG).show();
-		// else sensorAdapter.value[i*20+j]=null;*/
-		expanded[groupPosition] = false;
+			}
+
 	}
 }
