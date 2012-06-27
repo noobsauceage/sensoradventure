@@ -1,5 +1,16 @@
 package winlab.sensoradventure;
 
+/* This is the main activity for the Sensor Adventure application.
+ * It is currently in a mode operational enough for implementation with other code.
+ * One issue that it has is when text is entered into the EditText field
+ * and some part of the screen (user leaves the cursor dangling
+ * on the typed text and proceeds to scroll off screen), the data is lost.
+ * The EditText data is saved if the user clicks something else after typing.
+ * Any solution to this problem is a welcome sight, but it is fine for now as
+ * far as testing goes.
+ * -- G.D.C.
+ */
+
 import java.util.ArrayList;
 
 import winlab.SensorGUI.Child;
