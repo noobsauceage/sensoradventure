@@ -46,9 +46,9 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		View v = null;
-		if (convertView != null)
+		/*if (convertView != null)
 			v = convertView;
-		else
+		else*/
 			v = inflater.inflate(R.layout.child_row, parent, false);
 		Child achild = (Child) getChild(groupPosition, childPosition);
 		TextView field = (TextView) v.findViewById(R.id.field);
@@ -83,9 +83,9 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent) {
 		View v = null;
-		if (convertView != null)
+		/*if (convertView != null)
 			v = convertView;
-		else
+		else*/
 			v = inflater.inflate(R.layout.group_row, parent, false);
 
 		TextView name = (TextView) v.findViewById(R.id.name);

@@ -4,10 +4,6 @@ package winlab.SensorGUI;
  * guimain.xml
  * group_row.xml
  * child_row.xml
- * Currently, the GUI has strange problems when there are many groups
- * on the screen and throws NullPointerException randomly.
- * Also there appears to be a memory leak. These are all being looked into
- * currently.
  * DO NOT set the ELV's height to "wrap_content" unless you specify
  * the height of the parent/group. The program will appear as if
  * it is not working!
@@ -37,13 +33,17 @@ public class SensorGUIActivity extends ExpandableListActivity {
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 		setContentView(R.layout.guimain);
+		String[] Sensors = {"Accelerometer",
+				"Magnetic", "Orientation", "Gyroscope",
+				"Light", "Pressure", "Temperature",
+				"Proximity", "Gravity", "L. Accelerometer",
+				"Rotation", "Humidity",
+				"A. Temperature", "Microphone" };
 
 		normalSensor.add(new Child("Sampling Rate", "Hz"));
 
-		parents.add(new Parent("Gyroscope", normalSensor, false));
-		parents.add(new Parent("Magnetic Field", normalSensor, false));
-		parents.add(new Parent("Linear Acceleration", normalSensor, false));
-		parents.add(new Parent("Microphone", normalSensor, false));
+		for(int i = 0; i< Sensors.length;i++)
+		parents.add(new Parent(Sensors[i], normalSensor, false));
 
 		sensorAdapter = new SensorAdapter(this, parents);
 		expanded = new boolean[parents.size()];
@@ -56,6 +56,7 @@ public class SensorGUIActivity extends ExpandableListActivity {
 
 	public void onContentChanged() {
 		super.onContentChanged();
+		update();
 	}
 
 	public void onGroupExpand(int groupPosition) {
@@ -67,23 +68,23 @@ public class SensorGUIActivity extends ExpandableListActivity {
 		update();
 		expanded[groupPosition] = false;
 	}
-	
-	public void update(){
+
+	public void update() {
 		for (int i = 0; i < parents.size(); i++)
 			parents.get(i).setState(sensorAdapter.checkbox[i].isChecked());
 		for (int i = 0; i < parents.size(); i++)
-			if (expanded[i]){
+			if (expanded[i]) {
 				for (int j = 0; j < parents.size(); j++)
 					if (sensorAdapter.edittext[j] != null) {
 
-						if (sensorAdapter.edittext[j].getText()
-								.toString().length() == 0)
+						if (sensorAdapter.edittext[j].getText().toString()
+								.length() == 0)
 							SensorAdapter.value[j] = null;
 						else
-							SensorAdapter.value[j] = sensorAdapter.edittext[
-									  j].getText().toString();
+							SensorAdapter.value[j] = sensorAdapter.edittext[j]
+									.getText().toString();
 					}
 			}
-		
+
 	}
 }
