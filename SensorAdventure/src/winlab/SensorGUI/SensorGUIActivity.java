@@ -8,6 +8,8 @@ import android.app.ExpandableListActivity;
 //import android.widget.ExpandableListView;
 import java.util.ArrayList;
 
+import winlab.sensoradventure.R;
+
 //import android.util.Log;
 
 public class SensorGUIActivity extends ExpandableListActivity {
