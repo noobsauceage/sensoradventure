@@ -11,8 +11,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import winlab.sensoradventure.R;
-
 public class SensorAdapter extends BaseExpandableListAdapter {
 
 	private Context context;
@@ -28,6 +26,9 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		inflater = LayoutInflater.from(context);
 
 		checkbox = new CheckBox[parents.size()];
+		for(int i = 0; i< parents.size(); i++){
+			checkbox[i] = new CheckBox(context);
+			checkbox[i].setChecked(false);}
 		edittext = new EditText[parents.size()];
 		value = new String[parents.size()];
 	}
@@ -49,6 +50,7 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		/*if (convertView != null)
 			v = convertView;
 		else*/
+		
 			v = inflater.inflate(R.layout.child_row, parent, false);
 		Child achild = (Child) getChild(groupPosition, childPosition);
 		TextView field = (TextView) v.findViewById(R.id.field);

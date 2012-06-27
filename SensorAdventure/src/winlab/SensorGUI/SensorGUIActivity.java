@@ -7,19 +7,13 @@ package winlab.SensorGUI;
  * DO NOT set the ELV's height to "wrap_content" unless you specify
  * the height of the parent/group. The program will appear as if
  * it is not working!
+ * NullPointerException has been fixed.
  */
 
-import android.os.Bundle;
-import android.widget.Toast;
-import android.app.ExpandableListActivity;
-//import android.view.View;
-//import android.widget.CheckBox;
-//import android.widget.ExpandableListView;
 import java.util.ArrayList;
 
-import winlab.sensoradventure.R;
-
-//import android.util.Log;
+import android.app.ExpandableListActivity;
+import android.os.Bundle;
 
 public class SensorGUIActivity extends ExpandableListActivity {
 	private SensorAdapter sensorAdapter;
@@ -49,7 +43,7 @@ public class SensorGUIActivity extends ExpandableListActivity {
 		expanded = new boolean[parents.size()];
 		setListAdapter(sensorAdapter);
 		for (int i = 0; i < parents.size(); i++) {
-			SensorAdapter.value[i] = null;
+			sensorAdapter.value[i] = null;
 			expanded[i] = false;
 		}
 	}
@@ -70,21 +64,21 @@ public class SensorGUIActivity extends ExpandableListActivity {
 	}
 
 	public void update() {
-		for (int i = 0; i < parents.size(); i++)
+		for (int i = 0; i < parents.size(); i++){
 			parents.get(i).setState(sensorAdapter.checkbox[i].isChecked());
-		for (int i = 0; i < parents.size(); i++)
 			if (expanded[i]) {
 				for (int j = 0; j < parents.size(); j++)
 					if (sensorAdapter.edittext[j] != null) {
 
 						if (sensorAdapter.edittext[j].getText().toString()
 								.length() == 0)
-							SensorAdapter.value[j] = null;
+							sensorAdapter.value[j] = null;
 						else
-							SensorAdapter.value[j] = sensorAdapter.edittext[j]
+							sensorAdapter.value[j] = sensorAdapter.edittext[j]
 									.getText().toString();
 					}
 			}
+		}
 
 	}
 }
