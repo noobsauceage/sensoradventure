@@ -2,9 +2,6 @@ package winlab.SensorGUI;
 
 import java.util.ArrayList;
 
-import winlab.sensoradventure.R;
-
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +16,15 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 	private Context context;
 	private ArrayList<Parent> parents;
 	private LayoutInflater inflater;
-    public CheckBox[] checkbox;
-    public EditText[] edittext;
-    public static String[] value;; 
+	public CheckBox[] checkbox;
+	public EditText[] edittext;
+	public static String[] value;;
+
 	public SensorAdapter(Context context, ArrayList<Parent> parents) {
 		this.context = context;
 		this.parents = parents;
 		inflater = LayoutInflater.from(context);
-		
+
 		checkbox = new CheckBox[parents.size()];
 		edittext = new EditText[parents.size()];
 		value = new String[parents.size()];
@@ -57,9 +55,9 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		TextView unit = (TextView) v.findViewById(R.id.unit);
 		if (unit != null)
 			unit.setText(achild.getUnit());
-		edittext[groupPosition]=(EditText) v.findViewById(R.id.Field);
-        if (edittext[groupPosition]!=null)
-        	edittext[groupPosition].setText(value[groupPosition]);
+		edittext[groupPosition] = (EditText) v.findViewById(R.id.Field);
+		if (edittext[groupPosition] != null)
+			edittext[groupPosition].setText(value[groupPosition]);
 		return v;
 	}
 
@@ -92,9 +90,9 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		if (name != null)
 			name.setText(parents.get(groupPosition).getName());
 		checkbox[groupPosition] = (CheckBox) v.findViewById(R.id.checkBox1);
-		if (checkbox[groupPosition] != null)
-		{
-			checkbox[groupPosition].setChecked(parents.get(groupPosition).getState());
+		if (checkbox[groupPosition] != null) {
+			checkbox[groupPosition].setChecked(parents.get(groupPosition)
+					.getState());
 		}
 		return v;
 	}

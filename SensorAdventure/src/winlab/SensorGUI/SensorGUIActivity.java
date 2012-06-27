@@ -8,11 +8,9 @@ import android.app.ExpandableListActivity;
 //import android.widget.ExpandableListView;
 import java.util.ArrayList;
 
-import winlab.sensoradventure.R;
-
 //import android.util.Log;
 
-public class SensorGUIActivity extends ExpandableListActivity {
+public class SensorGraphicalUserInterfaceActivity extends ExpandableListActivity {
 	private SensorAdapter sensorAdapter;
 	private ArrayList<Parent> parents = new ArrayList<Parent>();
 	private ArrayList<Child> normalSensor = new ArrayList<Child>();
@@ -54,23 +52,23 @@ public class SensorGUIActivity extends ExpandableListActivity {
 		update();
 		expanded[groupPosition] = false;
 	}
-
-	public void update() {
+	
+	public void update(){
 		for (int i = 0; i < parents.size(); i++)
 			parents.get(i).setState(sensorAdapter.checkbox[i].isChecked());
 		for (int i = 0; i < parents.size(); i++)
-			if (expanded[i]) {
+			if (expanded[i]){
 				for (int j = 0; j < parents.size(); j++)
 					if (sensorAdapter.edittext[j] != null) {
 
-						if (sensorAdapter.edittext[j].getText().toString()
-								.length() == 0)
+						if (sensorAdapter.edittext[j].getText()
+								.toString().length() == 0)
 							SensorAdapter.value[j] = null;
 						else
-							SensorAdapter.value[j] = sensorAdapter.edittext[j]
-									.getText().toString();
+							SensorAdapter.value[j] = sensorAdapter.edittext[
+									  j].getText().toString();
 					}
 			}
-
+		
 	}
 }
