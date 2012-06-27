@@ -3,24 +3,19 @@ package winlab.sensoradventure;
 import java.util.ArrayList;
 
 import winlab.SensorGUI.Child;
-import winlab.SensorGUI.Parent;
 import winlab.SensorGUI.SensorAdapter;
-import android.app.Activity;
+import winlab.SensorGUI.Group;
 import android.app.ExpandableListActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class SensorAdventureActivity extends ExpandableListActivity {
 	private SensorAdapter sensorAdapter;
-	private ArrayList<Parent> parents = new ArrayList<Parent>();
+	private ArrayList<Group> groups = new ArrayList<Group>();
 	private ArrayList<Child> normalSensor = new ArrayList<Child>();
-	private ArrayList<Child> micChild = new ArrayList<Child>();
 	private boolean[] expanded;
 
 	/** Called when the activity is first created. */
@@ -36,13 +31,13 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		normalSensor.add(new Child("Sampling Rate", "Hz"));
 
 		for (int i = 0; i < Sensors.length; i++)
-			parents.add(new Parent(Sensors[i], normalSensor, false));
+			groups.add(new Group(Sensors[i], normalSensor, false));
 
-		sensorAdapter = new SensorAdapter(this, parents);
-		expanded = new boolean[parents.size()];
+		sensorAdapter = new SensorAdapter(this, groups);
+		expanded = new boolean[groups.size()];
 		setListAdapter(sensorAdapter);
-		for (int i = 0; i < parents.size(); i++) {
-			sensorAdapter.value[i] = null;
+		for (int i = 0; i < groups.size(); i++) {
+			SensorAdapter.value[i] = null;
 			expanded[i] = false;
 		}
 	}
@@ -80,17 +75,17 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	}
 
 	public void update() {
-		for (int i = 0; i < parents.size(); i++) {
-			parents.get(i).setState(sensorAdapter.checkbox[i].isChecked());
+		for (int i = 0; i < groups.size(); i++) {
+			groups.get(i).setState(sensorAdapter.checkbox[i].isChecked());
 			if (expanded[i]) {
-				for (int j = 0; j < parents.size(); j++)
+				for (int j = 0; j < groups.size(); j++)
 					if (sensorAdapter.edittext[j] != null) {
 
 						if (sensorAdapter.edittext[j].getText().toString()
 								.length() == 0)
-							sensorAdapter.value[j] = null;
+							SensorAdapter.value[j] = null;
 						else
-							sensorAdapter.value[j] = sensorAdapter.edittext[j]
+							SensorAdapter.value[j] = sensorAdapter.edittext[j]
 									.getText().toString();
 					}
 			}
