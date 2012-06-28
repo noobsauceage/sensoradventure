@@ -6,6 +6,7 @@ package winlab.SensorGUI;
  * To use this GUI, you need to make sure you have the following XML files:
  * group_row.xml
  * child_row.xml
+
  * Written by G.D.C. and Xianyi Gao.
  */
 
@@ -83,7 +84,7 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		TextView unit = (TextView) v.findViewById(R.id.unit);
 		if (unit != null)
 			unit.setText(achild.getUnit());
-		edittext[groupPosition] = (EditText) v.findViewById(R.id.Field);
+		edittext[groupPosition] = (EditText) v.findViewById(R.id.editText1);
 		if (edittext[groupPosition] != null)
 			edittext[groupPosition].setText(value[groupPosition]);
 		return v;
