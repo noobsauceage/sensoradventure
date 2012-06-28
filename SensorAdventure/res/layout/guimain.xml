@@ -1,17 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
 
-    <ExpandableListView
-        android:id="@+id/android:list"
-        android:layout_width="wrap_content"
-        android:layout_height="385dp" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="Start Logging" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="Data Configurations" />
+
+        <ExpandableListView
+            android:id="@+id/android:list"
+            android:layout_width="match_parent"
+            android:layout_height="435dp"
+            android:layout_above="@+id/button1"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true" >
+
+        </ExpandableListView>
+
     </RelativeLayout>
-
-</LinearLayout>

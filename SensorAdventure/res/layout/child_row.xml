@@ -1,38 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/field"
-        android:layout_width="150px"
-        android:layout_height="wrap_content"
-        android:focusable="false"
-        android:paddingLeft="30px"
-        android:paddingRight="20px"
-        android:paddingBottom = "10px"
-        android:textSize="18px"
-        android:textStyle="italic" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="top" >
 
-    <EditText
-        android:id="@+id/Field"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number"
-        androidLsetFocusable = "false"
->
+        <TextView
+            android:id="@+id/field"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Sampling Rate"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <requestFocus />
-    </EditText>
+        <TextView
+            android:id="@+id/unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:text="Hz"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <TextView
-        android:id="@+id/unit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft = "5px"
-        android:text="Hz"
-        android:textStyle = "italic" />
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/field"
+            android:ems="10"
+            android:inputType="number" >
 
-</LinearLayout>
+            <requestFocus />
+        </EditText>
+
+    </RelativeLayout>
