@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class SensorAdventureActivity extends ExpandableListActivity {
 	private SensorAdapter sensorAdapter;
@@ -63,7 +62,8 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	
 	private OnClickListener startClick = new OnClickListener() {
 		public void onClick(View v) {
-			// This should go to a new activity.
+			Intent intent  = new Intent( SensorAdventureActivity.this,  ControlSensorSQLthroughFileActivity.class);
+			startActivity(intent); 
 			
 			
 

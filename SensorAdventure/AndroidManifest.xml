@@ -40,6 +40,7 @@
             android:name=".winlab.sensoradventure.gps.GPSloggerservicedb"
             android:enabled="true" />
         <activity android:name="winlab.SensorGUI.AdvanceSettingsGUI"/>
+        <activity android:name="winlab.sensoradventure.ControlSensorSQLthroughFileActivity"/>
     </application>
 
 </manifest>

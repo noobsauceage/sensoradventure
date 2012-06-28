@@ -1,5 +1,5 @@
 package winlab.sensoradventure;
-/*
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,14 +10,14 @@ import android.widget.Toast;
 
 public class ControlSensorSQLthroughFileActivity extends Activity implements OnClickListener {
     /** Called when the activity is first created. */
-	/*Button buttonStart, buttonStop,buttonStart2, buttonStop2,mark;
+	Button buttonStart, buttonStop,buttonStart2, buttonStop2,mark;
 	Sensors_SQLite_Setting ok2;
     boolean sensorSQL[]={true,true,true,false,false,false,false,false,false,false,false,false,false,false};
     Sensors_SQLite_instantReading instantTables;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.sql);
         
         String string="";
         buttonStart = (Button) findViewById(R.id.buttonStart);
@@ -104,4 +104,4 @@ public class ControlSensorSQLthroughFileActivity extends Activity implements OnC
             	}
         } 
    }
-}*/
+}
