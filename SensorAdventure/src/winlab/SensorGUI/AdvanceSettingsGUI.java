@@ -16,63 +16,56 @@ import android.widget.LinearLayout.LayoutParams;
 public class AdvanceSettingsGUI extends ListActivity implements OnClickListener
 {
  public OnLongClickListener longClickListner;
- LinearLayout panel1,panel2,panel4,panel5;
- TextView text1,text2,text3, text4;
+ LinearLayout panel1,panel2,panel3,panel5;
+ TextView text1,text2,text3;
  View openLayout;
  private Spinner preferredNetworkType;
  private Spinner preferredLoggingrategps;
  private Spinner micsampleingrate;
  private Spinner micchannelinput;
  private Spinner micchannelaudio;
- private Spinner accelerometersamplingrate;
- private Spinner gsamplingrate;
+ private Spinner othersamplingrate;
  
 private String[] mPreferredNetworkLabels = {
-   "Network Provider",
-   "GPS Provider",
+   "Network",
+   "GPS",
     };
 
 private String[] mloggingrate = {
-		   "1 min",
-		   "5 min ",
-		   "10 min ",
-		   "30 min ",
-		   "1 hr ",
+		   "1",
+		   "5",
+		   "10",
+		   "30",
+		   "1",
 		    };
 
 private String[] micloggingrate = {
-		   "44.1 KHz",
-		   "22.05 KHz ",
-		   "16 KHz",
-		   "11.025 KHz ",
+		   "44.1",
+		   "22.05",
+		   "16",
+		   "11.025",
 		    };
  
 
 private String[] micchannelrate = {
-		   "CHANNEL_IN_MONO",
-		   "CHANNEL_IN_STEREO",
+		   "MONO",
+		   "STEREO",
 		    };
 
 private String[] micchannelencoding = {
-		   "ENCODING_PCM_16BIT",
-		   "ENCODING_PCM_8BIT",
+		   "16",
+		   "8",
 		    };
 
-private String[] accelologgingrate = {
-		   "1 msec",
-		   "5 msec ",
-		   "10 msec ",
-		   "30 msec ",
-		   "1 min ",
+private String[] othersamplingrates1 = {
+		   "1",
+		   "5",
+		   "10",
+		   "30",
+		   "60",
 		    };
 
-private String[] gyroscopeloggingrate = {
-		   "1 msec",
-		   "5 msec ",
-		   "10 msec ",
-		   "30 msec ",
-		   "1 min ",
-		    };
+ 
 
  @Override
  public void onCreate(Bundle savedInstanceState)
@@ -81,17 +74,17 @@ private String[] gyroscopeloggingrate = {
   setContentView(R.layout.advancesettings);
   panel1 = (LinearLayout) findViewById(R.id.panel1);
   panel2 = (LinearLayout) findViewById(R.id.panel2);
-  panel4 = (LinearLayout) findViewById(R.id.panel4);
-  panel5 = (LinearLayout) findViewById(R.id.panel5);
+  panel3 = (LinearLayout) findViewById(R.id.panel3);
+ 
   text1 = (TextView) findViewById(R.id.text1);
   text2 = (TextView) findViewById(R.id.text2);
   text3 = (TextView) findViewById(R.id.text3);
-  text4 = (TextView) findViewById(R.id. text4);
+ 
   
   text1.setOnClickListener(this);
   text2.setOnClickListener(this);
   text3.setOnClickListener(this);
-   text4.setOnClickListener(this);
+   
   
   preferredNetworkType = (Spinner) findViewById(R.id.preferredNetworkType);
   ArrayAdapter<String> adapter = new ArrayAdapter<String> (this,
@@ -101,7 +94,7 @@ private String[] gyroscopeloggingrate = {
   
   preferredLoggingrategps = (Spinner) findViewById(R.id.preferredLoggingrategps);
   ArrayAdapter<String> adapter1 = new ArrayAdapter<String> (this,
-          android.R.layout.simple_spinner_item, mloggingrate);
+          android.R.layout.simple_spinner_item,  mloggingrate);
   adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
   preferredLoggingrategps.setAdapter(adapter1);
   
@@ -123,18 +116,14 @@ private String[] gyroscopeloggingrate = {
   adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
   micchannelaudio.setAdapter(adapter4);
   
-  accelerometersamplingrate = (Spinner) findViewById(R.id.accelerometersamplingrate);
+  othersamplingrate = (Spinner) findViewById(R.id.othersamplingrate);
   ArrayAdapter<String> adapter5 = new ArrayAdapter<String> (this,
-          android.R.layout.simple_spinner_item, accelologgingrate);
+          android.R.layout.simple_spinner_item, othersamplingrates1);
   adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-  accelerometersamplingrate.setAdapter(adapter5);
-  
-  gsamplingrate = (Spinner) findViewById(R.id.gsamplingrate);
-  ArrayAdapter<String> adapter6 = new ArrayAdapter<String> (this,
-          android.R.layout.simple_spinner_item, gyroscopeloggingrate);
-  adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-  gsamplingrate.setAdapter(adapter6);
+  othersamplingrate.setAdapter(adapter5);
+ 
  }
+ String m = "mala" +  panel1;
  public void onClick(View v)
  {
   hideOthers(v);
@@ -143,13 +132,12 @@ private String[] gyroscopeloggingrate = {
  {
   if(openLayout == null) return;
   if(openLayout == panel1)
-   panel1.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel1, true));
+   panel1.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500,panel1, true));
   if(openLayout == panel2)
    panel2.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel2, true));
-  if(openLayout == panel4)
-   panel4.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel4, true));
-  if(openLayout == panel5)
-   panel5.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel5, true));
+  if(openLayout == panel3)
+   panel3.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel3, true));
+  
  }
  private void hideOthers(View layoutView)
  {
@@ -182,22 +170,14 @@ private String[] gyroscopeloggingrate = {
  
    else if(layoutView.getId() == R.id.text3)
    {
-    v = panel4.getVisibility();
+    v = panel3.getVisibility();
     hideThemAll();
     if(v != View.VISIBLE)
     {
-     panel4.startAnimation(new ScaleAnimToShow(1.0f, 1.0f, 1.0f, 0.0f, 500, panel4, true));
+     panel3.startAnimation(new ScaleAnimToShow(1.0f, 1.0f, 1.0f, 0.0f, 500, panel3, true));
     }
    }
-   else if(layoutView.getId() == R.id. text4)
-   {
-    v = panel5.getVisibility();
-    hideThemAll();
-    if(v != View.VISIBLE)
-    {
-     panel5.startAnimation(new ScaleAnimToShow(1.0f, 1.0f, 1.0f, 0.0f, 500, panel5, true));
-    }
-   }
+ 
   }
  }
  
@@ -265,7 +245,7 @@ private String[] gyroscopeloggingrate = {
              int height = mView.getHeight();
              mMarginBottomFromY = 0;
              mMarginBottomToY = height;  
-             Log.v("CZ",".................height..." + height + " , mMarginBottomFromY...." + mMarginBottomFromY  + " , mMarginBottomToY.." +mMarginBottomToY);
+           
          }
 
          @Override
