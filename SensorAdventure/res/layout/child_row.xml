@@ -2,7 +2,7 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:gravity="top" >
+        android:gravity="center_horizontal" >
 
         <TextView
             android:id="@+id/field"
@@ -11,6 +11,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:text="Sampling Rate"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:textStyle="italic" 
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
@@ -19,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:text="Hz"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -29,11 +32,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/field"
+            android:layout_toLeftOf="@+id/unit"
+            android:layout_marginRight="5dp"
             android:ems="10"
-            android:inputType="number" >
-
-            <requestFocus />
-        </EditText>
+            android:inputType="number" />
 
     </RelativeLayout>
