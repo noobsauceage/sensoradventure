@@ -65,7 +65,7 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		
 		/* This set of code recycles the view.
 		 * It is commented out to prevent problems with scrolling up and down.
-		 * Should anyone fix the scrolling memory problem, it would be great commenting
+		 * Should anyone fix the scrolling memory problem, it would be great as commenting
 		 * this out is not good for optimization.
 		if (convertView != null)
 			v = convertView;
@@ -114,7 +114,7 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		
 		/* This set of code recycles the view.
 		 * It is commented out to prevent problems with scrolling up and down.
-		 * Should anyone fix the scrolling memory problem, it would be great commenting
+		 * Should anyone fix the scrolling memory problem, it would be great as commenting
 		 * this out is not good for optimization.
 		if (convertView != null)
 			v = convertView;
