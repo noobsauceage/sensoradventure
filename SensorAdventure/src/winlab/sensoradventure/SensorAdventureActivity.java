@@ -12,19 +12,22 @@ package winlab.sensoradventure;
  */
 
 import java.util.ArrayList;
-
 import winlab.SensorGUI.Child;
-import winlab.SensorGUI.SensorAdapter;
 import winlab.SensorGUI.Group;
+import winlab.SensorGUI.SensorAdapter;
 import android.app.ExpandableListActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class SensorAdventureActivity extends ExpandableListActivity {
 	private SensorAdapter sensorAdapter;
+	private Button start, config;
 	private ArrayList<Group> groups = new ArrayList<Group>();
 	private ArrayList<Child> normalSensor = new ArrayList<Child>();
 	private boolean[] expanded;
@@ -51,7 +54,28 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			SensorAdapter.value[i] = null;
 			expanded[i] = false;
 		}
+		
+		start = (Button)findViewById(R.id.button1);
+		start.setOnClickListener(startClick);
+		config = (Button)findViewById(R.id.button2);
+		config.setOnClickListener(configClick);
 	}
+	
+	private OnClickListener startClick = new OnClickListener() {
+		public void onClick(View v) {
+			// This should go to a new activity.
+			
+			
+
+		}
+	};
+	
+	private OnClickListener configClick = new OnClickListener() {
+		public void onClick(View v) {
+			// This should go to a new activity.
+
+		}
+	};
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,6 +88,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.settings:
+			// This should go to a new activity.
 			Toast.makeText(this, "Pushed", Toast.LENGTH_LONG).show();
 			break;
 		}
