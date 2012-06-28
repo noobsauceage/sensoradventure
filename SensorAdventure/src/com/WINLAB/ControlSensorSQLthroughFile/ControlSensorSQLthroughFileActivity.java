@@ -1,5 +1,6 @@
 package com.WINLAB.ControlSensorSQLthroughFile;
 
+import winlab.sensoradventure.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ public class ControlSensorSQLthroughFileActivity extends Activity implements OnC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.sql);
         
         String string="";
         buttonStart = (Button) findViewById(R.id.buttonStart);
