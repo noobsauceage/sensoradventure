@@ -9,10 +9,13 @@ package winlab.sensoradventure;
 
 import java.util.ArrayList;
 
+ 
+import winlab.SensorGUI.*;
 import winlab.SensorGUI.Child;
 import winlab.SensorGUI.Group;
 import winlab.SensorGUI.SensorAdapter;
 import android.app.ExpandableListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -85,9 +88,12 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.settings:
+			/*
 			// This should go to a new activity.
 			Toast.makeText(this, "Pushed", Toast.LENGTH_LONG).show();
-			break;
+			break;*/
+			Intent intent  = new Intent( SensorAdventureActivity.this,  AdvanceSettingsGUI.class);
+			startActivity(intent); 
 		}
 		return true;
 	}
