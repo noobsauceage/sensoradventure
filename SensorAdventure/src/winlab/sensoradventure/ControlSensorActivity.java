@@ -1,10 +1,10 @@
 package winlab.sensoradventure;
-
+/*
 //Following is the activity example of how to use other sensors file and sqlite classes
 //see me(Gao) if u have other questions
 //Note that I haven't added in sampling rate option yet.
 
-/*
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -121,5 +121,4 @@ public class ControlSensorActivity extends Activity implements OnClickListener {
         	break;
         }
    }
-}
-*/
+}*/
