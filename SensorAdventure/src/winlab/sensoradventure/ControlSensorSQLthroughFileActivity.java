@@ -1,5 +1,9 @@
 package winlab.sensoradventure;
 
+import winlab.file.SnapShotValue;
+import winlab.sql.InsertToTable;
+import winlab.sql.Sensors_SQLite_Setting;
+import winlab.sql.Sensors_SQLite_instantReading;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

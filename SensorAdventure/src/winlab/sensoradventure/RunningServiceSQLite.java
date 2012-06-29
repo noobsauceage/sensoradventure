@@ -3,6 +3,9 @@ package winlab.sensoradventure;
 
 import java.io.File;
 import java.io.FileWriter;
+
+import winlab.file.SnapShotValue;
+import winlab.sql.Sensors_SQLite_Setting;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;

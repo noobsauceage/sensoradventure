@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import winlab.sql.Sensors_SQLite;
+
 import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;

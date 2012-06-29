@@ -1,4 +1,4 @@
-package winlab.sensoradventure;
+package winlab.sql;
 
 import android.content.Context;
 import android.hardware.SensorManager;

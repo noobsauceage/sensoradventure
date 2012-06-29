@@ -1,4 +1,4 @@
-package winlab.sensoradventure;
+package winlab.file;
 
 import java.io.File;
 import java.io.FileWriter;
