@@ -1,4 +1,4 @@
-package winlab.sensoradventure;
+package winlab.sql;
 
 
 import java.io.File;
