@@ -62,7 +62,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	
 	private OnClickListener startClick = new OnClickListener() {
 		public void onClick(View v) {
-			Intent intent  = new Intent( SensorAdventureActivity.this,  ControlSensorSQLthroughFileActivity.class);
+			Intent intent  = new Intent( SensorAdventureActivity.this,  ControlSensorActivity.class);
 			startActivity(intent); 
 			
 			
