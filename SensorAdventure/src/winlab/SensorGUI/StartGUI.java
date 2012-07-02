@@ -9,18 +9,21 @@ import android.os.SystemClock;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class StartGUI extends Activity implements OnClickListener{
-	TextView text2,text3;
-	Chronometer mChronometer;
-	Button mark,stop;
-	String[] times=new String[10];
+	private TextView text2,text3;
+	private Chronometer mChronometer;
+	private Button mark,stop;
+	private String[] times=new String[10];
+	private LinearLayout ll1;
+	private LinearLayout ll2;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.startgui);
+        setContentView(R.layout.start_gui);
         mChronometer = (Chronometer) findViewById(R.id.chronometer);
         text2=(TextView) findViewById(R.id.textView5);
         text3=(TextView) findViewById(R.id.textView6);
@@ -28,6 +31,9 @@ public class StartGUI extends Activity implements OnClickListener{
         mark.setOnClickListener(this);
         stop =(Button) findViewById(R.id.button2); 
         stop.setOnClickListener(this);
+        
+    	ll1 = (LinearLayout)findViewById(R.id.layout1);
+    	ll2 = (LinearLayout)findViewById(R.id.layout2);
 
 
         for (int i=0; i<10;i++)
@@ -40,6 +46,15 @@ public class StartGUI extends Activity implements OnClickListener{
         boolean[] sensorCheck = extras.getBooleanArray("sensorCheck");
         String[] Sensors = extras.getStringArray("Sensors");
         
+        for (int i = 0; i < sensorCheck.length; i++) {
+        	if(sensorCheck[i]){
+        		TextView tv = new TextView(this);
+        		tv.setText(Sensors[i]);
+        		ll2.addView(tv);
+        	}
+        	
+        } 
+        
     }
     
     
@@ -48,6 +63,7 @@ public class StartGUI extends Activity implements OnClickListener{
 
     public void onClick(View a) {
     	String output="";
+    	
     	switch (a.getId()) {
     	case R.id.button1:
     		for (int j=9; j>0;j--)
@@ -55,7 +71,14 @@ public class StartGUI extends Activity implements OnClickListener{
     		times[0]=mChronometer.getInstantTime();
     		for (int j=0; j<10;j++)
     			output=output+times[j]+"\n";
-    		text2.setText(output);
+    		//text2.setText(output);
+    		
+
+            TextView tv = new TextView(this);
+            tv.setText(output);
+            ll1.addView(tv);
+            
+
     		break;
     		
     	case R.id.button2:

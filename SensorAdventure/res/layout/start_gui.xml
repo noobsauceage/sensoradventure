@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="58dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="34dp"
         android:text="Mark" />
 
@@ -50,7 +50,7 @@
         android:layout_marginBottom="51dp"
         android:layout_marginLeft="22dp"
         android:orientation="vertical"
-        android:id = "@+id/linearlayout" >
+        android:id = "@+id/ll" >
     </LinearLayout>
 
     <LinearLayout
@@ -60,7 +60,31 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView2"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:id = "@+id/layout2" >
+
+    </LinearLayout>
+
+    <winlab.SensorGUI.Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button1"
+        android:layout_alignBottom="@+id/button1"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="0"
+        android:paddingBottom="30dip"
+        android:paddingTop="30dip" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView1"
+        android:orientation="vertical"
+        android:id = "@+id/layout1" >
 
     </LinearLayout>
 

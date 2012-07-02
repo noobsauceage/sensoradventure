@@ -27,16 +27,16 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	private ArrayList<Group> groups = new ArrayList<Group>();
 	private ArrayList<Child> normalSensor = new ArrayList<Child>();
 	private boolean[] expanded;
-
+    private String[] Sensors = { "Accelerometer", "Magnetic", "Orientation",
+				"Gyroscope", "Light", "Pressure", "Temperature", "Proximity",
+				"Gravity", "L. Accelerometer", "Rotation", "Humidity",
+				"A. Temperature", "Microphone", "GPS" };
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 		setContentView(R.layout.guimain);
-		String[] Sensors = { "Accelerometer", "Magnetic", "Orientation",
-				"Gyroscope", "Light", "Pressure", "Temperature", "Proximity",
-				"Gravity", "L. Accelerometer", "Rotation", "Humidity",
-				"A. Temperature", "Microphone", "GPS" };
+		
 
 		normalSensor.add(new Child("Sampling Rate", "Hz"));
 
@@ -60,6 +60,11 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	private OnClickListener startClick = new OnClickListener() {
 		public void onClick(View v) {
 			Intent intent  = new Intent( SensorAdventureActivity.this,  StartGUI.class);
+			boolean[] sensorCheck = new boolean[Sensors.length];
+			for(int i = 0; i<Sensors.length;i++)
+				sensorCheck[i] = sensorAdapter.checkbox[i].isChecked();
+			intent.putExtra("Sensors",Sensors);
+			intent.putExtra("sensorCheck", sensorCheck);
 			startActivity(intent); 
 		}
 	};
