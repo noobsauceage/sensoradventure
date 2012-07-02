@@ -26,7 +26,7 @@ public class SnapShot_SQL {
 	public static final String KEY_SAMPLE = "sample";
 	private static final String TAG = "SQLtable";
 
-	private static final String DATABASE_NAME = "InstantReading";
+	private static final String DATABASE_NAME = "InstantReading.db";
 	private static final String DATABASE_TABLE[] = { "AccelerometerTable", "MagneticTable",
 		    "OrientationTable","GyroscopeTable","LightTable","PressureTable","TemperatureTable",
 			"ProximityTable", "GravityTable","LinearAccelerometerTable","RotationVectorTable",
