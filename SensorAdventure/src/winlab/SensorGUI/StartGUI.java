@@ -28,6 +28,7 @@ public class StartGUI extends Activity implements OnClickListener{
         mark.setOnClickListener(this);
         stop =(Button) findViewById(R.id.button2); 
         stop.setOnClickListener(this);
+        int x = 0;
 
         for (int i=0; i<10;i++)
         	times[i]="";
