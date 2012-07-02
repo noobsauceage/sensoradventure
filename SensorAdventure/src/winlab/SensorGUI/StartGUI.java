@@ -28,13 +28,22 @@ public class StartGUI extends Activity implements OnClickListener{
         mark.setOnClickListener(this);
         stop =(Button) findViewById(R.id.button2); 
         stop.setOnClickListener(this);
-        int x = 0;
+
 
         for (int i=0; i<10;i++)
         	times[i]="";
         mChronometer.setBase(SystemClock.elapsedRealtime());
         mChronometer.start();
+        
+        // Retrieve data on which sensor is on or off
+        Bundle extras = getIntent().getExtras();
+        boolean[] sensorCheck = extras.getBooleanArray("sensorCheck");
+        String[] Sensors = extras.getStringArray("Sensors");
+        
     }
+    
+    
+    
  
 
     public void onClick(View a) {
