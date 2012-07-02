@@ -56,10 +56,6 @@ public class StartGUI extends Activity implements OnClickListener{
         } 
         
     }
-    
-    
-    
- 
 
     public void onClick(View a) {
     	String output="";
@@ -70,12 +66,12 @@ public class StartGUI extends Activity implements OnClickListener{
     			times[j]=times[j-1];
     		times[0]=mChronometer.getInstantTime();
     		for (int j=0; j<10;j++)
-    			output=output+times[j]+"\n";
-    		//text2.setText(output);
+    			output=output+times[j];
+    		//text2.setText(output)+"\n";
     		
 
             TextView tv = new TextView(this);
-            tv.setText(output);
+            tv.setText(mChronometer.getInstantTime());
             ll1.addView(tv);
             
 

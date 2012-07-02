@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id = "@+id/layout" >
+    android:layout_height="match_parent" >
 
     <Button
         android:id="@+id/button1"
@@ -42,27 +42,16 @@
         android:text="Running Sensors"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="51dp"
-        android:layout_marginLeft="22dp"
-        android:orientation="vertical"
-        android:id = "@+id/ll" >
-    </LinearLayout>
-
-    <LinearLayout
+        android:id="@+id/layout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textView2"
-        android:orientation="vertical"
-        android:id = "@+id/layout2" >
-
+        android:orientation="vertical" >
     </LinearLayout>
 
     <winlab.SensorGUI.Chronometer
@@ -75,17 +64,16 @@
         android:layout_weight="0"
         android:paddingBottom="30dip"
         android:paddingTop="30dip" />
-
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView2"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/textView1"
+        android:layout_marginTop="23dp"
+        android:layout_above="@+id/textView2"
         android:orientation="vertical"
-        android:id = "@+id/layout1" >
-
+        android:id="@+id/layout1" >
     </LinearLayout>
 
 </RelativeLayout>
