@@ -29,7 +29,7 @@
         <activity android:name=".winlab.sensoradventure.gps.MainActivity" />
         <activity android:name=".winlab.sensoradventure.SendAll.java" />
         <activity android:name="winlab.SensorGUI.OptionsGUI" />
-        
+        <activity android:name="winlab.SensorGUI.StartGUI" />
 
         <service
             android:name=".RunningService"
@@ -50,7 +50,7 @@
             android:enabled="true" 
             android:name=".InsertToTable" />
         <activity android:name="winlab.SensorGUI.AdvanceSettingsGUI"/>
-        <activity android:name="winlab.sensoradventure.ControlSensorSQLthroughFileActivity"/>
+        <activity android:name="winlab.sensoradventure.ControlSensorActivity"/>
     </application>
 
 </manifest>
