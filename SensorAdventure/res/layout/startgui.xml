@@ -6,12 +6,15 @@
     
 
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/hello" />
+ <winlab.SensorGUI.Chronometer
+     android:id="@+id/chronometer"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_gravity="center"
+     android:layout_weight="0"
+     android:paddingBottom="30dip"
+     android:paddingTop="30dip" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
