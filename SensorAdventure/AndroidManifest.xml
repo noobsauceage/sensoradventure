@@ -28,6 +28,8 @@
         <activity android:name=".winlab.SensorGUI.SensorGUIActivity" />
         <activity android:name=".winlab.sensoradventure.gps.MainActivity" />
         <activity android:name=".winlab.sensoradventure.SendAll.java" />
+        <activity android:name="winlab.SensorGUI.OptionsGUI" />
+        
 
         <service
             android:name=".RunningService"

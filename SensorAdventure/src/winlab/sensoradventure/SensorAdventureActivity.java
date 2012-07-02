@@ -11,9 +11,6 @@ import java.util.ArrayList;
 
  
 import winlab.SensorGUI.*;
-import winlab.SensorGUI.Child;
-import winlab.SensorGUI.Group;
-import winlab.SensorGUI.SensorAdapter;
 import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -64,16 +61,13 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		public void onClick(View v) {
 			Intent intent  = new Intent( SensorAdventureActivity.this,  ControlSensorActivity.class);
 			startActivity(intent); 
-			
-			
-
 		}
 	};
 	
 	private OnClickListener configClick = new OnClickListener() {
 		public void onClick(View v) {
-			// This should go to a new activity.
-
+			Intent intent  = new Intent( SensorAdventureActivity.this,  OptionsGUI.class);
+			startActivity(intent); 
 		}
 	};
 
