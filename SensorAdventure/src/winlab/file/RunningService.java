@@ -143,11 +143,9 @@ SensorEventListener{
 		
 		@Override
 		public void onDestroy() {
-			
 			for (int i=0; i<13; i++)
 			 if (SensorSetting.sensors[i])
 			 {
-				
 			   mSensor = mSensorManager.getDefaultSensor(i+1);
 			   mSensorManager.unregisterListener(this, mSensor);
 			 }
@@ -161,13 +159,13 @@ SensorEventListener{
 		
 		@Override
 		public void onStart(Intent intent, int startid) {
+			int m;
 			for (int i=0; i<13; i++)
 				if (SensorSetting.sensors[i])
 				{
+					m=1000*SensorSetting.updateRate[i];
 					mSensor = mSensorManager.getDefaultSensor(i+1);
-			        mSensorManager.registerListener(this, mSensor,1000);
+			        mSensorManager.registerListener(this, mSensor,m);
 				}
 		}
 }
-
-
