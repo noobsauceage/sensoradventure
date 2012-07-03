@@ -16,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class StartGUI extends Activity implements OnClickListener {
 	private boolean flag=true;
@@ -60,6 +61,7 @@ public class StartGUI extends Activity implements OnClickListener {
 		ok2= new Sensors_SQLite_Setting(this);
 		ok.selectSensors(sensorCheck);
 		ok2.selectSensors(sensorCheck);
+		
 		SnapShotValue.set();
 		if (state[0]) {
 			startService(new Intent(this,RunningService.class));

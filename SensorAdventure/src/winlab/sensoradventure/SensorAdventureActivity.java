@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class SensorAdventureActivity extends ExpandableListActivity {
 	private SensorAdapter sensorAdapter;
@@ -69,10 +70,15 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			intent.putExtra("Sensors", Sensors);
 			intent.putExtra("sensorCheck", sensorCheck);
 			intent.putExtra("state", OptionsGUI.state);
+			if (OptionsGUI.state==null){
+				print();
+			} else
 			startActivity(intent);
 		}
 	};
-
+    private void print(){
+    	Toast.makeText(this, "Please select the Data Configuration!", Toast.LENGTH_LONG).show();
+    }
 	private OnClickListener configClick = new OnClickListener() {
 		public void onClick(View v) {
 			Intent intent = new Intent(SensorAdventureActivity.this,
