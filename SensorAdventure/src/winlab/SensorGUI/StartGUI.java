@@ -16,7 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 public class StartGUI extends Activity implements OnClickListener {
 	private boolean flag=true;
@@ -110,7 +110,7 @@ public class StartGUI extends Activity implements OnClickListener {
 			break;
 		}
 	}
-	
+	 
 	public void onDestroy(){
 		
 		if (flag) {

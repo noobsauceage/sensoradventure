@@ -72,7 +72,10 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			intent.putExtra("state", OptionsGUI.state);
 			if (OptionsGUI.state==null){
 				print();
-			} else
+			} else if((OptionsGUI.state[0]==false)&&(OptionsGUI.state[1]==false)&&(OptionsGUI.state[2]==false)){
+				print();
+			}
+			else
 			startActivity(intent);
 		}
 	};
