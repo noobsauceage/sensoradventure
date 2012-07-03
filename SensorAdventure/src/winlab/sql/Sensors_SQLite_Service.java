@@ -98,7 +98,6 @@ SensorEventListener{
 			String result1="", result2="", result3="";
 			Cursor c1,c2,c3;
 			Toast.makeText(this, "Stop taking readings", Toast.LENGTH_LONG).show();
-			Toast.makeText(this, "The top 10 data in the SQLite table will be shown!",Toast.LENGTH_LONG).show();
 			
 			for (int i=0; i<13; i++)
 				if (Sensors_SQLite_Setting.sensors[i])
@@ -155,7 +154,7 @@ SensorEventListener{
 		     }
 			for (int i=0; i<13; i++) Sensors_SQLite_Setting.sensors[i]=true;
 			data.endTransaction();
-			//data.copy();
+			data.copy();
 			data.close();
 		}
 		@Override
