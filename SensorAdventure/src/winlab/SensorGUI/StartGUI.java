@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class StartGUI extends Activity implements OnClickListener {
+	private boolean flag=true;
 	private Chronometer mChronometer;
 	private Button mark, stop;
 	private String[] times = new String[10];
@@ -95,6 +96,7 @@ public class StartGUI extends Activity implements OnClickListener {
 			break;
 
 		case R.id.button2:
+			flag=false;
 			if (state[0]) stopService(new Intent(this,RunningService.class)); 
 			if (state[1]) {
 				data2.endTransaction();
@@ -107,6 +109,8 @@ public class StartGUI extends Activity implements OnClickListener {
 	}
 	
 	public void onDestroy(){
+		
+		if (flag) {
 		if (state[0]) stopService(new Intent(this,RunningService.class)); 
 		if (state[1]) {
 			data2.endTransaction();
@@ -114,5 +118,7 @@ public class StartGUI extends Activity implements OnClickListener {
         	stopService(new Intent(this, Sensors_SQLite_Service.class));
 		}
 		mChronometer.stop();
+		}
+		super.onDestroy();
 	}
 }
