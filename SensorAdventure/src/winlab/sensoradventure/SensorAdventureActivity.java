@@ -22,7 +22,7 @@ import android.widget.Button;
 
 public class SensorAdventureActivity extends ExpandableListActivity {
 	private SensorAdapter sensorAdapter;
-	private Button start, config;
+	private Button start, config, save;
 	private ArrayList<Group> groups = new ArrayList<Group>();
 	private ArrayList<Child> normalSensor = new ArrayList<Child>();
 	private boolean[] expanded;
@@ -54,6 +54,8 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		start.setOnClickListener(startClick);
 		config = (Button) findViewById(R.id.button2);
 		config.setOnClickListener(configClick);
+		save = (Button)findViewById(R.id.button3);
+		save.setOnClickListener(saveClick);
 	}
 
 	private OnClickListener startClick = new OnClickListener() {
@@ -76,6 +78,12 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			Intent intent = new Intent(SensorAdventureActivity.this,
 					OptionsGUI.class);
 			startActivity(intent);
+		}
+	};
+	
+	private OnClickListener saveClick = new OnClickListener(){
+		public void onClick(View v){
+			// Save all settings
 		}
 	};
 
@@ -130,4 +138,6 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		}
 
 	}
+	
+
 }
