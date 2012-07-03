@@ -105,4 +105,14 @@ public class StartGUI extends Activity implements OnClickListener {
 			break;
 		}
 	}
+	
+	public void onDestroy(){
+		if (state[0]) stopService(new Intent(this,RunningService.class)); 
+		if (state[1]) {
+			data2.endTransaction();
+        	data2.close();
+        	stopService(new Intent(this, Sensors_SQLite_Service.class));
+		}
+		mChronometer.stop();
+	}
 }
