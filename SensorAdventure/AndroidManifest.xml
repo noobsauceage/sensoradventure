@@ -32,25 +32,20 @@
         <activity android:name="winlab.SensorGUI.StartGUI" />
 
         <service
-            android:name=".RunningService"
+            android:name="winlab.file.RunningService"
             android:enabled="true" />
         <service
-            android:name=".Sensors_SQLite_Service"
+            android:name="winlab.sql.Sensors_SQLite_Service"
             android:enabled="true" />
         <service
-            android:name=".winlab.sensoradventure.gps.GPSloggerservice"
+            android:name="winlab.sensoradventure.gps.GPSloggerservice"
             android:enabled="true" />
         <service
-            android:name=".winlab.sensoradventure.gps.GPSloggerservicedb"
+            android:name="winlab.sensoradventure.gps.GPSloggerservicedb"
             android:enabled="true" />
-        <service 
-            android:enabled="true" 
-            android:name=".RunningServiceSQLite" />
-        <service 
-            android:enabled="true" 
-            android:name=".InsertToTable" />
+
         <activity android:name="winlab.SensorGUI.AdvanceSettingsGUI"/>
-        <activity android:name="winlab.sensoradventure.ControlSensorActivity"/>
+
     </application>
 
 </manifest>
