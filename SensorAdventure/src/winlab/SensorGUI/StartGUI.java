@@ -82,7 +82,7 @@ public class StartGUI extends Activity implements OnClickListener {
 
 		}
 
-	}
+	} 
 
 	public void onClick(View a) {
 		switch (a.getId()) {
