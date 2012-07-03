@@ -1,7 +1,14 @@
 package winlab.SensorGUI;
 
+import winlab.file.RunningService;
+import winlab.file.SensorSetting;
+import winlab.file.SnapShotValue;
 import winlab.sensoradventure.R;
+import winlab.sql.Sensors_SQLite_Service;
+import winlab.sql.Sensors_SQLite_Setting;
+import winlab.sql.SnapShot_SQL;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
@@ -16,7 +23,10 @@ public class StartGUI extends Activity implements OnClickListener {
 	private String[] times = new String[10];
 	private LinearLayout ll1;
 	private LinearLayout ll2;
-
+	private SensorSetting ok;
+	private Sensors_SQLite_Setting ok2;
+	private SnapShot_SQL data2;
+	private boolean[] state;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -43,10 +53,25 @@ public class StartGUI extends Activity implements OnClickListener {
 		// And what upload options exist
 		Bundle extras = getIntent().getExtras();
 		boolean[] sensorCheck = extras.getBooleanArray("sensorCheck");
-		boolean[] state = extras.getBooleanArray("state");
+		state = extras.getBooleanArray("state");
 		String[] Sensors = extras.getStringArray("Sensors");
+		ok = new SensorSetting(this);
+		ok2= new Sensors_SQLite_Setting(this);
+		ok.selectSensors(sensorCheck);
+		ok2.selectSensors(sensorCheck);
+		SnapShotValue.set();
+		if (state[0]) {
+			startService(new Intent(this,RunningService.class));
+		}
 		
-
+		if (state[1]) {
+			data2 = new SnapShot_SQL(this);
+			data2.open();
+			data2.deleteTable();
+			data2.prepareTransaction();
+			startService(new Intent(this,Sensors_SQLite_Service.class));
+		}
+        
 		// Print which sensors are on to the screen
 		for (int i = 0; i < sensorCheck.length; i++) {
 			if (sensorCheck[i]) {
@@ -62,12 +87,20 @@ public class StartGUI extends Activity implements OnClickListener {
 	public void onClick(View a) {
 		switch (a.getId()) {
 		case R.id.button1:
+			if (state[0]) SnapShotValue.print();
+			if (state[1]) SnapShotValue.insertSQL(data2);
 			TextView tv = new TextView(this);
 			tv.setText(mChronometer.getInstantTime());
 			ll1.addView(tv);
 			break;
 
 		case R.id.button2:
+			if (state[0]) stopService(new Intent(this,RunningService.class)); 
+			if (state[1]) {
+				data2.endTransaction();
+	        	data2.close();
+	        	stopService(new Intent(this, Sensors_SQLite_Service.class));
+			}
 			mChronometer.stop();
 			break;
 		}
