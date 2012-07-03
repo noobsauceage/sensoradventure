@@ -42,18 +42,6 @@
         android:text="Running Sensors"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-
-    <LinearLayout
-        android:id="@+id/layout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView2"
-        android:orientation="vertical" >
-    </LinearLayout>
-
     <winlab.SensorGUI.Chronometer
         android:id="@+id/chronometer"
         android:layout_width="wrap_content"
@@ -64,16 +52,46 @@
         android:layout_weight="0"
         android:paddingBottom="30dip"
         android:paddingTop="30dip" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView2">
 
-    <LinearLayout
+        <LinearLayout
+        android:id="@+id/layout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView2"
+        android:orientation="vertical" >
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/textView1">
+
+        <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1"
-        android:layout_marginTop="23dp"
         android:layout_above="@+id/textView2"
         android:orientation="vertical"
         android:id="@+id/layout1" >
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

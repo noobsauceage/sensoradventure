@@ -45,6 +45,7 @@ public class StartGUI extends Activity implements OnClickListener {
 
 		ll1 = (LinearLayout) findViewById(R.id.layout1);
 		ll2 = (LinearLayout) findViewById(R.id.layout2);
+		
 
 		for (int i = 0; i < 10; i++)
 			times[i] = "";
