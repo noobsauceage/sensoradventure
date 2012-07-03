@@ -20,8 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class SensorAdapter extends BaseExpandableListAdapter {
 
@@ -172,6 +174,16 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 			checkbox[groupPosition].setChecked(groups.get(groupPosition)
 					.getState());
 		}
+		final int grouppos = groupPosition;
+		checkbox[groupPosition]
+				.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+					public void onCheckedChanged(CompoundButton arg0,
+							boolean arg1) {
+						groups.get(grouppos).setState(arg1);
+					}
+
+				});
 		return v;
 	}
 
@@ -190,4 +202,5 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 
 	public void onGroupExpanded(int groupPosition) {
 	}
+
 }
