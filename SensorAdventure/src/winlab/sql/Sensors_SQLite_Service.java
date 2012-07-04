@@ -33,6 +33,7 @@ SensorEventListener{
 	
 	@Override
 	public void onCreate() {
+		super.onCreate();
 		Toast.makeText(this, "Start taking data", Toast.LENGTH_LONG).show();
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		Toast.makeText(this,"Data will be saved in SQLiteDataBase", Toast.LENGTH_LONG).show();
@@ -106,11 +107,14 @@ SensorEventListener{
 		
 		@Override
 		public void onDestroy() {
+			super.onDestroy();
 			for (int i=0; i<13; i++)
 				if (Sensors_SQLite_Setting.sensors[i])
 				{
+					try{
 					mSensor = mSensorManager.getDefaultSensor(i+1);
 					mSensorManager.unregisterListener(this, mSensor);
+					}catch (Exception e){Toast.makeText(this, "sensor error", Toast.LENGTH_LONG).show();}
 				}
 			
 			/*
@@ -167,10 +171,12 @@ SensorEventListener{
 				}
 		     }*/
 			for (int i=0; i<13; i++) Sensors_SQLite_Setting.sensors[i]=true;
+			try{
 			data.endTransaction();
 			
 			data.close();
-			data.copy();
+			}
+			catch (Exception e) {Toast.makeText(this, "3", Toast.LENGTH_LONG).show();}
 		}
 		@Override
 		public void onStart(Intent intent, int startid) {

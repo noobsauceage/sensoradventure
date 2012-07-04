@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class StartGUI extends Activity implements OnClickListener {
@@ -91,7 +92,10 @@ public class StartGUI extends Activity implements OnClickListener {
 		switch (a.getId()) {
 		case R.id.button1:
 			if (state[0]) SnapShotValue.print();
-			if (state[1]) SnapShotValue.insertSQL(data2);
+			if (state[1]) 
+				try{
+					SnapShotValue.insertSQL(data2);
+				}catch (Exception e) {Toast.makeText(this, "1", Toast.LENGTH_LONG).show();}
 			TextView tv = new TextView(this);
 			tv.setText(mChronometer.getInstantTime());
 			ll1.addView(tv);
@@ -101,11 +105,12 @@ public class StartGUI extends Activity implements OnClickListener {
 			flag=false;
 			if (state[0]) stopService(new Intent(this,RunningService.class)); 
 			if (state[1]) {
+				try{
 				data2.endTransaction();
 				
 	        	data2.close();
-	        	data2.copy();
-	        	
+				}
+				catch (Exception e){Toast.makeText(this, "2", Toast.LENGTH_LONG).show();}
 	        	stopService(new Intent(this, Sensors_SQLite_Service.class));
 			
 			}
@@ -119,9 +124,10 @@ public class StartGUI extends Activity implements OnClickListener {
 		if (flag) {
 		if (state[0]) stopService(new Intent(this,RunningService.class)); 
 		if (state[1]) {
+			try{
 			data2.endTransaction();
-			data2.copy();
         	data2.close();
+			} catch (Exception e) {}
         	stopService(new Intent(this, Sensors_SQLite_Service.class));
 		}
 		mChronometer.stop();
