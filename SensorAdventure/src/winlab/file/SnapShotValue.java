@@ -167,7 +167,10 @@ public static void insertSQL(SnapShot_SQL instant){
 					str1 = String.format("%.10f", instantValue[i][0]);
 					str2 = String.format("%.10f",instantValue[i][1]);
 					str3 = String.format("%.10f",instantValue[i][2]);
-					str4 = String.format("%.10f",instantValue[i][3]);
+					if (Math.abs(SnapShotValue.instantValue[i][3]-0)<1.0e-15)
+						str4="NA";
+					else
+					    str4 = String.format("%.10f",instantValue[i][3]);
 					instant.insertTitle3(timestamp, str1, str2, str3,str4,i);
 					break;
 			}
