@@ -123,6 +123,8 @@ SensorEventListener{
 							       System.currentTimeMillis(), event.values[0]);
 					          break;
 					   case 11:
+						   if (event.values.length==4)
+						   {
 						   SnapShotValue.instantValue[i-1][0]=event.values[0];
 						   SnapShotValue.instantValue[i-1][1]=event.values[1];
 						   SnapShotValue.instantValue[i-1][2]=event.values[2];
@@ -130,6 +132,14 @@ SensorEventListener{
 						   str = String.format("\n%d%10.5f%10.5f%10.5f%10.5f",
 							       System.currentTimeMillis(), event.values[0], event.values[1],
 							         event.values[2],event.values[3]);
+						   } else {
+							   SnapShotValue.instantValue[i-1][0]=event.values[0];
+							   SnapShotValue.instantValue[i-1][1]=event.values[1];
+							   SnapShotValue.instantValue[i-1][2]=event.values[2];
+							   str = String.format("\n%d%10.5f%10.5f%10.5f          NA",
+								       System.currentTimeMillis(), event.values[0], event.values[1],
+								         event.values[2]);
+						   }
 					          break;
 					}
 					output.write(str);

@@ -72,6 +72,8 @@ SensorEventListener{
 					data.insertTitle2(timestamp, str1,i-1);
 					break;
 			 case 11:
+				 if (event.values.length==4)
+				 {
 				    timestamp=String.format("%d",System.currentTimeMillis());
 				    str1 = String.format("%.10f", event.values[0]);
 					str2 = String.format("%.10f",event.values[1]);
@@ -82,6 +84,17 @@ SensorEventListener{
 					SnapShotValue.instantValue[i-1][2]=event.values[2];
 					SnapShotValue.instantValue[i-1][3]=event.values[3];
 					data.insertTitle3(timestamp, str1, str2, str3, str4, i-1);
+				 } else {
+					 timestamp=String.format("%d",System.currentTimeMillis());
+					    str1 = String.format("%.10f", event.values[0]);
+						str2 = String.format("%.10f",event.values[1]);
+						str3 = String.format("%.10f",event.values[2]);
+		                str4 = "NA";
+						SnapShotValue.instantValue[i-1][0]=event.values[0];
+						SnapShotValue.instantValue[i-1][1]=event.values[1];
+						SnapShotValue.instantValue[i-1][2]=event.values[2];
+						data.insertTitle3(timestamp, str1, str2, str3, str4, i-1);
+				 }
 					break;
 				 
 				

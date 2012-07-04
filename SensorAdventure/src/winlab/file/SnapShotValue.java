@@ -124,6 +124,9 @@ public class SnapShotValue {
 						str=str+"Rotation Vector x unitless: "+String.format("%17.10f",SnapShotValue.instantValue[i][0])+"\n";
 					    str=str+"Rotation Vector y unitless: "+String.format("%17.10f",SnapShotValue.instantValue[i][1])+"\n";
 					    str=str+"Rotation Vector z unitless: "+String.format("%17.10f",SnapShotValue.instantValue[i][2])+"\n";
+					    if (Math.abs(SnapShotValue.instantValue[i][3]-0)<1.0e-15)
+					    str=str+"Rotation Vector scalar:                NA\n";
+					    else
 					    str=str+"Rotation Vector scalar: "+String.format("%17.10f",SnapShotValue.instantValue[i][3])+"\n";
 						
 						break;
