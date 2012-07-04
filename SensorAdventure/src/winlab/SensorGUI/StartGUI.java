@@ -1,5 +1,4 @@
 package winlab.SensorGUI;
-
 import winlab.file.RunningService;
 import winlab.file.SensorSetting;
 import winlab.file.SnapShotValue;
