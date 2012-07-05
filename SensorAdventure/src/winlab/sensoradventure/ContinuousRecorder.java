@@ -179,7 +179,7 @@ public class ContinuousRecorder {
 		sqla.open();
 		sqla.deleteTable();
 
-		asyncTask = new start(); // See below for the start class defintion.
+		asyncTask = new start(); // See below for the start class definition.
 		asyncTask.execute();
 
 	}
