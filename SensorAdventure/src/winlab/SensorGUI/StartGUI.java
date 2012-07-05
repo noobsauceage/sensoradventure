@@ -68,28 +68,28 @@ public class StartGUI extends Activity implements OnClickListener {
 		ok.selectSensors(sensorCheck);
 		ok2.selectSensors(sensorCheck);
 
-		SnapShotValue.set();
-		if (state[0]) {
-			startService(new Intent(this, RunningService.class));
-			if (sensorCheck[13]) {
-				record.record();
+		// Print which sensors are on to the screen
+		for (int i = 0; i < sensorCheck.length; i++) {
+			if (sensorCheck[i]) {
+				TextView tv = new TextView(this);
+				tv.setText(Sensors[i]);
+				ll2.addView(tv);
 			}
-		}
 
-		if (state[1]) {
-			data2 = new SnapShot_SQL(this);
-			data2.open();
-			data2.deleteTable();
-			data2.prepareTransaction();
-			startService(new Intent(this, Sensors_SQLite_Service.class));
-
-			// Print which sensors are on to the screen
-			for (int i = 0; i < sensorCheck.length; i++) {
-				if (sensorCheck[i]) {
-					TextView tv = new TextView(this);
-					tv.setText(Sensors[i]);
-					ll2.addView(tv);
+			SnapShotValue.set();
+			if (state[0]) {
+				startService(new Intent(this, RunningService.class));
+				if (sensorCheck[13]) {
+					record.record();
 				}
+			}
+
+			if (state[1]) {
+				data2 = new SnapShot_SQL(this);
+				data2.open();
+				data2.deleteTable();
+				data2.prepareTransaction();
+				startService(new Intent(this, Sensors_SQLite_Service.class));
 
 			}
 		}
