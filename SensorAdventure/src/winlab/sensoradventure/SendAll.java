@@ -5,12 +5,11 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.KeyStore;
+import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.security.SignatureException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,13 +17,7 @@ import java.util.Set;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
-import javax.security.cert.CertificateException;
-import javax.security.cert.X509Certificate;
 
 import android.app.Activity;
 import android.content.Context;
@@ -49,6 +42,7 @@ public class SendAll extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			doUpload();
+			writeIP(getGuid(getID()));
 			return null;
 		}
 	}
@@ -212,87 +206,116 @@ public class SendAll extends Activity {
 		return telephonyManager.getDeviceId();
 	}
 
-	// Parameters to send
-	private void putParams() {
-		id_data.put("id", getID());
-		/*try {
-			id_data.put("guid", HTTPClient.registerNewUser(getID()));
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+	private String getGuid(String username) {
+		HTTPClient gcrsClient = new HTTPClient();
+
+		try {
+			return gcrsClient.lookupUserGuid(username);
+		} catch (RuntimeException e) {
+			try {
+				return gcrsClient.registerNewUser(username);
+			} catch (NoSuchAlgorithmException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}*/
+		}
+		return null;
 	}
-	
-	// TODO Use  writeIP whenever we need to update the ip field on GCRS
+
+	// Parameters to send
+	private void putParams() {
+		String ourId = getID();
+		String ourGuid = getGuid(ourId);
+
+		id_data.put("id", ourId);
+		id_data.put("guid", ourGuid);
+	}
+
 	// Write the IP as a key-value pair to GCRS
 	public void writeIP(String guid) {
-		
+
 		HttpsURLConnection conn = null;
 		DataInputStream inStream = null;
 
 		// String responseFromServer = "";
 
-		//String urlString = "http://dolan.bounceme.net/ip.php";
+		// String urlString = "http://dolan.bounceme.net/ip.php";
 		String urlString = "http://192.168.206.31/ip.php";
 
+		try {
+			// open a URL connection to the Servlet
+			URL url = new URL(urlString);
 
+			// Open HTTP connection
+			conn = (HttpsURLConnection) url.openConnection();
+			// conn.setSSLSocketFactory(context.getSocketFactory());/////////////////
+			// conn.setSSLSocketFactory(newSslSocketFactory(this));/////////////////
+
+			// Allow Inputs
+			conn.setDoInput(true);
+
+			// Allow Outputs
+			conn.setDoOutput(true);
+
+			// Don't use a cached copy.
+			conn.setUseCaches(false);
+
+			// Use a post method.
+			conn.setRequestMethod("GET");
+			// conn.setRequestProperty("Connection", "Keep-Alive");
+			// System.setProperty("http.keepAlive", "false");
+
+		}
+
+		catch (MalformedURLException ex) {
+			Log.d("MediaPlayer", "error: " + ex.getMessage(), ex);
+		}
+
+		catch (IOException ioe) {
+			Log.d("MediaPlayer", "error: " + ioe.getMessage(), ioe);
+		}
+
+		// Read the SERVER RESPONSE
+		// and submit the key value pair
+		try {
+			inStream = new DataInputStream(conn.getInputStream());
+			String extIP; // Will contain external IP
+
+			while ((extIP = inStream.readLine()) != null) {
+				Log.d("MediaPlayer", "Server Response: " + extIP);
+			}
+
+			inStream.close();
+
+			HTTPClient gcrsClient = new HTTPClient();
+			
+			// If we ever need to write several fields
+			//JSONObject jsonObject = new JSONObject();
+			//jsonObject.put("ip", extIP);
+			//gcrsClient.writeFields(getGuid(getID()), jsonObject.toString());
+						
 			try {
-				// open a URL connection to the Servlet
-				URL url = new URL(urlString);
-
-				// Open HTTP connection
-				conn = (HttpsURLConnection) url.openConnection();
-				// conn.setSSLSocketFactory(context.getSocketFactory());/////////////////
-				// conn.setSSLSocketFactory(newSslSocketFactory(this));/////////////////
-
-				// Allow Inputs
-				conn.setDoInput(true);
-
-				// Allow Outputs
-				conn.setDoOutput(true);
-
-				// Don't use a cached copy.
-				conn.setUseCaches(false);
-
-				// Use a post method.
-				conn.setRequestMethod("GET");
-				//conn.setRequestProperty("Connection", "Keep-Alive");
-				// System.setProperty("http.keepAlive", "false");
-
+				gcrsClient.writeField(guid, "ip", extIP);
+			} catch (InvalidKeyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SignatureException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+		}
 
-			catch (MalformedURLException ex) {
-				Log.d("MediaPlayer", "error: " + ex.getMessage(), ex);
-			}
-
-			catch (IOException ioe) {
-				Log.d("MediaPlayer", "error: " + ioe.getMessage(), ioe);
-			}
-
-			// Read the SERVER RESPONSE
-			// and submit the key value pair
-			try {
-				inStream = new DataInputStream(conn.getInputStream());
-				String str; // Will contain external IP
-
-				while ((str = inStream.readLine()) != null) {
-					Log.d("MediaPlayer", "Server Response: " + str);
-				}
-
-				inStream.close();
-				
-				// TODO 
-				// Can uncomment these once GCRS is fixed and updated
-				//***********JSONObject jsonObject = new JSONObject();
-			    //***********jsonObject.put("ssn", "000-00-0000");
-			}
-
-			catch (IOException ioex) {
-				Log.d("MediaPlayer", "error: " + ioex.getMessage(), ioex);
-			}
+		catch (IOException ioex) {
+			Log.d("MediaPlayer", "error: " + ioex.getMessage(), ioex);
+		}
 		Log.d("MediaPlayer", "Done uploading everything");
-		
+
 	}
 
 	/*
