@@ -52,6 +52,7 @@ SensorEventListener{
 	public void onCreate() {
 		Toast.makeText(this, "Start taking data", Toast.LENGTH_LONG).show();
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		SensorSetting.path=path;
 		for (int i=0; i<13; i++)
 		if (SensorSetting.sensors[i]) {
 			mSensor = mSensorManager.getDefaultSensor(i+1);

@@ -54,7 +54,7 @@ public class SnapShotValue {
 		
 	}
 
-   private static File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+   private static File path=SensorSetting.path;
    private static String fileName="Instant_Reading.txt";
    private static File file = new File(path, fileName);
    private static FileWriter output;
