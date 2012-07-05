@@ -215,13 +215,13 @@ public class SendAll extends Activity {
 	// Parameters to send
 	private void putParams() {
 		id_data.put("id", getID());
-		try {
+		/*try {
 			id_data.put("guid", HTTPClient.registerNewUser(getID()));
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	// TODO Use  writeIP whenever we need to update the ip field on GCRS
