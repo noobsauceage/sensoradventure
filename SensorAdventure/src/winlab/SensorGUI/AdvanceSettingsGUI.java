@@ -52,11 +52,9 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		panel1 = (LinearLayout) findViewById(R.id.panel1);
 		panel2 = (LinearLayout) findViewById(R.id.panel2);
 		panel3 = (LinearLayout) findViewById(R.id.panel3);
-
 		text1 = (TextView) findViewById(R.id.text1);
 		text2 = (TextView) findViewById(R.id.text2);
 		text3 = (TextView) findViewById(R.id.text3);
-
 		text1.setOnClickListener(this);
 		text2.setOnClickListener(this);
 		text3.setOnClickListener(this);
@@ -102,29 +100,23 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 		    	SensorAdventureActivity.provider = preferredNetworkType.getSelectedItem().toString(); 
 		    }
-		 
-
 		    public void onNothingSelected(AdapterView<?> parentView) {
 		        // your code here
 		    }
 
 		});
-		
-		
+			
 		preferredLoggingrategps.setOnItemSelectedListener(new OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 		    	SensorAdventureActivity.lograte = preferredLoggingrategps.getSelectedItem().toString(); 
 		    }
- 
 		    public void onNothingSelected(AdapterView<?> parentView) {
 		        // your code here
 		    }
 
 		});
-		
-		
+				
 		micsampleingrate.setOnItemSelectedListener(new OnItemSelectedListener() {
- 
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 		    	SensorAdventureActivity.micsampling = micsampleingrate.getSelectedItem().toString(); 
 		    }
@@ -135,61 +127,36 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 
 		});
 		
-		
 		micchannelinput.setOnItemSelectedListener(new OnItemSelectedListener() {
- 
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 		    	SensorAdventureActivity.micchannel = micchannelinput.getSelectedItem().toString(); 
 		    }
-		 
- 
 		    public void onNothingSelected(AdapterView<?> parentView) {
 		        // your code here
 		    }
-
 		});
 		
 		micchannelaudio.setOnItemSelectedListener(new OnItemSelectedListener() {
- 
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 		    	SensorAdventureActivity.micencode = micchannelaudio.getSelectedItem().toString(); 
 		    }
-		 
-
 		    public void onNothingSelected(AdapterView<?> parentView) {
 		        // your code here
 		    }
-
 		});
 		
-		
 		othersamplingrate.setOnItemSelectedListener(new OnItemSelectedListener() {
- 
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 		    	SensorAdventureActivity.otherlograte = othersamplingrate.getSelectedItem().toString(); 
 		    }
-		 
- 
 		    public void onNothingSelected(AdapterView<?> parentView) {
 		        // your code here
 		    }
-
 		});
-		
-		
-	 
-		
-		
-		
-		
 	}
 
- 
-
 	public void onClick(View v) {
-	 
-		hideOthers(v);
-	 
+		hideOthers(v);	 
 	}
 
 	private void hideThemAll() {
