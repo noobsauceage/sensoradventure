@@ -26,7 +26,7 @@ SensorEventListener{
 			"Orientation.txt","Gyroscope.txt","Light.txt","Pressure.txt","Temperature.txt",
 			"Proximity.txt","Gravity.txt","Linear_Acceleration.txt","Rotation_Vector.txt","Humidity.txt","Ambient_Temperature.txt"};
     
-	private String Direc=Integer.toString(c.get(Calendar.YEAR))+"_"+
+	private String Direc="/"+Integer.toString(c.get(Calendar.YEAR))+"_"+
 	                     Integer.toString(c.get(Calendar.MONTH))+"_"+
 			             Integer.toString(c.get(Calendar.DATE))+"_"+
 	                     Integer.toString(c.get(Calendar.HOUR_OF_DAY))+"Hr_"+
