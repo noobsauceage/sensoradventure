@@ -27,7 +27,7 @@ SensorEventListener{
 			"Proximity.txt","Gravity.txt","Linear_Acceleration.txt","Rotation_Vector.txt","Humidity.txt","Ambient_Temperature.txt"};
     
 	private String Direc="/"+Integer.toString(c.get(Calendar.YEAR))+"_"+
-	                     Integer.toString(c.get(Calendar.MONTH))+"_"+
+	                     Integer.toString(c.get(Calendar.MONTH)+1)+"_"+
 			             Integer.toString(c.get(Calendar.DATE))+"_"+
 	                     Integer.toString(c.get(Calendar.HOUR_OF_DAY))+"Hr_"+
 			             Integer.toString(c.get(Calendar.MINUTE))+"Min_"+
