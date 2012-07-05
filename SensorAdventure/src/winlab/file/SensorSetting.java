@@ -1,5 +1,7 @@
 package winlab.file;
 
+import java.io.File;
+
 import android.content.Context;
 import android.hardware.SensorManager;
 
@@ -12,6 +14,7 @@ public class SensorSetting{
 
 	public static boolean sensors[] = {true,true,true,true,true,true,true,true,true,true,true,true,true};
 	public static int updateRate[]={1,1,1,1,1,1,1,1,1,1,1,1,1};
+	public static File path;
 	public void testAvailableSensors() {
 		
 		mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
