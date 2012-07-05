@@ -31,7 +31,12 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			"Gyroscope", "Light", "Pressure", "Temperature", "Proximity",
 			"Gravity", "L. Accelerometer", "Rotation", "Humidity",
 			"A. Temperature", "Microphone", "GPS" };
-
+	public static String provider = "GPS";
+	public static String lograte = "1";
+	public static String micsampling = "44.1"; 
+	public static String micchannel = "MONO";
+	public static String micencode = "16";
+	public static String otherlograte = "1";
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle bundle) {
@@ -70,6 +75,12 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			intent.putExtra("Sensors", Sensors);
 			intent.putExtra("sensorCheck", sensorCheck);
 			intent.putExtra("state", OptionsGUI.state);
+			intent.putExtra("gpsprovide", provider);
+			intent.putExtra("gpslograte", lograte);
+			intent.putExtra("micsampling",  micsampling);
+			intent.putExtra("micchannel",  micchannel);
+			intent.putExtra("micencode",  micencode);
+			intent.putExtra("otherlograte",  otherlograte);
 			if (OptionsGUI.state==null){
 				print();
 			} else if((OptionsGUI.state[0]==false)&&(OptionsGUI.state[1]==false)&&(OptionsGUI.state[2]==false)){

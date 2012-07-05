@@ -212,7 +212,6 @@ public class ContinuousRecorder {
 		protected Void doInBackground(Void... n) {
 
 			// Create the F.O.S. to write the byte buffer to the file.
-
 			try {
 				output = new FileOutputStream(file);
 			} catch (FileNotFoundException e1) {

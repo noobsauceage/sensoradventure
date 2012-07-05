@@ -1,8 +1,8 @@
 package winlab.SensorGUI;
-//l
 
 import winlab.sensoradventure.R;
 import android.app.ListActivity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,13 +10,16 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.Transformation;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
-
-public class AdvanceSettingsGUI extends ListActivity implements OnClickListener {
+import winlab.sensoradventure.*;
+public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,OnItemSelectedListener {
 	public OnLongClickListener longClickListner;
 	LinearLayout panel1, panel2, panel3, panel5;
 	TextView text1, text2, text3;
@@ -27,8 +30,8 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener 
 	private Spinner micchannelinput;
 	private Spinner micchannelaudio;
 	private Spinner othersamplingrate;
-
-	private String[] mPreferredNetworkLabels = { "Network", "GPS", };
+ 
+	private String[] mPreferredNetworkLabels = { "GPS", "NETWORK", };
 
 	private String[] mloggingrate = { "1", "5", "10", "30", "1", };
 
@@ -39,7 +42,9 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener 
 	private String[] micchannelencoding = { "16", "8", };
 
 	private String[] othersamplingrates1 = { "1", "5", "10", "30", "60", };
-
+	 
+ 
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,13 +60,14 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener 
 		text1.setOnClickListener(this);
 		text2.setOnClickListener(this);
 		text3.setOnClickListener(this);
-
+	 
+ 
 		preferredNetworkType = (Spinner) findViewById(R.id.preferredNetworkType);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, mPreferredNetworkLabels);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		preferredNetworkType.setAdapter(adapter);
-
+		
 		preferredLoggingrategps = (Spinner) findViewById(R.id.preferredLoggingrategps);
 		ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, mloggingrate);
@@ -91,13 +97,99 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener 
 				android.R.layout.simple_spinner_item, othersamplingrates1);
 		adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		othersamplingrate.setAdapter(adapter5);
+  
+		preferredNetworkType.setOnItemSelectedListener(new OnItemSelectedListener() {
+		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+		    	SensorAdventureActivity.provider = preferredNetworkType.getSelectedItem().toString(); 
+		    }
+		 
 
+		    public void onNothingSelected(AdapterView<?> parentView) {
+		        // your code here
+		    }
+
+		});
+		
+		
+		preferredLoggingrategps.setOnItemSelectedListener(new OnItemSelectedListener() {
+		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+		    	SensorAdventureActivity.lograte = preferredLoggingrategps.getSelectedItem().toString(); 
+		    }
+ 
+		    public void onNothingSelected(AdapterView<?> parentView) {
+		        // your code here
+		    }
+
+		});
+		
+		
+		micsampleingrate.setOnItemSelectedListener(new OnItemSelectedListener() {
+ 
+		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+		    	SensorAdventureActivity.micsampling = micsampleingrate.getSelectedItem().toString(); 
+		    }
+ 
+		    public void onNothingSelected(AdapterView<?> parentView) {
+		        // your code here
+		    }
+
+		});
+		
+		
+		micchannelinput.setOnItemSelectedListener(new OnItemSelectedListener() {
+ 
+		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+		    	SensorAdventureActivity.micchannel = micchannelinput.getSelectedItem().toString(); 
+		    }
+		 
+ 
+		    public void onNothingSelected(AdapterView<?> parentView) {
+		        // your code here
+		    }
+
+		});
+		
+		micchannelaudio.setOnItemSelectedListener(new OnItemSelectedListener() {
+ 
+		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+		    	SensorAdventureActivity.micencode = micchannelaudio.getSelectedItem().toString(); 
+		    }
+		 
+
+		    public void onNothingSelected(AdapterView<?> parentView) {
+		        // your code here
+		    }
+
+		});
+		
+		
+		othersamplingrate.setOnItemSelectedListener(new OnItemSelectedListener() {
+ 
+		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+		    	SensorAdventureActivity.otherlograte = othersamplingrate.getSelectedItem().toString(); 
+		    }
+		 
+ 
+		    public void onNothingSelected(AdapterView<?> parentView) {
+		        // your code here
+		    }
+
+		});
+		
+		
+	 
+		
+		
+		
+		
 	}
 
-	String m = "mala" + panel1;
+ 
 
 	public void onClick(View v) {
+	 
 		hideOthers(v);
+	 
 	}
 
 	private void hideThemAll() {
@@ -117,6 +209,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener 
 
 	private void hideOthers(View layoutView) {
 		{
+				
 			int v;
 			if (layoutView.getId() == R.id.text1) {
 				v = panel1.getVisibility();
@@ -149,6 +242,9 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener 
 			}
 
 		}
+
+		 
+	 
 	}
 
 	public class ScaleAnimToHide extends ScaleAnimation {
@@ -182,6 +278,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener 
 		@Override
 		protected void applyTransformation(float interpolatedTime,
 				Transformation t) {
+	
 			super.applyTransformation(interpolatedTime, t);
 			if (interpolatedTime < 1.0f) {
 				int newMarginBottom = mMarginBottomFromY
@@ -196,6 +293,8 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener 
 		}
 	}
 
+	 
+	
 	public class ScaleAnimToShow extends ScaleAnimation {
 
 		private View mView;
@@ -236,4 +335,25 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener 
 		}
 
 	}
+
+	/* (non-Javadoc)
+	 * @see android.widget.AdapterView.OnItemSelectedListener#onItemSelected(android.widget.AdapterView, android.view.View, int, long)
+	 */
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
+		 
+		
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see android.widget.AdapterView.OnItemSelectedListener#onNothingSelected(android.widget.AdapterView)
+	 */
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+ 
 }
