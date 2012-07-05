@@ -2,6 +2,8 @@ package winlab.file;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Calendar;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -16,16 +18,24 @@ import android.widget.Toast;
 
 public class RunningService extends Service implements
 SensorEventListener{
-	
+	private Calendar c = Calendar.getInstance();
 	private TelephonyManager telephonyManager;
 	private SensorManager mSensorManager;
 	private Sensor mSensor;
 	private String fileName[] = {"Accelerometer.txt","MagneticField.txt",
 			"Orientation.txt","Gyroscope.txt","Light.txt","Pressure.txt","Temperature.txt",
 			"Proximity.txt","Gravity.txt","Linear_Acceleration.txt","Rotation_Vector.txt","Humidity.txt","Ambient_Temperature.txt"};
-
+    
+	private String Direc=Integer.toString(c.get(Calendar.YEAR))+"_"+
+	                     Integer.toString(c.get(Calendar.MONTH))+"_"+
+			             Integer.toString(c.get(Calendar.DATE))+"_"+
+	                     Integer.toString(c.get(Calendar.HOUR_OF_DAY))+"Hr_"+
+			             Integer.toString(c.get(Calendar.MINUTE))+"Min_"+
+	                     Integer.toString(c.get(Calendar.SECOND))+"Sec/";
+    
+    
 	private File path = Environment
-			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+Direc);
 	
 	private File file [] = {new File(path, fileName[0]),new File(path, fileName[1]),
 			new File(path, fileName[2]),new File(path, fileName[3]),new File(path, fileName[4]),
