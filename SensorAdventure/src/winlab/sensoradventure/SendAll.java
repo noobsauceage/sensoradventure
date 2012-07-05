@@ -212,8 +212,8 @@ public class SendAll extends Activity {
 		return telephonyManager.getDeviceId();
 	}
 
+	// Parameters to send
 	private void putParams() {
-		// Parameters to send
 		id_data.put("id", getID());
 		try {
 			id_data.put("guid", HTTPClient.registerNewUser(getID()));
@@ -222,6 +222,77 @@ public class SendAll extends Activity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// TODO Use  writeIP whenever we need to update the ip field on GCRS
+	// Write the IP as a key-value pair to GCRS
+	public void writeIP(String guid) {
+		
+		HttpsURLConnection conn = null;
+		DataInputStream inStream = null;
+
+		// String responseFromServer = "";
+
+		//String urlString = "http://dolan.bounceme.net/ip.php";
+		String urlString = "http://192.168.206.31/ip.php";
+
+
+			try {
+				// open a URL connection to the Servlet
+				URL url = new URL(urlString);
+
+				// Open HTTP connection
+				conn = (HttpsURLConnection) url.openConnection();
+				// conn.setSSLSocketFactory(context.getSocketFactory());/////////////////
+				// conn.setSSLSocketFactory(newSslSocketFactory(this));/////////////////
+
+				// Allow Inputs
+				conn.setDoInput(true);
+
+				// Allow Outputs
+				conn.setDoOutput(true);
+
+				// Don't use a cached copy.
+				conn.setUseCaches(false);
+
+				// Use a post method.
+				conn.setRequestMethod("GET");
+				//conn.setRequestProperty("Connection", "Keep-Alive");
+				// System.setProperty("http.keepAlive", "false");
+
+			}
+
+			catch (MalformedURLException ex) {
+				Log.d("MediaPlayer", "error: " + ex.getMessage(), ex);
+			}
+
+			catch (IOException ioe) {
+				Log.d("MediaPlayer", "error: " + ioe.getMessage(), ioe);
+			}
+
+			// Read the SERVER RESPONSE
+			// and submit the key value pair
+			try {
+				inStream = new DataInputStream(conn.getInputStream());
+				String str; // Will contain external IP
+
+				while ((str = inStream.readLine()) != null) {
+					Log.d("MediaPlayer", "Server Response: " + str);
+				}
+
+				inStream.close();
+				
+				// TODO 
+				// Can uncomment these once GCRS is fixed and updated
+				//***********JSONObject jsonObject = new JSONObject();
+			    //***********jsonObject.put("ssn", "000-00-0000");
+			}
+
+			catch (IOException ioex) {
+				Log.d("MediaPlayer", "error: " + ioex.getMessage(), ioex);
+			}
+		Log.d("MediaPlayer", "Done uploading everything");
+		
 	}
 
 	/*
