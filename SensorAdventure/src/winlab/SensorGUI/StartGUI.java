@@ -32,7 +32,7 @@ public class StartGUI extends Activity implements OnClickListener {
 	private boolean[] state;
 	private boolean[] sensorCheck;
 	private String[] Sensors;
-	private ContinuousRecorder recorder;
+	private ContinuousRecorder record;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -50,7 +50,7 @@ public class StartGUI extends Activity implements OnClickListener {
 
 		ll1 = (LinearLayout) findViewById(R.id.layout1);
 		ll2 = (LinearLayout) findViewById(R.id.layout2);
-		recorder = new ContinuousRecorder(StartGUI.this);
+		record = new ContinuousRecorder(StartGUI.this);
 
 		for (int i = 0; i < 10; i++)
 			times[i] = "";
@@ -72,8 +72,7 @@ public class StartGUI extends Activity implements OnClickListener {
 		if (state[0]) {
 			startService(new Intent(this, RunningService.class));
 			if (sensorCheck[13]) {
-				recorder.record();
-				//recorder.play();
+				record.record();
 			}
 		}
 
@@ -127,7 +126,8 @@ public class StartGUI extends Activity implements OnClickListener {
 				stopService(new Intent(this, Sensors_SQLite_Service.class));
 
 				if (sensorCheck[13])
-					recorder.cancel();
+					record.stop();
+				record.cancel();
 
 			}
 			mChronometer.stop();
