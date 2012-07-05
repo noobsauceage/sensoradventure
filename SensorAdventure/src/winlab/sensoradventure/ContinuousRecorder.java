@@ -61,6 +61,8 @@ public class ContinuousRecorder {
 																					// file.
 	private File file = new File(path, fileName); // Raw audio data file.
 	private FileOutputStream output; // Used to write to above file.
+	
+	private boolean SQLite = false;
 
 	// Creates the default C.R. with optimal settings.
 	public ContinuousRecorder(Context con) {
@@ -200,6 +202,10 @@ public class ContinuousRecorder {
 		track.stop();
 		track.release();
 	}
+	
+	public void writeToSQLite(){
+		SQLite = true;
+	}
 
 	private class start extends AsyncTask<Void, Void, Void> {
 		@Override
@@ -255,8 +261,9 @@ public class ContinuousRecorder {
 				e.printStackTrace();
 			}
 			// Begin the asynchronous task of writing to the SQLite database.
+			if(SQLite){
 			ast = new fill();
-			ast.execute();
+			ast.execute();}
 			System.out.println("end");
 
 			return null;
@@ -298,7 +305,7 @@ public class ContinuousRecorder {
 			Log.e("SQL", Long.toString(end - begin));
 			sqla.copy(); // Copies SQLite database to SDCard.
 			sqla.close(); // Closes SQLite database.
-
+			SQLite = false;
 			return null;
 
 		}
