@@ -58,12 +58,14 @@ public class SnapShotValue {
 		return instantValue[sensorType-1];
 	}
 
-   private static File path=SensorSetting.path;
+   private static File path;
    private static String fileName="Instant_Reading.txt";
-   private static File file = new File(path, fileName);
+   private static File file;
    private static FileWriter output;
    private static boolean flag=true;
    public static void print(){
+	   path=SensorSetting.path;
+	   file = new File(path, fileName);
 	    String str="";
 	    str=str+"Timestamp (ms): "+String.format("%d",System.currentTimeMillis())+"\n";
 	   try {
