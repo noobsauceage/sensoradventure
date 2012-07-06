@@ -31,6 +31,7 @@ public class StartGUI extends Activity implements OnClickListener {
 	private SnapShot_SQL data2;
 	private boolean[] state;
 	private boolean[] sensorCheck;
+	private int[] rates;
 	private String[] Sensors;
 	private ContinuousRecorder record;
 
@@ -63,6 +64,7 @@ public class StartGUI extends Activity implements OnClickListener {
 		sensorCheck = extras.getBooleanArray("sensorCheck");
 		state = extras.getBooleanArray("state");
 		Sensors = extras.getStringArray("Sensors");
+		rates = extras.getIntArray("rates");
 		ok = new SensorSetting(this);
 		ok2 = new Sensors_SQLite_Setting(this);
 		ok.selectSensors(sensorCheck);
