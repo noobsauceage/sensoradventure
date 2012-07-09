@@ -10,6 +10,7 @@ package winlab.sensoradventure;
 import java.util.ArrayList;
 
 import winlab.SensorGUI.*;
+import winlab.file.SensorSetting;
 import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,13 +39,15 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	public static String micchannel = "MONO";
 	public static String micencode = "16";
 	public static String otherlograte = "1";
-
+    private SensorSetting ok;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 		setContentView(R.layout.guimain);
 
+		ok = new SensorSetting(this);
+        ok.testAvailableSensors();
 		normalSensor.add(new Child("Update   Rate", "ms"));
 		micSensor.add(new Child("Sampling Rate", "Hz"));
 
