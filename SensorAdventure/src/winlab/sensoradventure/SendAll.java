@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.InvalidKeyException;
@@ -25,11 +26,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import edu.umass.cs.gcrs.gcrs.GCRS;
 import edu.umass.cs.gcrs.server.HTTPClient;
 
 public class SendAll extends Activity {
 
+	private String LOG_TAG = "Uploader";
 	private Map<String, String> id_data = new HashMap<String, String>();
+	private HTTPClient gcrsClient = new HTTPClient();
+	//private static Preferences userPreferencess = Preferences.userRoot().node(HTTPClient.class.getName());
+	// in the HTTPClient..else it wont work
+	
 
 	/** Called when the activity is first created. */
 	@Override
@@ -42,6 +49,15 @@ public class SendAll extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			doUpload();
+			Log.d(LOG_TAG, "Done uploading everything");
+			
+			
+			//Really... we shouldnt have to do this... 
+			gcrsClient.sendGetCommand("demo?passkey=umass"); // turn on demo mode
+		      // When running this as a test we need to clear the database otherwise the users will already exist
+			gcrsClient.sendGetCommand("clear"); // clear the database
+			gcrsClient.sendGetCommand("demo?passkey=off"); // turn off demo mode
+			
 			writeIP(getGuid(getID()));
 			return null;
 		}
@@ -71,12 +87,13 @@ public class SendAll extends Activity {
 
 		// String urlString = "http://dolan.bounceme.net/file_tosql.php";
 		String urlString = "https://dolan.bounceme.net/file_tosql.php";
+		//String urlString = "https://192.168.1.45/file_tosql.php";
 
 		for (File f : fileList) {
 
 			try {
 				// ------------------ CLIENT REQUEST
-				Log.d("MediaPlayer", "Inside second Method");
+				Log.d(LOG_TAG, "Inside second Method");
 				FileInputStream fileInputStream = new FileInputStream(f);
 
 				// open a URL connection to the Servlet
@@ -145,7 +162,7 @@ public class SendAll extends Activity {
 				dos.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\""
 						+ f.getAbsolutePath() + "\"" + lineEnd);
 				dos.writeBytes(lineEnd);
-				Log.d("MediaPlayer", "Headers are written");
+				Log.d(LOG_TAG, "Headers are written");
 
 				// create a buffer of maximum size
 				bytesAvailable = fileInputStream.available();
@@ -167,7 +184,7 @@ public class SendAll extends Activity {
 				dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
 				// Close streams
-				Log.d("MediaPlayer", "File is written");
+				Log.d(LOG_TAG, "File is written");
 				fileInputStream.close();
 				dos.flush();
 				dos.close();
@@ -175,11 +192,11 @@ public class SendAll extends Activity {
 			}
 
 			catch (MalformedURLException ex) {
-				Log.d("MediaPlayer", "error: " + ex.getMessage(), ex);
+				Log.d(LOG_TAG, "error: " + ex.getMessage(), ex);
 			}
 
 			catch (IOException ioe) {
-				Log.d("MediaPlayer", "error: " + ioe.getMessage(), ioe);
+				Log.d(LOG_TAG, "error: " + ioe.getMessage(), ioe);
 			}
 
 			// Read the SERVER RESPONSE
@@ -188,17 +205,17 @@ public class SendAll extends Activity {
 				String str;
 
 				while ((str = inStream.readLine()) != null) {
-					Log.d("MediaPlayer", "Server Response: " + str);
+					Log.d(LOG_TAG, "Server Response: " + str);
 				}
 
 				inStream.close();
 			}
 
 			catch (IOException ioex) {
-				Log.d("MediaPlayer", "error: " + ioex.getMessage(), ioex);
+				Log.d(LOG_TAG, "error: " + ioex.getMessage(), ioex);
 			}
 		}
-		Log.d("MediaPlayer", "Done uploading everything");
+		Log.d(LOG_TAG, "Done uploading everything");
 	}
 
 	private String getID() {
@@ -207,22 +224,31 @@ public class SendAll extends Activity {
 	}
 
 	private String getGuid(String username) {
-		HTTPClient gcrsClient = new HTTPClient();
+		Log.d(LOG_TAG, "Grabbing GUID");
+		String guid = null;
 
 		try {
-			return gcrsClient.lookupUserGuid(username);
+			guid =  gcrsClient.lookupUserGuid(username);
 		} catch (RuntimeException e) {
 			try {
-				return gcrsClient.registerNewUser(username);
+				guid =  gcrsClient.registerNewUser(username);
 			} catch (NoSuchAlgorithmException e1) {
-				e1.printStackTrace();
+				GCRS.getLogger().severe(e1.toString());
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				GCRS.getLogger().severe(e1.toString());
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			GCRS.getLogger().severe(e.toString());
 		}
-		return null;
+		if (guid.contains("+BADUSER+"))
+			try {
+				guid =  gcrsClient.registerNewUser(username);
+			} catch (NoSuchAlgorithmException e1) {
+				GCRS.getLogger().severe(e1.toString());
+			} catch (IOException e1) {
+				GCRS.getLogger().severe(e1.toString());
+			}
+		return guid;
 	}
 
 	// Parameters to send
@@ -236,86 +262,75 @@ public class SendAll extends Activity {
 
 	// Write the IP as a key-value pair to GCRS
 	public void writeIP(String guid) {
-
-		HttpsURLConnection conn = null;
+		Log.d(LOG_TAG, "Attempting to write ip to: " + guid);
+		HttpURLConnection conn = null;
 		DataInputStream inStream = null;
 
 		// String responseFromServer = "";
 
-		// String urlString = "http://dolan.bounceme.net/ip.php";
-		String urlString = "http://192.168.206.31/ip.php";
+		String urlString = "http://dolan.bounceme.net/ip.php";
+		//String urlString = "http://192.168.206.31/ip.php";
 
 		try {
+			Log.d(LOG_TAG, "Attempting connection");
 			// open a URL connection to the Servlet
 			URL url = new URL(urlString);
 
 			// Open HTTP connection
-			conn = (HttpsURLConnection) url.openConnection();
-			// conn.setSSLSocketFactory(context.getSocketFactory());/////////////////
-			// conn.setSSLSocketFactory(newSslSocketFactory(this));/////////////////
-
+			conn = (HttpURLConnection) url.openConnection();
 			// Allow Inputs
 			conn.setDoInput(true);
-
 			// Allow Outputs
 			conn.setDoOutput(true);
-
 			// Don't use a cached copy.
 			conn.setUseCaches(false);
-
 			// Use a post method.
 			conn.setRequestMethod("GET");
-			// conn.setRequestProperty("Connection", "Keep-Alive");
-			// System.setProperty("http.keepAlive", "false");
-
 		}
-
 		catch (MalformedURLException ex) {
-			Log.d("MediaPlayer", "error: " + ex.getMessage(), ex);
+			Log.d(LOG_TAG, "error: " + ex.getMessage(), ex);
 		}
-
 		catch (IOException ioe) {
-			Log.d("MediaPlayer", "error: " + ioe.getMessage(), ioe);
+			Log.d(LOG_TAG, "error: " + ioe.getMessage(), ioe);
 		}
 
 		// Read the SERVER RESPONSE
 		// and submit the key value pair
 		try {
 			inStream = new DataInputStream(conn.getInputStream());
-			String extIP; // Will contain external IP
-
-			while ((extIP = inStream.readLine()) != null) {
-				Log.d("MediaPlayer", "Server Response: " + extIP);
+			String str;
+			String extIP = null;
+			while ((str = inStream.readLine()) != null) {
+				Log.d(LOG_TAG, "Server Response: " + str);
+				extIP = str;
 			}
-
 			inStream.close();
-
-			HTTPClient gcrsClient = new HTTPClient();
+			extIP = extIP.replaceAll("[\uFEFF-\uFFFF]", "");  // Strip UTF-8 BOM char
 			
 			// If we ever need to write several fields
 			//JSONObject jsonObject = new JSONObject();
 			//jsonObject.put("ip", extIP);
 			//gcrsClient.writeFields(getGuid(getID()), jsonObject.toString());
-						
+			
 			try {
 				gcrsClient.writeField(guid, "ip", extIP);
+				
+				String result = gcrsClient.readField(guid, "ip", guid);
+				Log.d(LOG_TAG, "Read field: " + result);
+				
 			} catch (InvalidKeyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				GCRS.getLogger().severe(e.toString());
 			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				GCRS.getLogger().severe(e.toString());
 			} catch (SignatureException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				GCRS.getLogger().severe(e.toString());
 			}
+			
 		}
 
 		catch (IOException ioex) {
-			Log.d("MediaPlayer", "error: " + ioex.getMessage(), ioex);
+			Log.d(LOG_TAG, "error: " + ioex.getMessage(), ioex);
 		}
-		Log.d("MediaPlayer", "Done uploading everything");
-
 	}
 
 	/*
