@@ -143,10 +143,10 @@ public class BTloggerActivity extends Activity {
 		Log.d(LOG_TAG, "Printing");
 		timestamp = System.currentTimeMillis();
 		// captureFile.println(timestamp + "," + btArrayAdapter.getCount());
-		captureFile.println(timestamp + "," + numDevices + "," + TextUtils.join(",", macIdList));
+		captureFile.println(timestamp + "," + numDevices + "," + TextUtils.join("|", macIdList));
 
 		// Log.d(LOG_TAG, timestamp + "," + btArrayAdapter.getCount());
-		Log.d(LOG_TAG, timestamp + "," + numDevices + "," + TextUtils.join(",", macIdList));
+		Log.d(LOG_TAG, timestamp + "," + numDevices + "," + TextUtils.join("|", macIdList));
 
 	}
 
