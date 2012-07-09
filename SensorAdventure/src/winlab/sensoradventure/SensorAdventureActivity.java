@@ -48,6 +48,9 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 
 		ok = new SensorSetting(this);
         ok.testAvailableSensors();
+        
+        SensorSetting.sensors[0]=true;
+        
 		normalSensor.add(new Child("Update   Rate", "ms"));
 		micSensor.add(new Child("Sampling Rate", "Hz"));
 

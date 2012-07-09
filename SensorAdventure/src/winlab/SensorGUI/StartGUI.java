@@ -121,8 +121,10 @@ public class StartGUI extends Activity implements OnClickListener {
 			{
 				stopService(new Intent(this, RunningService.class));
 				if (sensorCheck[13])
+				{
 					record.stop();
 				record.cancel();
+				}
 			}
 			if (state[1]) 
 			{
@@ -147,8 +149,10 @@ public class StartGUI extends Activity implements OnClickListener {
 			{
 				stopService(new Intent(this, RunningService.class));
 				if (sensorCheck[13])
+				{
 					record.stop();
 				record.cancel();
+				}
 			}
 			if (state[1]) {
 				try {
