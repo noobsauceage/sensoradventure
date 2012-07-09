@@ -80,6 +80,7 @@ public class StartGUI extends Activity implements OnClickListener {
 
 			SnapShotValue.set();
 			if (state[0]) {
+				SensorSetting.setRate(rates);
 				startService(new Intent(this, RunningService.class));
 				if (sensorCheck[13]) {
 					record.record();
@@ -91,6 +92,7 @@ public class StartGUI extends Activity implements OnClickListener {
 				data2.open();
 				data2.deleteTable();
 				data2.prepareTransaction();
+				Sensors_SQLite_Setting.setRate(rates);
 				startService(new Intent(this, Sensors_SQLite_Service.class));
 
 			}
@@ -116,8 +118,14 @@ public class StartGUI extends Activity implements OnClickListener {
 		case R.id.button2:
 			flag = false;
 			if (state[0])
+			{
 				stopService(new Intent(this, RunningService.class));
-			if (state[1]) {
+				if (sensorCheck[13])
+					record.stop();
+				record.cancel();
+			}
+			if (state[1]) 
+			{
 				try {
 					data2.endTransaction();
 
@@ -126,11 +134,6 @@ public class StartGUI extends Activity implements OnClickListener {
 					Toast.makeText(this, "2", Toast.LENGTH_LONG).show();
 				}
 				stopService(new Intent(this, Sensors_SQLite_Service.class));
-
-				if (sensorCheck[13])
-					record.stop();
-				record.cancel();
-
 			}
 			mChronometer.stop();
 			break;
@@ -141,7 +144,12 @@ public class StartGUI extends Activity implements OnClickListener {
 
 		if (flag) {
 			if (state[0])
+			{
 				stopService(new Intent(this, RunningService.class));
+				if (sensorCheck[13])
+					record.stop();
+				record.cancel();
+			}
 			if (state[1]) {
 				try {
 					data2.endTransaction();

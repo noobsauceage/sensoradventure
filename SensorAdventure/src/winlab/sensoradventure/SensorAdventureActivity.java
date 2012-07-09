@@ -83,6 +83,8 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 				sensorCheck[i] = sensorAdapter.checkbox[i].isChecked();
 				if (sensorCheck[i] && SensorAdapter.value[i] != null)
 					rates[i] = Integer.parseInt(SensorAdapter.value[i]);
+				else if (sensorCheck[i]&& SensorAdapter.value[i]==null)
+					rates[i]=Integer.parseInt(otherlograte);
 			}
 			intent.putExtra("Sensors", Sensors);
 			intent.putExtra("sensorCheck", sensorCheck);
