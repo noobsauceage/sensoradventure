@@ -174,7 +174,7 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		if (checkbox[groupPosition] != null) {
 			checkbox[groupPosition].setChecked(groups.get(groupPosition)
 					.getState());
-			if (SensorSetting.sensors[groupPosition]==false) 
+			if ((groupPosition<13)&&(SensorSetting.sensors[groupPosition]==false)) 
 			{
 				checkbox[groupPosition].setChecked(false);
 				checkbox[groupPosition].setClickable(false);
