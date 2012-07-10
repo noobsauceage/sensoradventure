@@ -42,9 +42,6 @@ SensorEventListener{
 		data.deleteTable();
 		data.prepareTransaction();
 		
-		//data.insertTitle1("time1", "3", "2", "1",0);
-		//data.insertTitle1("time2", "3", "2", "1",1);
-		//data.insertTitle1("time3", "3", "2", "1",2);
 	}
 	
 	public void onSensorChanged (SensorEvent event) {

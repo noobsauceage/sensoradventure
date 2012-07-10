@@ -69,7 +69,7 @@ public class StartGUI extends Activity implements OnClickListener {
 		ok2 = new Sensors_SQLite_Setting(this);
 		ok.selectSensors(sensorCheck);
 		ok2.selectSensors(sensorCheck);
-
+			
 		// Print which sensors are on to the screen
 		for (int i = 0; i < sensorCheck.length; i++) {
 			if (sensorCheck[i]) {
@@ -89,6 +89,7 @@ public class StartGUI extends Activity implements OnClickListener {
 
 			if (state[1]) {
 				data2 = new SnapShot_SQL(this);
+				
 				data2.open();
 				data2.deleteTable();
 				data2.prepareTransaction();
