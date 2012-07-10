@@ -9,5 +9,6 @@
 	<classpathentry exported="true" kind="lib" path="C:/Users/Jason/git/sensoradventure/SensorAdventure/lib/junit-4.8.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Jason/git/sensoradventure/SensorAdventure/lib/mysql-connector-java-5.1.13-bin.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/Jason/git/sensoradventure/SensorAdventure/lib/gcrs.jar"/>
+	<classpathentry kind="src" path="testsrc"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
