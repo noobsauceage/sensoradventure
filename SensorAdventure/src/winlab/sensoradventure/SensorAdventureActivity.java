@@ -103,10 +103,14 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			intent.putExtra("otherlograte", otherlograte);
 			if (OptionsGUI.state == null) {
 				print();
+				Intent Data_config=new Intent(SensorAdventureActivity.this, OptionsGUI.class);
+				startActivity(Data_config);
 			} else if ((OptionsGUI.state[0] == false)
 					&& (OptionsGUI.state[1] == false)
 					&& (OptionsGUI.state[2] == false)) {
 				print();
+				Intent Data_config=new Intent(SensorAdventureActivity.this, OptionsGUI.class);
+				startActivity(Data_config);
 			} else
 				startActivity(intent);
 		}
