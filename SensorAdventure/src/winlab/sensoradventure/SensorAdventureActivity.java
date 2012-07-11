@@ -9,6 +9,8 @@ package winlab.sensoradventure;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -48,11 +50,12 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	public static String micchannel = "MONO";
 	public static String micencode = "16";
 	public static String otherlograte = "1";
-    private SensorSetting ok;
+	private SensorSetting ok;
 	private String fileName = "Save.txt";
 	private File path = Environment
 			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 	private File file = new File(path, fileName);
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle bundle) {
@@ -60,12 +63,10 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		setContentView(R.layout.guimain);
 
 		ok = new SensorSetting(this);
-        ok.testAvailableSensors();
-        
-        
+		ok.testAvailableSensors();
+
 		normalSensor.add(new Child("Update   Rate", "ms"));
 		micSensor.add(new Child("Sampling Rate", "Hz"));
-
 
 		initializeGroups();
 
@@ -99,8 +100,8 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 				sensorCheck[i] = sensorAdapter.checkbox[i].isChecked();
 				if (sensorCheck[i] && SensorAdapter.value[i] != null)
 					rates[i] = Integer.parseInt(SensorAdapter.value[i]);
-				else if (sensorCheck[i]&& SensorAdapter.value[i]==null)
-					rates[i]=Integer.parseInt(otherlograte);
+				else if (sensorCheck[i] && SensorAdapter.value[i] == null)
+					rates[i] = Integer.parseInt(otherlograte);
 			}
 			intent.putExtra("Sensors", Sensors);
 			intent.putExtra("sensorCheck", sensorCheck);
@@ -114,13 +115,15 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			intent.putExtra("otherlograte", otherlograte);
 			if (OptionsGUI.state == null) {
 				print();
-				Intent Data_config=new Intent(SensorAdventureActivity.this, OptionsGUI.class);
+				Intent Data_config = new Intent(SensorAdventureActivity.this,
+						OptionsGUI.class);
 				startActivity(Data_config);
 			} else if ((OptionsGUI.state[0] == false)
 					&& (OptionsGUI.state[1] == false)
 					&& (OptionsGUI.state[2] == false)) {
 				print();
-				Intent Data_config=new Intent(SensorAdventureActivity.this, OptionsGUI.class);
+				Intent Data_config = new Intent(SensorAdventureActivity.this,
+						OptionsGUI.class);
 				startActivity(Data_config);
 			} else
 				startActivity(intent);
@@ -142,7 +145,20 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 
 	private OnClickListener saveClick = new OnClickListener() {
 		public void onClick(View v) {
-			// Save all settings
+			try {
+				FileWriter output = new FileWriter(file);
+				for (int i = 0; i < groups.size(); i++) {
+					if (groups.get(i).getState() == false)
+						output.write(0);
+					else
+						output.write(1);
+				}
+				output.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 	};
 
@@ -197,7 +213,6 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		}
 
 	}
-	
 
 	public void initializeGroups() {
 		Scanner scanner;
@@ -230,6 +245,5 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			}
 		}
 	}
-
 
 }
