@@ -74,10 +74,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		expanded = new boolean[groups.size()];
 		setListAdapter(sensorAdapter);
 		for (int i = 0; i < groups.size(); i++) {
-			if (i != 13)
-				SensorAdapter.value[i] = lograte;
-			else
-				SensorAdapter.value[i] = micsampling;
+			SensorAdapter.value[i] = "1";
 			expanded[i] = false;
 		}
 
@@ -149,9 +146,9 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 				FileWriter output = new FileWriter(file);
 				for (int i = 0; i < groups.size(); i++) {
 					if (groups.get(i).getState() == false)
-						output.write(0);
+						output.write("0 ");
 					else
-						output.write(1);
+						output.write("1 ");
 				}
 				output.close();
 			} catch (IOException e) {
