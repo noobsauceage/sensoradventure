@@ -7,13 +7,22 @@ package winlab.sensoradventure;
  * -- G.D.C.
  */
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
-import winlab.SensorGUI.*;
+import winlab.SensorGUI.AdvanceSettingsGUI;
+import winlab.SensorGUI.Child;
+import winlab.SensorGUI.Group;
+import winlab.SensorGUI.OptionsGUI;
+import winlab.SensorGUI.SensorAdapter;
+import winlab.SensorGUI.StartGUI;
 import winlab.file.SensorSetting;
 import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,6 +49,10 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	public static String micencode = "16";
 	public static String otherlograte = "1";
     private SensorSetting ok;
+	private String fileName = "Save.txt";
+	private File path = Environment
+			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+	private File file = new File(path, fileName);
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle bundle) {
@@ -53,19 +66,17 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		normalSensor.add(new Child("Update   Rate", "ms"));
 		micSensor.add(new Child("Sampling Rate", "Hz"));
 
-		for (int i = 0; i < Sensors.length; i++) {
-			if (i != 13)
-				groups.add(new Group(Sensors[i], normalSensor, false));
-			else
-				groups.add(new Group(Sensors[i], micSensor, false));
 
-		}
+		initializeGroups();
 
 		sensorAdapter = new SensorAdapter(this, groups);
 		expanded = new boolean[groups.size()];
 		setListAdapter(sensorAdapter);
 		for (int i = 0; i < groups.size(); i++) {
-			SensorAdapter.value[i] = null;
+			if (i != 13)
+				SensorAdapter.value[i] = lograte;
+			else
+				SensorAdapter.value[i] = micsampling;
 			expanded[i] = false;
 		}
 
@@ -186,5 +197,39 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		}
 
 	}
+	
+
+	public void initializeGroups() {
+		Scanner scanner;
+		if (file.isFile()) {
+			try {
+				scanner = new Scanner(file).useDelimiter("\\s*");
+				for (int i = 0; i < Sensors.length; i++) {
+
+					if (file.isFile()) {
+						int b = scanner.nextInt();
+						if (i != 13)
+							groups.add(new Group(Sensors[i], normalSensor,
+									(b != 0)));
+						else
+							groups.add(new Group(Sensors[i], micSensor,
+									(b != 0)));
+
+					}
+				}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			for (int j = 0; j < Sensors.length; j++) {
+				if (j != 13)
+					groups.add(new Group(Sensors[j], normalSensor, false));
+				else
+					groups.add(new Group(Sensors[j], micSensor, false));
+			}
+		}
+	}
+
 
 }
