@@ -112,7 +112,7 @@ public class Sensors_SQLite {
 
 	// ---closes the database---
 	public void close() {
-		DBHelper.close();
+		db.close();
 	}
 
 	public void deleteTable() {
