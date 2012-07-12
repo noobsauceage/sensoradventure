@@ -96,7 +96,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		{
 		for (int i = 0; i < groups.size(); i++) {
 			SensorAdapter.value[i] = otherlograte;
-			if (expanded[i])  sensorAdapter.edittext[i].setText(otherlograte);
+			if ((sensorAdapter.edittext[i] != null)&&(expanded[i]))  sensorAdapter.edittext[i].setText(otherlograte);
  
 		}
 		Last_lograte=otherlograte;
@@ -213,7 +213,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			groups.get(i).setState(sensorAdapter.checkbox[i].isChecked());
 			if (expanded[i]) {
 				for (int j = 0; j < groups.size(); j++)
-					if (sensorAdapter.edittext[j] != null) {
+					if ((sensorAdapter.edittext[j] != null)&&(expanded[j])) {
 
 						if (sensorAdapter.edittext[j].getText().toString()
 								.length() == 0)
