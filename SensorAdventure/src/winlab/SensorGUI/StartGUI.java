@@ -118,7 +118,7 @@ public class StartGUI extends Activity implements OnClickListener {
 			if (state[0]) {
 				SensorSetting.setRate(rates);
 				startService(new Intent(this, RunningService.class));
-				if (sensorCheck[13]) {
+				if ((sensorCheck[13])&&(state[1]==false)) {
 					record.record();
 				}
 			}
@@ -160,7 +160,7 @@ public class StartGUI extends Activity implements OnClickListener {
 			if (state[0])
 			{
 				stopService(new Intent(this, RunningService.class));
-				if (sensorCheck[13])
+				if ((sensorCheck[13])&&(state[1]==false))
 				{
 					record.stop();
 				record.cancel();
@@ -201,7 +201,7 @@ public class StartGUI extends Activity implements OnClickListener {
 			if (state[0])
 			{
 				stopService(new Intent(this, RunningService.class));
-				if (sensorCheck[13])
+				if ((sensorCheck[13])&&(state[1]==false))
 				{
 					record.stop();
 				record.cancel();
