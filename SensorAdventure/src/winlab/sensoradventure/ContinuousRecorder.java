@@ -5,9 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import winlab.sql.Sensors_SQLite;
-
+import winlab.sql.Mic_SQL;
 import android.content.Context;
 import android.media.AudioFormat;
 import android.media.AudioManager;
@@ -52,7 +50,7 @@ public class ContinuousRecorder {
 	private AudioTrack track; // Used to play audio from a byte buffer.
 	private AsyncTask<Void, Void, Void> asyncTask; // Asynchronous task.
 	private AsyncTask<Void, Void, Void> ast; // Asynchronous task.
-	private Sensors_SQLite sqla; // SQLite Database helper.
+	private Mic_SQL sqla; // SQLite Database helper.
 	private Context context; // Program context needed to create SQLite helper.
 	private String fileName = "PCM.txt"; // Filename of the raw audio data.
 	private File path = Environment
@@ -76,7 +74,7 @@ public class ContinuousRecorder {
 		setMode(AudioTrack.MODE_STREAM);
 
 		context = con;
-		sqla = new Sensors_SQLite(context);
+		sqla = new Mic_SQL(context);
 
 	}
 
@@ -93,7 +91,7 @@ public class ContinuousRecorder {
 		setMode(mode);
 
 		context = con;
-		sqla = new Sensors_SQLite(context);
+		sqla = new Mic_SQL(context);
 
 	}
 
@@ -175,10 +173,11 @@ public class ContinuousRecorder {
 		recorder = new AudioRecord(MIC, SAMPLE, CHANNELI, FORMAT, BUFFERSIZE);
 		track = new AudioTrack(STREAM, SAMPLE, CHANNELO, FORMAT, BUFFERSIZE,
 				MODE);
-
+        if (SQLite)
+        {
 		sqla.open();
 		sqla.deleteTable();
-
+        }
 		asyncTask = new start(); // See below for the start class definition.
 		asyncTask.execute();
 
