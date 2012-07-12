@@ -90,7 +90,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		Toast.makeText(this, "I am called", Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, "I am called", Toast.LENGTH_LONG).show();
 		if (Last_lograte.equals(otherlograte))
 		{}else
 		{
