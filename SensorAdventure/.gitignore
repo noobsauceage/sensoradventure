@@ -1,1 +1,5 @@
-/bin
+*.dex
+*.cache
+*.ap_
+*.apk
+.classpath
