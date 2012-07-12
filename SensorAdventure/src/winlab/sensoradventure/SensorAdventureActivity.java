@@ -50,6 +50,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	public static String micchannel = "MONO";
 	public static String micencode = "16";
 	public static String otherlograte = "1";
+	public static String Last_lograte = "1";
 	private SensorSetting ok;
 	private String fileName = "Save.txt";
 	private File path = Environment
@@ -74,10 +75,10 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		expanded = new boolean[groups.size()];
 		setListAdapter(sensorAdapter);
 		for (int i = 0; i < groups.size(); i++) {
-			SensorAdapter.value[i] = "1";
+			SensorAdapter.value[i] = otherlograte;
 			expanded[i] = false;
 		}
-
+		Last_lograte=otherlograte;
 		start = (Button) findViewById(R.id.button1);
 		start.setOnClickListener(startClick);
 		config = (Button) findViewById(R.id.button2);
@@ -86,6 +87,21 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		save.setOnClickListener(saveClick);
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Toast.makeText(this, "I am called", Toast.LENGTH_LONG).show();
+		if (Last_lograte.equals(otherlograte))
+		{}else
+		{
+		for (int i = 0; i < groups.size(); i++) {
+			SensorAdapter.value[i] = otherlograte;
+			if (expanded[i])  sensorAdapter.edittext[i].setText(otherlograte);
+ 
+		}
+		Last_lograte=otherlograte;
+		}
+	}
 	private OnClickListener startClick = new OnClickListener() {
 		public void onClick(View v) {
 
