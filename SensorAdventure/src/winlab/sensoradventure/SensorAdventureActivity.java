@@ -185,6 +185,9 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			Toast.makeText(this, "Please select a sensor.", Toast.LENGTH_LONG)
 					.show();
 			break;
+		case 3:
+			Toast.makeText(this, "Settings have been saved.", Toast.LENGTH_LONG)
+			.show();
 		}
 
 	}
@@ -227,6 +230,8 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			print(3);
 
 		}
 	};
