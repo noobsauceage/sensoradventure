@@ -37,12 +37,65 @@
     android:background="@android:color/darker_gray"/> 
     
  <LinearLayout android:layout_marginTop="2dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_gravity="center">
-   <TextView android:text="Other Sensors" android:id="@+id/text3" android:padding="5dip"    android:layout_width="fill_parent" android:layout_height="wrap_content" />
+   <TextView android:text="Accelerometer" android:id="@+id/text3" android:padding="5dip"    android:layout_width="fill_parent" android:layout_height="wrap_content" />
      <LinearLayout android:id="@+id/panel3" android:visibility="gone" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+          <TextView android:text="logging rate (msec)"   android:padding="5dip"    android:layout_width="fill_parent" android:layout_height="wrap_content" />
+       <Spinner android:id="@+id/accelerometerate"   android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="sample rate" />
+     </LinearLayout>
+ </LinearLayout>
+ 
+  <View
+    android:layout_width="fill_parent"
+    android:layout_height="10dp"
+    android:background="@android:color/darker_gray"/> 
+    
+ <LinearLayout android:layout_marginTop="2dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_gravity="center">
+   <TextView android:text="Gyroscope" android:id="@+id/text4" android:padding="5dip"    android:layout_width="fill_parent" android:layout_height="wrap_content" />
+     <LinearLayout android:id="@+id/panel4" android:visibility="gone" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+          <TextView android:text="logging rate (msec)"   android:padding="5dip"    android:layout_width="fill_parent" android:layout_height="wrap_content" />
+       <Spinner android:id="@+id/gyroscoperate"   android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="sample rate" />
+     </LinearLayout>
+ </LinearLayout>
+ 
+ <View
+    android:layout_width="fill_parent"
+    android:layout_height="10dp"
+    android:background="@android:color/darker_gray"/> 
+    
+ <LinearLayout android:layout_marginTop="2dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_gravity="center">
+   <TextView android:text="Magnetometer" android:id="@+id/text5" android:padding="5dip"    android:layout_width="fill_parent" android:layout_height="wrap_content" />
+     <LinearLayout android:id="@+id/panel5" android:visibility="gone" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+          <TextView android:text="logging rate (msec)"   android:padding="5dip"    android:layout_width="fill_parent" android:layout_height="wrap_content" />
+       <Spinner android:id="@+id/magnetometerrate"   android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="sample rate" />
+     </LinearLayout>
+ </LinearLayout>
+ 
+  <View
+    android:layout_width="fill_parent"
+    android:layout_height="10dp"
+    android:background="@android:color/darker_gray"/> 
+    
+ <LinearLayout android:layout_marginTop="2dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_gravity="center">
+   <TextView android:text="Other Sensors" android:id="@+id/text6" android:padding="5dip"    android:layout_width="fill_parent" android:layout_height="wrap_content" />
+     <LinearLayout android:id="@+id/panel6" android:visibility="gone" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
           <TextView android:text="logging rate (msec)"   android:padding="5dip"    android:layout_width="fill_parent" android:layout_height="wrap_content" />
        <Spinner android:id="@+id/othersamplingrate"   android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="sample rate" />
      </LinearLayout>
  </LinearLayout>
+ 
+  <View
+    android:layout_width="fill_parent"
+    android:layout_height="10dp"
+    android:background="@android:color/darker_gray"/> 
+    
+ <LinearLayout android:layout_marginTop="2dip" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_gravity="center">
+   <TextView android:text="Servers" android:id="@+id/text7" android:padding="5dip"    android:layout_width="fill_parent" android:layout_height="wrap_content" />
+     <LinearLayout android:id="@+id/panel7" android:visibility="gone" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content">
+          <TextView android:text="Server Name"   android:padding="5dip"    android:layout_width="fill_parent" android:layout_height="wrap_content" />
+       <Spinner android:id="@+id/Servers"   android:layout_width="fill_parent" android:layout_height="wrap_content" android:text="sample rate" />
+     </LinearLayout>
+ </LinearLayout>
+ 
  
   <View
     android:layout_width="fill_parent"
