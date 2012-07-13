@@ -254,14 +254,14 @@ public class SnapShotValue {
 									+ "\n";
 
 						break;
-					case 12: //Sensor.TYPE_RELATIVE_HUMIDITY
+					case 12: // Sensor.TYPE_RELATIVE_HUMIDITY
 						str = str
 								+ "Relative Humidity %: "
 								+ String.format("%17.10f",
 										SnapShotValue.instantValue[i][0])
 								+ "\n";
 						break;
-					case 13: //Sensor.TYPE_AMBIENT_TEMPERATURE
+					case 13: // Sensor.TYPE_AMBIENT_TEMPERATURE
 						str = str
 								+ "Ambient air temperature (degree Celsius): "
 								+ String.format("%17.10f",
