@@ -49,8 +49,11 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	public static String micsampling = "44.1";
 	public static String micchannel = "MONO";
 	public static String micencode = "16";
+	public static String accelerorate = "1";	
+	public static String gyrorate = "1";
+	public static String magnetorate = "1";
 	public static String otherlograte = "1";
-	public static String Last_lograte = "1";
+	public static String Servers= "Servers";
 	private SensorSetting ok;
 	private String fileName = "Save.txt";
 	private File path = Environment
@@ -125,7 +128,11 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			intent.putExtra("micsampling", micsampling);
 			intent.putExtra("micchannel", micchannel);
 			intent.putExtra("micencode", micencode);
+			intent.putExtra("accelerorate",  accelerorate);
+			intent.putExtra("gyrorate", gyrorate);
+			intent.putExtra("magnetorate", magnetorate);
 			intent.putExtra("otherlograte", otherlograte);
+			intent.putExtra("Servers", Servers);
 			if (OptionsGUI.state == null) {
 				print();
 				Intent Data_config = new Intent(SensorAdventureActivity.this,
