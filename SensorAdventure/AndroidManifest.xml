@@ -18,7 +18,8 @@
         android:label="@string/app_name" >
         <activity
             android:name=".SensorAdventureActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +31,8 @@
         <activity android:name=".winlab.sensoradventure.gps.MainActivity" />
         <activity android:name=".winlab.sensoradventure.SendAll.java" />
         <activity android:name="winlab.SensorGUI.OptionsGUI" />
-        <activity android:name="winlab.SensorGUI.StartGUI" />
+        <activity android:name="winlab.SensorGUI.StartGUI"
+            android:windowSoftInputMode="stateHidden" />
 
         <service
             android:name="winlab.file.RunningService"
