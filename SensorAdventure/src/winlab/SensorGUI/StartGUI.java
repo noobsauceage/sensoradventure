@@ -62,7 +62,7 @@ public class StartGUI extends Activity implements OnClickListener {
 	private File file;
 	private FileWriter output;
 	private boolean flag2 = true;
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,10 +74,11 @@ public class StartGUI extends Activity implements OnClickListener {
         editText2=(EditText) findViewById(R.id.editText2);
         editText1.setText(String.format("%d",duration));
         editText2.setText(String.format("%d",rate));
-        
+        editText1.requestFocus(0);
+        editText2.requestFocus(0);
         snapshot = (Button) findViewById(R.id.snapshot);
         snapshot.setOnClickListener(this);
-		
+
         mChronometer = (Chronometer) findViewById(R.id.chronometer);
 
 		mark = (Button) findViewById(R.id.button1);
@@ -105,7 +106,7 @@ public class StartGUI extends Activity implements OnClickListener {
 		ok2 = new Sensors_SQLite_Setting(this);
 		ok.selectSensors(sensorCheck);
 		ok2.selectSensors(sensorCheck);
-			
+
 		// Print which sensors are on to the screen
 		for (int i = 0; i < sensorCheck.length; i++) {
 			if (sensorCheck[i]) {
@@ -125,7 +126,7 @@ public class StartGUI extends Activity implements OnClickListener {
 
 			if (state[1]) {
 				data2 = new SnapShot_SQL(this);
-				
+
 				data2.open();
 				data2.deleteTable();
 				Sensors_SQLite_Setting.setRate(rates);
@@ -222,26 +223,26 @@ public class StartGUI extends Activity implements OnClickListener {
 		}
 		super.onDestroy();
 	}
-	
+
 	//added part
     private class start extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... n) {
-		    
+
 			long startTime,currentTime,lastTime;
-			
+
 
 			Snapshot_finish=false;
-			
+
 			Message msg1 = handler1.obtainMessage();
 			handler1.sendMessage(msg1);
-			
+
 			startTime=System.currentTimeMillis();
 			lastTime=startTime;
 			print();
 			do
 			{
-				
+
 				currentTime=System.currentTimeMillis();
 				if (currentTime-lastTime>=rate)
 				{
@@ -249,7 +250,7 @@ public class StartGUI extends Activity implements OnClickListener {
 					lastTime=currentTime;
 				}
 			}while (currentTime-startTime<duration*1000);
-			
+
 			Message msg2 = handler2.obtainMessage();
 			handler2.sendMessage(msg2);
             Snapshot_finish=true;
@@ -260,7 +261,7 @@ public class StartGUI extends Activity implements OnClickListener {
 	}
     
 
-	
+
    
     
 
