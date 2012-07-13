@@ -53,6 +53,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	public static String gyrorate = "1";
 	public static String magnetorate = "1";
 	public static String otherlograte = "1";
+	public static String Last_lograte = "1";
 	public static String Servers= "Servers";
 	private SensorSetting ok;
 	private String fileName = "Save.txt";
