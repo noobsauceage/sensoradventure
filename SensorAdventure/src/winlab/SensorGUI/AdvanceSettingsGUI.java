@@ -30,7 +30,6 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 	LinearLayout panel1, panel2, panel3,panel4, panel5,panel6,panel7;
 	TextView text1, text2, text3,text4, text5, text6,text7;
 	View openLayout;
-	public static ArrayList<ConfigItem> ConfigInfo;
 	private Spinner preferredNetworkType;
 	private Spinner preferredLoggingrategps;
 	private Spinner micsampleingrate;
