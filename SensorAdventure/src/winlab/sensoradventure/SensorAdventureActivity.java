@@ -85,16 +85,17 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 
 		try {
 			initializeTexts();
+			initializeConfig();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		expanded = new boolean[groups.size()];
 		setListAdapter(sensorAdapter);
 		for (int i = 0; i < groups.size(); i++) {
-			if(!file.isFile())
-			SensorAdapter.value[i] = otherlograte;
+			if (!file.isFile())
+				SensorAdapter.value[i] = otherlograte;
 			expanded[i] = false;
 		}
 		Last_lograte = otherlograte;
@@ -196,6 +197,14 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 					output.newLine();
 
 				}
+				if (OptionsGUI.state != null) {
+					for (int i = 0; i < OptionsGUI.state.length; i++) {
+						if (OptionsGUI.state[i] == false)
+							output.write("0 ");
+						else
+							output.write("1 ");
+					}
+				}
 
 				output.close();
 			} catch (IOException e) {
@@ -294,5 +303,26 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 
 			}
 		}
+	}
+
+	public void initializeConfig() throws FileNotFoundException {
+		Scanner scanner;
+		if (file.isFile()) {
+			scanner = new Scanner(file).useDelimiter("\\s*");
+			for (int i = 0; i < 16; i++) {
+				scanner.nextLine();
+			}
+			if (OptionsGUI.state == null)
+				OptionsGUI.state = new boolean[3];
+			for (int i = 0; i < OptionsGUI.state.length; i++) {
+				if (file.isFile()) {
+					int b = scanner.nextInt();
+					System.out.println(b);
+					OptionsGUI.state[i] = (b != 0);
+
+				}
+			}
+		}
+
 	}
 }
