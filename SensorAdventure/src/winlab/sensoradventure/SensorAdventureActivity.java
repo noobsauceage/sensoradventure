@@ -61,6 +61,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	private File path = Environment
 			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 	private File file = new File(path, fileName);
+	private int check = 0;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -132,6 +133,8 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			int[] rates = new int[Sensors.length];
 			for (int i = 0; i < Sensors.length; i++) {
 				sensorCheck[i] = sensorAdapter.checkbox[i].isChecked();
+				if (sensorCheck[i])
+					check++;
 				if (sensorCheck[i] && SensorAdapter.value[i] != null)
 					rates[i] = Integer.parseInt(SensorAdapter.value[i]);
 				else if (sensorCheck[i] && SensorAdapter.value[i] == null)
@@ -152,25 +155,38 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			intent.putExtra("otherlograte", otherlograte);
 			intent.putExtra("Servers", Servers);
 			if (OptionsGUI.state == null) {
-				print();
+				print(1);
 				Intent Data_config = new Intent(SensorAdventureActivity.this,
 						OptionsGUI.class);
 				startActivity(Data_config);
 			} else if ((OptionsGUI.state[0] == false)
 					&& (OptionsGUI.state[1] == false)
 					&& (OptionsGUI.state[2] == false)) {
-				print();
+				print(1);
 				Intent Data_config = new Intent(SensorAdventureActivity.this,
 						OptionsGUI.class);
 				startActivity(Data_config);
-			} else
+			} else if (check == 0) {
+				print(2);
+			}
+
+			else
 				startActivity(intent);
 		}
 	};
 
-	private void print() {
-		Toast.makeText(this, "Please select the Data Configuration!",
-				Toast.LENGTH_LONG).show();
+	private void print(int i) {
+		switch (i) {
+		case 1:
+			Toast.makeText(this, "Please select the Data Configuration!",
+					Toast.LENGTH_LONG).show();
+			break;
+		case 2:
+			Toast.makeText(this, "Please select a sensor.", Toast.LENGTH_LONG)
+					.show();
+			break;
+		}
+
 	}
 
 	private OnClickListener configClick = new OnClickListener() {
