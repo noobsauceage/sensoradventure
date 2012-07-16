@@ -7,6 +7,7 @@ import winlab.file.SensorSetting;
 import winlab.file.SnapShotValue;
 import winlab.sensoradventure.ContinuousRecorder;
 import winlab.sensoradventure.R;
+import winlab.sensoradventure.gps.GPSloggerService;
 import winlab.sql.Sensors_SQLite_Service;
 import winlab.sql.Sensors_SQLite_Setting;
 import winlab.sql.SnapShot_SQL;
@@ -121,6 +122,9 @@ public class StartGUI extends Activity implements OnClickListener {
 				startService(new Intent(this, RunningService.class));
 				if ((sensorCheck[13])&&(state[1]==false)) {
 					record.record();
+				}
+				if ((sensorCheck[14])&&(state[1]==false)) {
+					startService(new Intent(this, GPSloggerService.class));
 				}
 			}
 
