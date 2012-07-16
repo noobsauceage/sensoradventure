@@ -40,7 +40,9 @@ SensorEventListener{
 		data = new Sensors_SQLite(this);
 		data.open();
 		data.deleteTable();
-		data.prepareTransaction();
+		for (int i=0; i<13; i++)
+			if (Sensors_SQLite_Setting.sensors[i])
+		                       data.prepareTransaction(i);
 		
 	}
 	
@@ -167,13 +169,16 @@ SensorEventListener{
 		               break;
 				}
 		     }*/
-			for (int i=0; i<13; i++) Sensors_SQLite_Setting.sensors[i]=true;
+			
 			try{
-			data.endTransaction();
+				for (int i=0; i<13; i++)
+					if (Sensors_SQLite_Setting.sensors[i])
+			          data.endTransaction(i);
 			
 			data.close();
 			}
 			catch (Exception e) {Toast.makeText(this, "3", Toast.LENGTH_LONG).show();}
+			for (int i=0; i<13; i++) Sensors_SQLite_Setting.sensors[i]=true;
 		}
 		@Override
 		public void onStart(Intent intent, int startid) {

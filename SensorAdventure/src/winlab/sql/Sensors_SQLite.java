@@ -1,6 +1,5 @@
 package winlab.sql;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,6 +8,7 @@ import java.nio.channels.FileChannel;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils.InsertHelper;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -28,17 +28,21 @@ public class Sensors_SQLite {
 	private static final String TAG = "SQLtable";
 
 	private static final String DATABASE_NAME = "SensorDatabase.db";
-	private static final String DATABASE_TABLE[] = { "AccelerometerTable", "MagneticTable",
-		    "OrientationTable","GyroscopeTable","LightTable","PressureTable","TemperatureTable",
-			"ProximityTable", "GravityTable","LinearAccelerometerTable","RotationVectorTable",
-			"RelativeHumidityTable","AmbientTemperatureTable","MicrophoneTable"};
-	
+	private static final String DATABASE_TABLE[] = { "AccelerometerTable",
+			"MagneticTable", "OrientationTable", "GyroscopeTable",
+			"LightTable", "PressureTable", "TemperatureTable",
+			"ProximityTable", "GravityTable", "LinearAccelerometerTable",
+			"RotationVectorTable", "RelativeHumidityTable",
+			"AmbientTemperatureTable", "MicrophoneTable" };
+
 	private static final int DATABASE_VERSION = 1;
 
 	private final Context context;
 
 	private DatabaseHelper DBHelper;
 	private SQLiteDatabase db;
+
+	private InsertHelper[] ihs = new InsertHelper[DATABASE_TABLE.length];
 
 	public Sensors_SQLite(Context ctx) {
 		this.context = ctx;
@@ -53,45 +57,48 @@ public class Sensors_SQLite {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			for (int i = 0; i < DATABASE_TABLE.length - 1; i++)
-			
-			switch (i+1) {
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 9:
-			case 10:
-				
-				db.execSQL("create table " + DATABASE_TABLE[i] + " ("
-						+ KEY_ROWID + " integer primary key autoincrement, "
-						+ KEY_TIME + " text not null, " + KEY_X
-						+ " text not null, " + KEY_Y + " text not null, "
-						+ KEY_Z + " text not null);");
-				break;
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-			case 12:
-			case 13:
-				db.execSQL("create table " + DATABASE_TABLE[i] + " ("
-						+ KEY_ROWID + " integer primary key autoincrement, "
-						+ KEY_TIME + " text not null, "
-						+ "Value" + " text not null);");
-				break;
-			case 11:
-				db.execSQL("create table " + DATABASE_TABLE[i] + " ("
-						+ KEY_ROWID + " integer primary key autoincrement, "
-						+ KEY_TIME + " text not null, " + KEY_X
-						+ " text not null, " + KEY_Y + " text not null, "
-						+ KEY_Z + " text not null, "+"Scalar"+" text not null);");
-				break;
-				
-			}
-		db.execSQL("create table "
-			+ DATABASE_TABLE[DATABASE_TABLE.length - 1] + " ("
-			+ KEY_ROWID + " integer primary key autoincrement, "
-			+ KEY_SAMPLE + " blob not null);");
+
+				switch (i + 1) {
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+				case 9:
+				case 10:
+
+					db.execSQL("create table " + DATABASE_TABLE[i] + " ("
+							+ KEY_ROWID
+							+ " integer primary key autoincrement, " + KEY_TIME
+							+ " text not null, " + KEY_X + " text not null, "
+							+ KEY_Y + " text not null, " + KEY_Z
+							+ " text not null);");
+					break;
+				case 5:
+				case 6:
+				case 7:
+				case 8:
+				case 12:
+				case 13:
+					db.execSQL("create table " + DATABASE_TABLE[i] + " ("
+							+ KEY_ROWID
+							+ " integer primary key autoincrement, " + KEY_TIME
+							+ " text not null, " + "Value" + " text not null);");
+					break;
+				case 11:
+					db.execSQL("create table " + DATABASE_TABLE[i] + " ("
+							+ KEY_ROWID
+							+ " integer primary key autoincrement, " + KEY_TIME
+							+ " text not null, " + KEY_X + " text not null, "
+							+ KEY_Y + " text not null, " + KEY_Z
+							+ " text not null, " + "Scalar"
+							+ " text not null);");
+					break;
+
+				}
+			db.execSQL("create table "
+					+ DATABASE_TABLE[DATABASE_TABLE.length - 1] + " ("
+					+ KEY_ROWID + " integer primary key autoincrement, "
+					+ KEY_SAMPLE + " blob not null);");
 		}
 
 		@Override
@@ -119,48 +126,76 @@ public class Sensors_SQLite {
 		for (int i = 0; i < DATABASE_TABLE.length; i++)
 			db.delete(DATABASE_TABLE[i], null, null);
 	}
-	public void prepareTransaction(){
+
+	public void prepareTransaction(int i) {
 		db.beginTransaction();
-		
+		ihs[i] = new InsertHelper(db, DATABASE_TABLE[i]);
+		ihs[i].prepareForInsert();
+
 	}
-	public void endTransaction(){
+
+	public void endTransaction(int i) {
+		ihs[i].execute();
+		ihs[i].close();
+		db.setTransactionSuccessful();
+		db.endTransaction();
+	}
+	
+	public void prepareHelper(){
 		
-	db.setTransactionSuccessful();
-	db.endTransaction();
 	}
 
 	// ---insert a title into the database---
-	public long insertTitle1(String time, String x, String y, String z, int i) {
-		ContentValues initialValues = new ContentValues();
-		initialValues.put(KEY_TIME, time);
-		initialValues.put(KEY_X, x);
-		initialValues.put(KEY_Y, y);
-		initialValues.put(KEY_Z, z);
-		return db.insert(DATABASE_TABLE[i], null, initialValues);
+	public void insertTitle1(String time, String x, String y, String z, int i) {
+
+		ihs[i].bind(ihs[i].getColumnIndex(KEY_TIME), time);
+		ihs[i].bind(ihs[i].getColumnIndex(KEY_X), x);
+		ihs[i].bind(ihs[i].getColumnIndex(KEY_Y), y);
+		ihs[i].bind(ihs[i].getColumnIndex(KEY_Z), z);
+		/*
+		 * ContentValues initialValues = new ContentValues();
+		 * initialValues.put(KEY_TIME, time); initialValues.put(KEY_X, x);
+		 * initialValues.put(KEY_Y, y); initialValues.put(KEY_Z, z); return
+		 * db.insert(DATABASE_TABLE[i], null, initialValues);
+		 */
 	}
 
-	public long insertTitle2(String time, String value, int i) {
-		ContentValues initialValues = new ContentValues();
+	public void insertTitle2(String time, String value, int i) {
+		ihs[i].bind(ihs[i].getColumnIndex(KEY_TIME), time);
+		ihs[i].bind(ihs[i].getColumnIndex("Value"),value);
+		
+		
+		/*ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_TIME, time);
-		initialValues.put("Value",value);
-		return db.insert(DATABASE_TABLE[i], null, initialValues);
+		initialValues.put("Value", value);
+		return db.insert(DATABASE_TABLE[i], null, initialValues);*/
 	}
-	
-	public long insertTitle3(String time, String x, String y, String z, String scalar, int i) {
-		ContentValues initialValues = new ContentValues();
+
+	public void insertTitle3(String time, String x, String y, String z,
+			String scalar, int i) {
+		ihs[i].bind(ihs[i].getColumnIndex(KEY_TIME),time);
+		ihs[i].bind(ihs[i].getColumnIndex(KEY_X), x);
+		ihs[i].bind(ihs[i].getColumnIndex(KEY_Y), y);
+		ihs[i].bind(ihs[i].getColumnIndex(KEY_Z), z);
+		ihs[i].bind(ihs[i].getColumnIndex("Scalar"),scalar);
+		
+		/*ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_TIME, time);
 		initialValues.put(KEY_X, x);
 		initialValues.put(KEY_Y, y);
 		initialValues.put(KEY_Z, z);
 		initialValues.put("Scalar", scalar);
-		return db.insert(DATABASE_TABLE[i], null, initialValues);
+		return db.insert(DATABASE_TABLE[i], null, initialValues);*/
 	}
-	
-	public long insertMic(byte[] sample) {
-		ContentValues initialValues = new ContentValues();
+
+	public void insertMic(byte[] sample, int i) {
+		ihs[i].bind(ihs[i].getColumnIndex(KEY_SAMPLE), sample);
+
+		
+		/*ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_SAMPLE, sample);
 		return db.insert(DATABASE_TABLE[DATABASE_TABLE.length - 1], null,
-				initialValues);
+				initialValues);*/
 	}
 
 	// ---deletes a particular title---
@@ -169,23 +204,22 @@ public class Sensors_SQLite {
 	}
 
 	// ---retrieves all the titles---
-	
+
 	public Cursor getAllTitles1(int i) {
 		return db.query(DATABASE_TABLE[i], new String[] { KEY_ROWID, KEY_TIME,
 				KEY_X, KEY_Y, KEY_Z }, null, null, null, null, null);
 	}
-	
+
 	public Cursor getAllTitles2(int i) {
 		return db.query(DATABASE_TABLE[i], new String[] { KEY_ROWID, KEY_TIME,
 				"Value" }, null, null, null, null, null);
 	}
-	
-	
-    public Cursor getAllTitles3(int i) {
-    	return db.query(DATABASE_TABLE[i], new String[] { KEY_ROWID, KEY_TIME,
+
+	public Cursor getAllTitles3(int i) {
+		return db.query(DATABASE_TABLE[i], new String[] { KEY_ROWID, KEY_TIME,
 				KEY_X, KEY_Y, KEY_Z, "Scalar" }, null, null, null, null, null);
 	}
-    
+
 	public Cursor getAllTitlesMic() {
 		return db.query(DATABASE_TABLE[DATABASE_TABLE.length - 1],
 				new String[] { KEY_ROWID, KEY_SAMPLE }, null, null, null, null,
@@ -202,27 +236,27 @@ public class Sensors_SQLite {
 		}
 		return mCursor;
 	}
-	
+
 	public Cursor getTitle2(long rowId, int i) throws SQLException {
 		Cursor mCursor = db.query(true, DATABASE_TABLE[i], new String[] {
-				KEY_ROWID, KEY_TIME, "Value"}, KEY_ROWID + "="
-				+ rowId, null, null, null, null, null);
+				KEY_ROWID, KEY_TIME, "Value" }, KEY_ROWID + "=" + rowId, null,
+				null, null, null, null);
 		if (mCursor != null) {
 			mCursor.moveToFirst();
 		}
 		return mCursor;
 	}
-	
+
 	public Cursor getTitle3(long rowId, int i) throws SQLException {
 		Cursor mCursor = db.query(true, DATABASE_TABLE[i], new String[] {
-				KEY_ROWID, KEY_TIME, KEY_X, KEY_Y, KEY_Z, "Scalar"}, KEY_ROWID + "="
-				+ rowId, null, null, null, null, null);
+				KEY_ROWID, KEY_TIME, KEY_X, KEY_Y, KEY_Z, "Scalar" }, KEY_ROWID
+				+ "=" + rowId, null, null, null, null, null);
 		if (mCursor != null) {
 			mCursor.moveToFirst();
 		}
 		return mCursor;
 	}
-	
+
 	// ---updates a title---
 	public boolean updateTitle1(long rowId, String time, String x, String y,
 			String z, int i) {
@@ -242,7 +276,7 @@ public class Sensors_SQLite {
 		return db
 				.update(DATABASE_TABLE[i], args, KEY_ROWID + "=" + rowId, null) > 0;
 	}
-	
+
 	public boolean updateTitle3(long rowId, String time, String x, String y,
 			String z, String scalar, int i) {
 		ContentValues args = new ContentValues();
@@ -254,7 +288,7 @@ public class Sensors_SQLite {
 		return db
 				.update(DATABASE_TABLE[i], args, KEY_ROWID + "=" + rowId, null) > 0;
 	}
-	
+
 	public void copy() {
 		try {
 			File sd = Environment.getExternalStorageDirectory();
@@ -262,8 +296,8 @@ public class Sensors_SQLite {
 
 			if (sd.canWrite()) {
 				String currentDBPath = "//data//" + "winlab.CR"
-						+ "//databases//" + "SensorDatabase2";
-				String backupDBPath = "/temp/SensorDatabase2";
+						+ "//databases//" + "SensorDatabase3";
+				String backupDBPath = "/temp/SensorDatabase3";
 				File currentDB = new File(data, currentDBPath);
 				File backupDB = new File(sd, backupDBPath);
 
@@ -297,4 +331,3 @@ public class Sensors_SQLite {
 	};
 
 }
-

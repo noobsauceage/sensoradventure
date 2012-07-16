@@ -133,6 +133,8 @@ public class StartGUI extends Activity implements OnClickListener {
 
 				data2.open();
 				data2.deleteTable();
+				for (int j=0; j<13; j++)
+					if (sensorCheck[j]) data2.prepareTransaction(j);
 				Sensors_SQLite_Setting.setRate(rates);
 				startService(new Intent(this, Sensors_SQLite_Service.class));
                 if (sensorCheck[13])
@@ -174,7 +176,8 @@ public class StartGUI extends Activity implements OnClickListener {
 			if (state[1]) 
 			{
 				try {
-
+					for (int j=0; j<13; j++)
+						if (sensorCheck[j]) data2.endTransaction(j);
 					data2.close();
 				} catch (Exception e) {
 					Toast.makeText(this, "2", Toast.LENGTH_LONG).show();
@@ -214,6 +217,8 @@ public class StartGUI extends Activity implements OnClickListener {
 			}
 			if (state[1]) {
 				try {
+					for (int j=0; j<13; j++)
+						if (sensorCheck[j]) data2.endTransaction(j);
 					data2.close();
 				} catch (Exception e) {
 				}
