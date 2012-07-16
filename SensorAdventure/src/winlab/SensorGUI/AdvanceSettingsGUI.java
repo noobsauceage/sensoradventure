@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
  
 import winlab.sensoradventure.R;
+import android.annotation.SuppressLint;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -23,13 +24,16 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 import winlab.sensoradventure.*;
-
+import winlab.sensoradventure.gps.AppLog;
+import android.widget.Toast;
+@SuppressLint("ParserError")
 public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,OnItemSelectedListener {
 	public OnLongClickListener longClickListner;
 	LinearLayout panel1, panel2, panel3,panel4, panel5,panel6,panel7;
@@ -56,12 +60,15 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 
 	private String[] micchannelencoding = { "16", "8"};
     List<Uri>  urilist = new ArrayList();
-	
+    String Folder_check;
+    String email_check;
+    String [] all_emails;
 	private String[] othersamplingrates1 = { "1", "5", "10", "30", "60" };
 	
 	private String[] Server_Names = { "Server1", "Server2", "Server3" };
 	Button emailbutton;
- 
+    public  EditText folderupload;
+    public  EditText emailAddress;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,8 +88,11 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		text3.setOnClickListener(this);
 		text4.setOnClickListener(this);
 	    emailbutton = (Button)findViewById(R.id.button1);
-		 
-		
+	    folderupload = (EditText) findViewById(R.id.folderupload);
+	    emailAddress = (EditText) findViewById(R.id.emailAddress);
+		 Folder_check = folderupload.getText().toString();
+		 email_check = emailAddress.getText().toString();
+		 Log.v(Folder_check,Folder_check);
 		WriteConfigFile a = new WriteConfigFile();
 		try {
 			a.doExport();
@@ -236,12 +246,21 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
        
 	        	Intent sendIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
 	        	sendIntent.setType("plain/text");
-	        	sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"dharmalingam.malathi@gmail.com"});
+	        	email_check = emailAddress.getText().toString();
+	        	all_emails = email_check.split(",");
+	        	sendIntent.putExtra(Intent.EXTRA_EMAIL,all_emails);
 	        	sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Sensor Files");
 
 	        	ArrayList<Uri> uriList = getUriListForImages();
-	        	sendIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uriList);
+	        	if(!uriList.isEmpty())
+	        	{
+	        	 sendIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uriList);
 	        	 startActivity(Intent.createChooser(sendIntent, "Email:"));
+	        	}
+	        	else
+	        	{
+	        		 getUriListForImages1();
+	        	}
 	        }
 	    });
 		
@@ -326,23 +345,35 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 
 	}
 
+	private void getUriListForImages1()
+	{
+		Toast.makeText(this, "Folder does not exist or is Empty", Toast.LENGTH_SHORT).show();
+	}
 	private ArrayList<Uri> getUriListForImages()  {
 
 	    ArrayList<Uri> uriList = new ArrayList<Uri>();
-	    String imageDirectoryPath =  Environment.getExternalStorageDirectory().getAbsolutePath()+ "/GPSLogger/";
-	    File imageDirectory = new File(imageDirectoryPath);
-	    String[] fileList = imageDirectory.list();
+	    Folder_check = folderupload.getText().toString();
+	    String imageDirectoryPath =  Environment.getExternalStorageDirectory().getAbsolutePath()+ "/"+Folder_check+"/";
+	     
+	    Log.v(Folder_check,"Folder");
+	    File folder1 = new File(Environment.getExternalStorageDirectory(),Folder_check);
+		if (folder1.exists())
+		{
+			File imageDirectory = new File(imageDirectoryPath);
+		    String[] fileList = imageDirectory.list();
 
-	    if(fileList.length != 0) {
-	        for(int i=0; i<fileList.length; i++)
-	        {
-	            String file = "file://" + imageDirectoryPath + fileList[i];
-	            Uri uriFile = Uri.parse(file);
-	            uriList.add(uriFile);
+		    if(fileList.length != 0) {
+		        for(int i=0; i<fileList.length; i++)
+		        {
+		            String file = "file://" + imageDirectoryPath + fileList[i];
+		            Uri uriFile = Uri.parse(file);
+		            uriList.add(uriFile);
 
-	        }
-	    }
-	    return uriList;
+		        }
+		    }
+		    return uriList;
+		}
+		 return uriList;
 	}
 	
 	private void hideOthers(View layoutView) {
