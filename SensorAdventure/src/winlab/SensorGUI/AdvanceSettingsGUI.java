@@ -69,6 +69,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 	Button emailbutton;
     public  EditText folderupload;
     public  EditText emailAddress;
+    private int selection=0;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -137,30 +138,61 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 				android.R.layout.simple_spinner_item, mPreferredNetworkLabels);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		preferredNetworkType.setAdapter(adapter);
+		selection=0;
+		for (int k=0;k<mPreferredNetworkLabels.length;k++)
+			if (mPreferredNetworkLabels[k].equals(SensorAdventureActivity.provider))
+				selection=k;
+		preferredNetworkType.setSelection(selection);
+		
 		
 		preferredLoggingrategps = (Spinner) findViewById(R.id.preferredLoggingrategps);
 		ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, mloggingrate);
 		adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		preferredLoggingrategps.setAdapter(adapter1);
-
+		selection=0;
+		for (int k=0;k<mloggingrate.length;k++)
+			if (mloggingrate[k].equals(SensorAdventureActivity.lograte))
+				selection=k;
+		preferredLoggingrategps.setSelection(selection);
+		
+		
 		micsampleingrate = (Spinner) findViewById(R.id.micsampleingrate);
 		ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, micloggingrate);
 		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		micsampleingrate.setAdapter(adapter2);
+		selection=0;
+		for (int k=0;k<micloggingrate.length;k++)
+			if (micloggingrate[k].equals(SensorAdventureActivity.micsampling))
+				selection=k;
+		micsampleingrate.setSelection(selection);
 
+				
 		micchannelinput = (Spinner) findViewById(R.id.micchannelinput);
 		ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, micchannelrate);
 		adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		micchannelinput.setAdapter(adapter3);
-
+		selection=0;
+		for (int k=0;k<micchannelrate.length;k++)
+			if (micchannelrate[k].equals(SensorAdventureActivity.micchannel))
+				selection=k;
+		micchannelinput.setSelection(selection);
+		
+		
 		micchannelaudio = (Spinner) findViewById(R.id.micchannelaudio);
 		ArrayAdapter<String> adapter4 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, micchannelencoding);
 		adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		micchannelaudio.setAdapter(adapter4);
+		selection=0;
+		for (int k=0;k<micchannelencoding.length;k++)
+			if (micchannelencoding[k].equals(SensorAdventureActivity.micchannel))
+				selection=k;
+		micchannelaudio.setSelection(selection);
+
+				
 		/*
 		accelerometerate = (Spinner) findViewById(R.id.accelerometerate);
 		ArrayAdapter<String> adapter5 = new ArrayAdapter<String>(this,
@@ -185,12 +217,20 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 				android.R.layout.simple_spinner_item, othersamplingrates1);
 		adapter8.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		othersamplingrate.setAdapter(adapter8);
-	
+		selection=0;
+		for (int k=0;k<othersamplingrates1.length;k++)
+			if (othersamplingrates1[k].equals(SensorAdventureActivity.otherlograte))
+				selection=k;
+		othersamplingrate.setSelection(selection);
+		
+		
 		servernames= (Spinner) findViewById(R.id.Servers);
 		ArrayAdapter<String> adapter9 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, Server_Names);
 		adapter9.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		servernames.setAdapter(adapter9);
+		
+		
 		
 		preferredNetworkType.setOnItemSelectedListener(new OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
