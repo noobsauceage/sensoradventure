@@ -182,8 +182,8 @@ private void saveCoordinates(double latitude, double longitude, double altitude,
 	        String xml1 = "DEVICE ID "  +TelephonyMgr1.getDeviceId() +"\n";      
 	        initialWriter.write( xml1.getBytes());
 	        
-			String xml = "TIME                      ,LAT                 ,LONG           " +
-					"  ,ALT   ,BEA ,ACCU      ,PROV \n" ;		
+	    	String xml = "TIME         ,LONG       ,LAT        " +
+					" ,ALT   ,BEA   ,ACCU     ,PROV  ,SPEED \n" ;			
 			initialWriter.write(xml.getBytes());
 			initialWriter.flush();
 			initialWriter.close();
