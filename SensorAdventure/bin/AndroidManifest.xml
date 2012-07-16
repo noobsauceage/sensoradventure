@@ -32,7 +32,7 @@
         <activity android:name=".winlab.sensoradventure.SendAll.java" />
         <activity android:name="winlab.SensorGUI.OptionsGUI" />
         <activity android:name="winlab.SensorGUI.StartGUI"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="adjustPan|adjustResize|stateHidden" />
 
         <service
             android:name="winlab.file.RunningService"
