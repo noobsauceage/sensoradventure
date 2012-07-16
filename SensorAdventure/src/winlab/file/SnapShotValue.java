@@ -73,15 +73,22 @@ public class SnapShotValue {
 	private static File path;
 	private static String fileName = "Instant_Reading.txt";
 	private static File file;
+	private static File otherFile[]=new File [13];
 	private static FileWriter output;
 	private static boolean flag = true;
-
+	private static String markFile[] = { "Accelerometer.txt", "MagneticField.txt",
+			"Orientation.txt", "Gyroscope.txt", "Light.txt", "Pressure.txt",
+			"Temperature.txt", "Proximity.txt", "Gravity.txt",
+			"Linear_Acceleration.txt", "Rotation_Vector.txt", "Humidity.txt",
+			"Ambient_Temperature.txt" };
+	private static String time="";
 	public static void print() {
 		path = SensorSetting.path;
 		file = new File(path, fileName);
 		String str = "";
 		str = str + "Timestamp (ms): "
 				+ String.format("%d", System.currentTimeMillis()) + "\n";
+		time=String.format("%d", System.currentTimeMillis());
 		try {
 			path.mkdirs();
 			file.setWritable(true);
@@ -277,9 +284,25 @@ public class SnapShotValue {
 			output.close();
 		} catch (Exception e) {
 		}
-
+      print_others(time);
 	}
 
+	private static void print_others(String sysTime) {
+		for (int i=0; i<13; i++) otherFile[i]=new File(path, markFile[i]);
+		for (int i=0; i<13; i++)
+			if (SensorSetting.sensors[i]) {
+				try {
+					path.mkdirs();
+					otherFile[i].setWritable(true);
+					output = new FileWriter(otherFile[i], true);
+					output.write("\n"+sysTime+"***********MARK*********************");
+					output.close();
+				}catch (Exception e){}
+			}
+	}
+	
+	
+	
 	public static void insertSQL(SnapShot_SQL instant) {
 		String timestamp, str1, str2, str3, str4;
 		for (int i = 0; i < 13; i++)
