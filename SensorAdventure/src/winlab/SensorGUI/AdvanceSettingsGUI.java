@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
  
 import winlab.sensoradventure.R;
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -19,12 +22,14 @@ import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 import winlab.sensoradventure.*;
+
 public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,OnItemSelectedListener {
 	public OnLongClickListener longClickListner;
 	LinearLayout panel1, panel2, panel3,panel4, panel5,panel6,panel7;
@@ -50,17 +55,12 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 	private String[] micchannelrate = { "MONO", "STEREO"};
 
 	private String[] micchannelencoding = { "16", "8"};
-
-	private String[] Accelerometer = { "1", "5", "10", "30", "60"};
-	
-	private String[] Gyroscope = { "1", "5", "10", "30", "60"};
-	
-	private String[] Magnetometer = { "1", "5", "10", "30", "60" };
+    List<Uri>  urilist = new ArrayList();
 	
 	private String[] othersamplingrates1 = { "1", "5", "10", "30", "60" };
 	
 	private String[] Server_Names = { "Server1", "Server2", "Server3" };
-	
+	Button emailbutton;
  
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,23 +70,19 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		panel2 = (LinearLayout) findViewById(R.id.panel2);
 		panel3 = (LinearLayout) findViewById(R.id.panel3);
 		panel4 = (LinearLayout) findViewById(R.id.panel4);
-		panel5 = (LinearLayout) findViewById(R.id.panel5);
-		panel6 = (LinearLayout) findViewById(R.id.panel6);
-		panel7 = (LinearLayout) findViewById(R.id.panel7);
+ 
 		text1 = (TextView) findViewById(R.id.text1);
 		text2 = (TextView) findViewById(R.id.text2);
 		text3 = (TextView) findViewById(R.id.text3);
 		text4 = (TextView) findViewById(R.id.text4);
-		text5 = (TextView) findViewById(R.id.text5);
-		text6 = (TextView) findViewById(R.id.text6);
-		text7 = (TextView) findViewById(R.id.text7);
+	 
 		text1.setOnClickListener(this);
 		text2.setOnClickListener(this);
 		text3.setOnClickListener(this);
 		text4.setOnClickListener(this);
-		text5.setOnClickListener(this);
-		text6.setOnClickListener(this);
-		text7.setOnClickListener(this);
+	    emailbutton = (Button)findViewById(R.id.button1);
+		 
+		
 		WriteConfigFile a = new WriteConfigFile();
 		try {
 			a.doExport();
@@ -155,7 +151,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 				android.R.layout.simple_spinner_item, micchannelencoding);
 		adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		micchannelaudio.setAdapter(adapter4);
-
+		/*
 		accelerometerate = (Spinner) findViewById(R.id.accelerometerate);
 		ArrayAdapter<String> adapter5 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, Accelerometer);
@@ -173,7 +169,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 				android.R.layout.simple_spinner_item, Magnetometer);
 		adapter7.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		magnetometerrate.setAdapter(adapter7);
-		
+		*/
 		othersamplingrate = (Spinner) findViewById(R.id.othersamplingrate);
 		ArrayAdapter<String> adapter8 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, othersamplingrates1);
@@ -204,6 +200,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		        // your code here
 		    }
 		});
+ 
 				
 		micsampleingrate.setOnItemSelectedListener(new OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -232,7 +229,24 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		        // your code here
 		    }
 		});
+		emailbutton.setOnClickListener(new OnClickListener() {
+
+	        public void onClick(View v) {
+	            // TODO Auto-generated method stub
+       
+	        	Intent sendIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+	        	sendIntent.setType("plain/text");
+	        	sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {"dharmalingam.malathi@gmail.com"});
+	        	sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Sensor Files");
+
+	        	ArrayList<Uri> uriList = getUriListForImages();
+	        	sendIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uriList);
+	        	 startActivity(Intent.createChooser(sendIntent, "Email:"));
+	        }
+	    });
 		
+		
+		/*
 		accelerometerate.setOnItemSelectedListener(new OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 		    	SensorAdventureActivity.accelerorate = accelerometerate.getSelectedItem().toString(); 
@@ -259,7 +273,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		        // your code here
 		    }
 		});
-		
+		*/
 		othersamplingrate.setOnItemSelectedListener(new OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 		    	SensorAdventureActivity.otherlograte = othersamplingrate.getSelectedItem().toString(); 
@@ -298,6 +312,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		if (openLayout == panel4)
 			panel4.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f,
 					500, panel4, true));
+		/*
 		if (openLayout == panel5)
 			panel5.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f,
 					500, panel5, true));
@@ -307,9 +322,29 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		if (openLayout == panel7)
 			panel7.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f,
 					500, panel7, true));
+					*/
 
 	}
 
+	private ArrayList<Uri> getUriListForImages()  {
+
+	    ArrayList<Uri> uriList = new ArrayList<Uri>();
+	    String imageDirectoryPath =  Environment.getExternalStorageDirectory().getAbsolutePath()+ "/GPSLogger/";
+	    File imageDirectory = new File(imageDirectoryPath);
+	    String[] fileList = imageDirectory.list();
+
+	    if(fileList.length != 0) {
+	        for(int i=0; i<fileList.length; i++)
+	        {
+	            String file = "file://" + imageDirectoryPath + fileList[i];
+	            Uri uriFile = Uri.parse(file);
+	            uriList.add(uriFile);
+
+	        }
+	    }
+	    return uriList;
+	}
+	
 	private void hideOthers(View layoutView) {
 		{
 				
@@ -351,6 +386,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 							0.0f, 500, panel4, true));
 				}
 			}
+			/*
 			else if (layoutView.getId() == R.id.text5) {
 				v = panel5.getVisibility();
 				hideThemAll();
@@ -376,6 +412,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 							0.0f, 500, panel7, true));
 				}
 			}
+			*/
 		}
 	}
 
