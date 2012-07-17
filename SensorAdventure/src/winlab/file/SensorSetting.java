@@ -24,6 +24,7 @@ public class SensorSetting {
 		for (int i = 1; i <= 13; i++)
 			if (mSensorManager.getDefaultSensor(i) == null)
 				sensors[i - 1] = false;
+			else sensors[i-1]=true;
 		for (int i=0; i<13; i++)
 			available_sensors[i]=sensors[i];
 
