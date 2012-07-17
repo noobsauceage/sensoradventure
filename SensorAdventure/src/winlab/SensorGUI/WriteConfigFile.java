@@ -55,15 +55,12 @@ public class  WriteConfigFile  {
 		fileBuf.append("      <mic_channel_audio>"+micchannelencoding+"</mic_channel_audio>\n");
 		fileBuf.append("      <gps_provider>"+mPreferredNetworkLabels+"</gps_provider>\n");
 		fileBuf.append("      <gps_loggingrate>"+mloggingrate+"</gps_loggingrate>\n");
-		fileBuf.append("      <acceleometerate>"+Accelerometer+"</acceleometerate>\n");
-		fileBuf.append("      <magnetorate>"+Magnetometer+"</magnetorate>\n");
-		fileBuf.append("      <gyrorate>"+Gyroscope+"</gyrorate>\n");
 		fileBuf.append("      <other_lograte>"+ othersamplingrates1+"</other_lograte>\n");
 	}
 	
 	private void closeFileBuf(StringBuffer fileBuf, String beginTimestamp, String endTimestamp) {
-		fileBuf.append("    <sensors>\n");
-		fileBuf.append("  <sensor_configuration>\n");
+		fileBuf.append("    </sensors>\n");
+		fileBuf.append("  </sensor_configuration>\n");
 	}
 	
 	

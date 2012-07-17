@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.xmlpull.v1.XmlPullParserException;
  
 import winlab.sensoradventure.R;
 import android.annotation.SuppressLint;
@@ -94,21 +96,47 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		 Folder_check = folderupload.getText().toString();
 		 email_check = emailAddress.getText().toString();
 		 Log.v(Folder_check,Folder_check);
-		WriteConfigFile a = new WriteConfigFile();
-		try {
-			a.doExport();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
 		File folder = new File(Environment.getExternalStorageDirectory(),
 				"SensorConfig");
 		if (folder.exists()) {
 			File kmlFile = new File(folder.getPath(), "Config.txt");
 			if(kmlFile.exists())
 			{
-				//Start Reading from kml file
+				ReadConf readparse = new ReadConf();
+				try {
+					readparse.parseXML();
+				} catch (XmlPullParserException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				String mic_sam= readparse.getmicsample();
+				micloggingrate = null;
+				micloggingrate = mic_sam.split(",");
+				
+				String mic_chan= readparse.getmicchannel();
+				micchannelrate = null;
+				micchannelrate = mic_chan.split(",");
+				
+				String mic_enco= readparse.getmicaudio();
+				micchannelencoding = null;
+				micchannelencoding = mic_enco.split(",");
+				
+				String gps_pr= readparse.getgpsprov();
+				mPreferredNetworkLabels = null;
+				mPreferredNetworkLabels = gps_pr.split(",");
+				
+				String gps_log= readparse.getgpslog();
+				mloggingrate = null;
+				mloggingrate = gps_log.split(",");
+				
+				String other_log = readparse.getotherlog();
+				othersamplingrates1 = null;
+				othersamplingrates1 = other_log.split(",");
 				
 			}
 			else
@@ -264,10 +292,10 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 	        public void onClick(View v) {
 	            // TODO Auto-generated method stub
 	        	 folderupload = (EditText) findViewById(R.id.folderupload);
-	     	    emailAddress = (EditText) findViewById(R.id.emailAddress);
+	     	     emailAddress = (EditText) findViewById(R.id.emailAddress);
 	     		 Folder_check = folderupload.getText().toString();
 	     		 email_check = emailAddress.getText().toString();
-	        	if(emailAddress.getText().length() !=0 && folderupload.getText().length() !=0)
+	        	if( folderupload.getText().length() !=0)
 	        	{
 	        	Intent sendIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
 	        	sendIntent.setType("plain/text");
@@ -341,7 +369,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 	
 	private void getUriListForImages2()
 	{
-		Toast.makeText(this, "Fill both the Items", Toast.LENGTH_SHORT).show();
+		Toast.makeText(this, "Fill Folder Name", Toast.LENGTH_SHORT).show();
 	}
 	
 	private ArrayList<Uri> getUriListForImages()  {

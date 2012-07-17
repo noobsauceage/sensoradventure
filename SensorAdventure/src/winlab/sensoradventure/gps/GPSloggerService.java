@@ -169,7 +169,7 @@ private void saveCoordinatesfile(double latitude, double longitude, double altit
 		isNew = true;
 	}
 	try {
-		File kmlFile = new File(folder.getPath(),"GPSlogfile7.txt");
+		File kmlFile = new File(folder.getPath(),"GPSlog.txt");
 		if (!kmlFile.exists())
 		{
 			kmlFile.createNewFile();	
