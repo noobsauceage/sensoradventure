@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 import winlab.file.SensorSetting;
 import winlab.sensoradventure.R;
-import winlab.sensoradventure.SensorAdventureActivity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;

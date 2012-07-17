@@ -5,11 +5,7 @@ import java.io.FileWriter;
 
 import winlab.sql.Sensors_SQLite_Setting;
 import winlab.sql.SnapShot_SQL;
-
-import winlab.contexts.Defs;
-
 import android.hardware.Sensor;
-import android.os.Environment;
 
 public class SnapShotValue {
 
