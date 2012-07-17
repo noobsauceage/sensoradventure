@@ -191,27 +191,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 			if (micchannelencoding[k].equals(SensorAdventureActivity.micchannel))
 				selection=k;
 		micchannelaudio.setSelection(selection);
-
-				
-		/*
-		accelerometerate = (Spinner) findViewById(R.id.accelerometerate);
-		ArrayAdapter<String> adapter5 = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, Accelerometer);
-		adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		accelerometerate.setAdapter(adapter5);
-		
-		gyroscoperate = (Spinner) findViewById(R.id.gyroscoperate);
-		ArrayAdapter<String> adapter6 = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, Gyroscope);
-		adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		gyroscoperate.setAdapter(adapter6);
-  
-		magnetometerrate = (Spinner) findViewById(R.id.magnetometerrate);
-		ArrayAdapter<String> adapter7 = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, Magnetometer);
-		adapter7.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		magnetometerrate.setAdapter(adapter7);
-		*/
+ 
 		othersamplingrate = (Spinner) findViewById(R.id.othersamplingrate);
 		ArrayAdapter<String> adapter8 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, othersamplingrates1);
@@ -283,7 +263,12 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 
 	        public void onClick(View v) {
 	            // TODO Auto-generated method stub
-       
+	        	 folderupload = (EditText) findViewById(R.id.folderupload);
+	     	    emailAddress = (EditText) findViewById(R.id.emailAddress);
+	     		 Folder_check = folderupload.getText().toString();
+	     		 email_check = emailAddress.getText().toString();
+	        	if(emailAddress.getText().length() !=0 && folderupload.getText().length() !=0)
+	        	{
 	        	Intent sendIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
 	        	sendIntent.setType("plain/text");
 	        	email_check = emailAddress.getText().toString();
@@ -301,38 +286,14 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 	        	{
 	        		 getUriListForImages1();
 	        	}
+	        	}
+	        	else
+	        	{
+	        		getUriListForImages2();
+	        	}
 	        }
-	    });
-		
-		
-		/*
-		accelerometerate.setOnItemSelectedListener(new OnItemSelectedListener() {
-		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-		    	SensorAdventureActivity.accelerorate = accelerometerate.getSelectedItem().toString(); 
-		    }
-		    public void onNothingSelected(AdapterView<?> parentView) {
-		        // your code here
-		    }
-		});
-		
-		gyroscoperate.setOnItemSelectedListener(new OnItemSelectedListener() {
-		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-		    	SensorAdventureActivity.gyrorate = gyroscoperate.getSelectedItem().toString(); 
-		    }
-		    public void onNothingSelected(AdapterView<?> parentView) {
-		        // your code here
-		    }
-		});
-		
-		magnetometerrate.setOnItemSelectedListener(new OnItemSelectedListener() {
-		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-		    	SensorAdventureActivity.magnetorate = magnetometerrate.getSelectedItem().toString(); 
-		    }
-		    public void onNothingSelected(AdapterView<?> parentView) {
-		        // your code here
-		    }
-		});
-		*/
+	    });	
+		 
 		othersamplingrate.setOnItemSelectedListener(new OnItemSelectedListener() {
 		    public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 		    	SensorAdventureActivity.otherlograte = othersamplingrate.getSelectedItem().toString(); 
@@ -371,24 +332,18 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		if (openLayout == panel4)
 			panel4.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f,
 					500, panel4, true));
-		/*
-		if (openLayout == panel5)
-			panel5.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f,
-					500, panel5, true));
-		if (openLayout == panel6)
-			panel6.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f,
-					500, panel6, true));
-		if (openLayout == panel7)
-			panel7.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f,
-					500, panel7, true));
-					*/
-
 	}
 
 	private void getUriListForImages1()
 	{
 		Toast.makeText(this, "Folder does not exist or is Empty", Toast.LENGTH_SHORT).show();
 	}
+	
+	private void getUriListForImages2()
+	{
+		Toast.makeText(this, "Fill both the Items", Toast.LENGTH_SHORT).show();
+	}
+	
 	private ArrayList<Uri> getUriListForImages()  {
 
 	    ArrayList<Uri> uriList = new ArrayList<Uri>();
@@ -415,7 +370,6 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		}
 		 return uriList;
 	}
-	
 	private void hideOthers(View layoutView) {
 		{
 				
@@ -457,33 +411,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 							0.0f, 500, panel4, true));
 				}
 			}
-			/*
-			else if (layoutView.getId() == R.id.text5) {
-				v = panel5.getVisibility();
-				hideThemAll();
-				if (v != View.VISIBLE) {
-					panel5.startAnimation(new ScaleAnimToShow(1.0f, 1.0f, 1.0f,
-							0.0f, 500, panel5, true));
-				}
-			}
-			else if (layoutView.getId() == R.id.text6) {
-				v = panel6.getVisibility();
-				hideThemAll();
-				if (v != View.VISIBLE) {
-					panel6.startAnimation(new ScaleAnimToShow(1.0f, 1.0f, 1.0f,
-							0.0f, 500, panel6, true));
-				}
-			}
-			else if (layoutView.getId() == R.id.text7) {
-				v = panel7.getVisibility();
-				hideThemAll();
-				if (v != View.VISIBLE) {
-					panel7
-					.startAnimation(new ScaleAnimToShow(1.0f, 1.0f, 1.0f,
-							0.0f, 500, panel7, true));
-				}
-			}
-			*/
+ 
 		}
 	}
 
