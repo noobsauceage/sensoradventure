@@ -1,6 +1,3 @@
-/**
- * 
- */
 package winlab.sensoradventure.gps;
 
 import java.io.File;
@@ -35,7 +32,7 @@ public class GPSLoggerSQLite {
 	public static final String KEY_BEARING = "BEARING";
 	public static final String KEY_ACCURACY = "ACCURACY";
 	public static final String KEY_PROVIDER = "PROVIDER";
-	public static final String KEY_SAMPLE = "sample";
+	public static final String KEY_SPEED= "SPEED";
 	private static final String TAG = "SQLtable";
 	private static final String DATABASE_NAME = "SensorDatabase";
 	private static final String DATABASE_TABLE = "gps";
@@ -62,7 +59,8 @@ public class GPSLoggerSQLite {
 					+ KEY_LAT + " text not null, " + KEY_LONG
 					+ " text not null, " + KEY_ALT + " text not null, "
 					+ KEY_BEARING + " text not null, " + KEY_ACCURACY
-					+ " text not null, " + KEY_PROVIDER + " text not null);");
+					+ " text not null, " + KEY_PROVIDER
+					+ " text not null, "+ KEY_SPEED + " text not null);");
 		}
 
 		@Override
@@ -92,7 +90,7 @@ public class GPSLoggerSQLite {
 
 	// ---insert a gps row into the database---
 	public long insertgpsrow(long time, String device_id, double x, double y,
-			double z, double bearing, double accuracy, String provider, int i) {
+			double z, double bearing, double accuracy, String provider, double  speed) {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_ROWID, device_id);
 		initialValues.put(KEY_TIME, time);
@@ -102,6 +100,7 @@ public class GPSLoggerSQLite {
 		initialValues.put(KEY_BEARING, bearing);
 		initialValues.put(KEY_ACCURACY, accuracy);
 		initialValues.put(KEY_PROVIDER, provider);
+		initialValues.put(KEY_SPEED, speed);
 		return db.insert(DATABASE_TABLE, null, initialValues);
 	}
 
@@ -109,7 +108,7 @@ public class GPSLoggerSQLite {
 	public Cursor getAllgpsdata(int i) {
 		return db.query(DATABASE_TABLE, new String[] { KEY_ROWID, KEY_TIME,
 				KEY_LAT, KEY_LONG, KEY_ALT, KEY_BEARING, KEY_ACCURACY,
-				KEY_PROVIDER }, null, null, null, null, null);
+				KEY_PROVIDER,KEY_SPEED }, null, null, null, null, null);
 	}
 
 	public void copy() {

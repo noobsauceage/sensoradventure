@@ -21,6 +21,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
@@ -47,13 +48,13 @@ public class GPSloggerService extends Service {
 	private LocationListener locationListener;
 	private SQLiteDatabase db;
 	
-	private static long minTimeMillis = 2000;
+	private static long minTimeMillis = 1000;
 	private static long minDistanceMeters = 10;
 	private static float minAccuracyMeters = 35;
 	
 	private int lastStatus = 0;
 	private static boolean showingDebugToast = false;
-	
+	private GPSLoggerSQLite data;
 	private static final String tag = "GPSLoggerService";
 
 	/** Called when the activity is first created. */
@@ -61,13 +62,12 @@ public class GPSloggerService extends Service {
 
 		// ---use the LocationManager class to obtain GPS locations---
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
 		locationListener = new MyLocationListener();
-
 		lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 
 				minTimeMillis, 
 				0,
 				locationListener);
+		//data = new GPSLoggerSQLite(this);
 		//initDatabase();
 	}
 	
@@ -99,7 +99,8 @@ public class MyLocationListener implements LocationListener {
 						TimeZone tz = greg.getTimeZone();
 						int offset = tz.getOffset(System.currentTimeMillis());
 						greg.add(Calendar.SECOND, (offset/1000) * -1);
-						saveCoordinates(loc.getLatitude(),loc.getLongitude(),loc.getAltitude(),loc.getBearing(),loc.getAccuracy(),"gps" );
+						saveCoordinatesfile(loc.getLatitude(),loc.getLongitude(),loc.getAltitude(),loc.getBearing(),loc.getAccuracy(),"GPS",loc.getSpeed() );
+					//	saveCoordinatesdb(loc.getLatitude(),loc.getLongitude(),loc.getAltitude(),loc.getBearing(),loc.getAccuracy(),"GPS",loc.getSpeed() );
 						 
 				} catch (Exception e) {
 					Log.e(tag, e.toString());
@@ -156,7 +157,7 @@ public class MyLocationListener implements LocationListener {
 
 	}
 
-private void saveCoordinates(double latitude, double longitude, double altitude, double bearing, double accuracy,String provider){
+private void saveCoordinatesfile(double latitude, double longitude, double altitude, double bearing, double accuracy,String provider,double speed){
 	AppLog.logString("GPSloggerService.onProviderEnabled().");
 	File folder = new File(Environment.getExternalStorageDirectory(), "GPSLogger");
 	 
@@ -168,7 +169,7 @@ private void saveCoordinates(double latitude, double longitude, double altitude,
 		isNew = true;
 	}
 	try {
-		File kmlFile = new File(folder.getPath(),"GPSlogfile.txt");
+		File kmlFile = new File(folder.getPath(),"GPSlog.txt");
 		if (!kmlFile.exists())
 		{
 			kmlFile.createNewFile();	
@@ -182,8 +183,8 @@ private void saveCoordinates(double latitude, double longitude, double altitude,
 	        String xml1 = "DEVICE ID "  +TelephonyMgr1.getDeviceId() +"\n";      
 	        initialWriter.write( xml1.getBytes());
 	        
-	    	String xml = "TIME         ,LONG       ,LAT        " +
-					" ,ALT   ,BEA   ,ACCU     ,PROV  ,SPEED \n" ;			
+			String xml = "TIME         ,LONG       ,LAT        " +
+					" ,ALT   ,BEA   ,ACCU    ,PROV  ,SPEED \n" ;		
 			initialWriter.write(xml.getBytes());
 			initialWriter.flush();
 			initialWriter.close();
@@ -194,8 +195,8 @@ private void saveCoordinates(double latitude, double longitude, double altitude,
 		String dateString = sdf.format(new Date());
 		long currentDeviceTime=Calendar.getInstance().getTimeInMillis();
  
-		String placemark =  currentDeviceTime +"," +String.valueOf(longitude) + "," + String.valueOf(latitude) + "  ," 
-				+String.valueOf(altitude) + "   ,"+ bearing + "   ," + String.valueOf(accuracy) +"   ," +provider +"\n";
+		String placemark =  currentDeviceTime +"," +String.valueOf(longitude) + "," + String.valueOf(latitude) + "," 
+				+String.valueOf(altitude) + ","+ bearing + "," + String.valueOf(accuracy) +"," +provider +"," +String.valueOf(speed)+"\n";
 		
 		RandomAccessFile fileAccess = new RandomAccessFile(kmlFile, "rw");
 	 	FileLock lock = fileAccess.getChannel().lock();
@@ -211,6 +212,32 @@ private void saveCoordinates(double latitude, double longitude, double altitude,
 		e.printStackTrace();
 	}
 	 
+}
+
+private void saveCoordinatesdb(double latitude, double longitude, double altitude, double bearing, double accuracy,String provider,double speed){
+	TelephonyManager TelephonyMgr1 = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+	String device_id = TelephonyMgr1.getDeviceId();
+	data.open();
+	long currentDeviceTime = Calendar.getInstance().getTimeInMillis();
+	data.insertgpsrow(currentDeviceTime, device_id, latitude, longitude,
+			altitude, bearing, accuracy, provider, speed);
+	/*
+	String result = "device_id(IMEI)       timestamp (ms)            LAT (degrees)            LONG (degrees)          ALT (degrees)        BEARING         ACCURACY     PROVIDER \n";
+	Cursor c = data.getAllgpsdata(1);
+	if (c.moveToFirst()) {
+
+		do {
+			result = result + c.getString(1) + "    " + c.getString(2)
+					+ "    " + c.getString(3) + "      " + c.getString(4)
+					+ "      " + c.getString(5) + "           "
+					+ c.getString(6) + "\n";
+		} while ((c.moveToNext()));
+
+	}
+	AppLog.logString("result" + result);
+	 */
+	data.close();
+
 }
 
 	private NotificationManager mNM;
