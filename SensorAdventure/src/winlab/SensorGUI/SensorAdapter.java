@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import winlab.file.SensorSetting;
 import winlab.sensoradventure.R;
+import winlab.sensoradventure.SensorAdventureActivity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -174,7 +175,7 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		if (checkbox[groupPosition] != null) {
 			checkbox[groupPosition].setChecked(groups.get(groupPosition)
 					.getState());
-			if ((groupPosition<13)&&(SensorSetting.sensors[groupPosition]==false)) 
+			if ((groupPosition<13)&&(SensorSetting.available_sensors[groupPosition]==false)) 
 			{
 				checkbox[groupPosition].setChecked(false);
 				checkbox[groupPosition].setClickable(false);

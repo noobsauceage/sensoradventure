@@ -62,7 +62,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 	private File file = new File(path, fileName);
 	private int check = 0;
-
+    
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle bundle) {
@@ -71,7 +71,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 
 		ok = new SensorSetting(this);
 		ok.testAvailableSensors();
-
+        
 		normalSensor.add(new Child("Update   Rate", "ms"));
 		micSensor.add(new Child("Sampling Rate", "Hz"));
 

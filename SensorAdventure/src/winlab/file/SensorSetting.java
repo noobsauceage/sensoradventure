@@ -15,7 +15,8 @@ public class SensorSetting {
 			true, true, true, true, true, true, true };
 	public static int updateRate[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 	public static File path;
-
+    public static boolean available_sensors[]={ true, true, true, true, true, true,
+		true, true, true, true, true, true, true };
 	public void testAvailableSensors() {
 
 		mSensorManager = (SensorManager) context
@@ -23,6 +24,8 @@ public class SensorSetting {
 		for (int i = 1; i <= 13; i++)
 			if (mSensorManager.getDefaultSensor(i) == null)
 				sensors[i - 1] = false;
+		for (int i=0; i<13; i++)
+			available_sensors[i]=sensors[i];
 
 	}
 
