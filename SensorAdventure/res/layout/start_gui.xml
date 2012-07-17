@@ -31,8 +31,8 @@
         android:layout_alignBottom="@+id/button1"
         android:layout_centerHorizontal="true"
         android:layout_weight="0"
-        android:paddingBottom="30dip"
-        android:paddingTop="30dip" />
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip" />
 
     <TextView
         android:id="@+id/textView2"
