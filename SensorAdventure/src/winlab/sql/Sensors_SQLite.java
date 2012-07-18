@@ -57,7 +57,7 @@ public class Sensors_SQLite {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			for (int i = 0; i < DATABASE_TABLE.length - 1; i++)
-
+             if ((i<13)&&(Sensors_SQLite_Setting.sensors[i]))
 				switch (i + 1) {
 				case 1:
 				case 2:
@@ -95,10 +95,10 @@ public class Sensors_SQLite {
 					break;
 
 				}
-			db.execSQL("create table "
+			/*db.execSQL("create table "
 					+ DATABASE_TABLE[DATABASE_TABLE.length - 1] + " ("
 					+ KEY_ROWID + " integer primary key autoincrement, "
-					+ KEY_SAMPLE + " blob not null);");
+					+ KEY_SAMPLE + " blob not null);");*/
 		}
 
 		@Override
@@ -124,6 +124,7 @@ public class Sensors_SQLite {
 
 	public void deleteTable() {
 		for (int i = 0; i < DATABASE_TABLE.length; i++)
+			 if ((i<13)&&(Sensors_SQLite_Setting.sensors[i]))
 			db.delete(DATABASE_TABLE[i], null, null);
 	}
 
