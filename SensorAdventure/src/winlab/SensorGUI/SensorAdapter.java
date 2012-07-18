@@ -70,7 +70,11 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		View v = null;
-
+		/*if ((groupPosition<13)&&(SensorSetting.available_sensors[groupPosition]==false)) 
+			{
+			edittext[groupPosition]=null;
+			return v;
+			}
 		/*
 		 * This set of code recycles the view. It is commented out to prevent
 		 * problems with scrolling up and down. Should anyone fix the scrolling
