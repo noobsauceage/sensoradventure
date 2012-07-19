@@ -129,6 +129,7 @@ public class Sensors_SQLite {
 		for (int i = 0; i < DATABASE_TABLE.length; i++)
 			 if ((i<13)&&(Sensors_SQLite_Setting.sensors[i]))
 			db.delete(DATABASE_TABLE[i], null, null);
+		//db.execSQL("VACUUM");
 	}
 
 	public void prepareTransaction(/*int i*/) {
