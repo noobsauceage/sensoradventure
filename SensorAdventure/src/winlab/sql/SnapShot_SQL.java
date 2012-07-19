@@ -131,14 +131,14 @@ public void deleteTable() {
 
 public void prepareTransaction(int i) {
 //	db.beginTransaction();
-	ihs[i] = new InsertHelper(db, DATABASE_TABLE[i]);
-	ihs[i].prepareForInsert();
+//	ihs[i] = new InsertHelper(db, DATABASE_TABLE[i]);
+//	ihs[i].prepareForInsert();
 
 }
 
-public void endTransaction(int i) {
-	ihs[i].execute();
-	ihs[i].close();
+public void endTransaction(/*int i*/) {
+//	ihs[i].execute();
+//	ihs[i].close();
 //	db.setTransactionSuccessful();
 //	db.endTransaction();
 }
@@ -148,56 +148,57 @@ public void prepareHelper(){
 }
 
 // ---insert a title into the database---
-public void insertTitle1(String time, String x, String y, String z, int i) {
+public long insertTitle1(String time, String x, String y, String z, int i) {
 
-	ihs[i].bind(ihs[i].getColumnIndex(KEY_TIME), time);
+	/*ihs[i].bind(ihs[i].getColumnIndex(KEY_TIME), time);
 	ihs[i].bind(ihs[i].getColumnIndex(KEY_X), x);
 	ihs[i].bind(ihs[i].getColumnIndex(KEY_Y), y);
-	ihs[i].bind(ihs[i].getColumnIndex(KEY_Z), z);
-	/*
-	 * ContentValues initialValues = new ContentValues();
-	 * initialValues.put(KEY_TIME, time); initialValues.put(KEY_X, x);
-	 * initialValues.put(KEY_Y, y); initialValues.put(KEY_Z, z); return
-	 * db.insert(DATABASE_TABLE[i], null, initialValues);
-	 */
+	ihs[i].bind(ihs[i].getColumnIndex(KEY_Z), z);*/
+	
+	  ContentValues initialValues = new ContentValues();
+	  initialValues.put(KEY_TIME, time); initialValues.put(KEY_X, x);
+	  initialValues.put(KEY_Y, y); initialValues.put(KEY_Z, z); 
+	  return
+	  db.insert(DATABASE_TABLE[i], null, initialValues);
+	 
 }
 
-public void insertTitle2(String time, String value, int i) {
-	ihs[i].bind(ihs[i].getColumnIndex(KEY_TIME), time);
-	ihs[i].bind(ihs[i].getColumnIndex("Value"),value);
+public long insertTitle2(String time, String value, int i) {
+//	ihs[i].bind(ihs[i].getColumnIndex(KEY_TIME), time);
+//	ihs[i].bind(ihs[i].getColumnIndex("Value"),value);
 	
 	
-	/*ContentValues initialValues = new ContentValues();
+	ContentValues initialValues = new ContentValues();
 	initialValues.put(KEY_TIME, time);
 	initialValues.put("Value", value);
-	return db.insert(DATABASE_TABLE[i], null, initialValues);*/
+	return db.insert(DATABASE_TABLE[i], null, initialValues);
 }
 
-public void insertTitle3(String time, String x, String y, String z,
+public long insertTitle3(String time, String x, String y, String z,
 		String scalar, int i) {
-	ihs[i].bind(ihs[i].getColumnIndex(KEY_TIME),time);
+	/*ihs[i].bind(ihs[i].getColumnIndex(KEY_TIME),time);
 	ihs[i].bind(ihs[i].getColumnIndex(KEY_X), x);
 	ihs[i].bind(ihs[i].getColumnIndex(KEY_Y), y);
 	ihs[i].bind(ihs[i].getColumnIndex(KEY_Z), z);
-	ihs[i].bind(ihs[i].getColumnIndex("Scalar"),scalar);
+	ihs[i].bind(ihs[i].getColumnIndex("Scalar"),scalar);*/
 	
-	/*ContentValues initialValues = new ContentValues();
+	ContentValues initialValues = new ContentValues();
 	initialValues.put(KEY_TIME, time);
 	initialValues.put(KEY_X, x);
 	initialValues.put(KEY_Y, y);
 	initialValues.put(KEY_Z, z);
 	initialValues.put("Scalar", scalar);
-	return db.insert(DATABASE_TABLE[i], null, initialValues);*/
+	return db.insert(DATABASE_TABLE[i], null, initialValues);
 }
 
-public void insertMic(byte[] sample, int i) {
-	ihs[i].bind(ihs[i].getColumnIndex(KEY_SAMPLE), sample);
+public long insertMic(byte[] sample, int i) {
+//	ihs[i].bind(ihs[i].getColumnIndex(KEY_SAMPLE), sample);
 
 	
-	/*ContentValues initialValues = new ContentValues();
+	ContentValues initialValues = new ContentValues();
 	initialValues.put(KEY_SAMPLE, sample);
 	return db.insert(DATABASE_TABLE[DATABASE_TABLE.length - 1], null,
-			initialValues);*/
+			initialValues);
 }
 
 // ---deletes a particular title---

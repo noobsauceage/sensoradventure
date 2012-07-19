@@ -11,6 +11,7 @@ import winlab.sensoradventure.gps.GPSloggerService;
 import winlab.sql.Sensors_SQLite_Service;
 import winlab.sql.Sensors_SQLite_Setting;
 import winlab.sql.SnapShot_SQL;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -27,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@TargetApi(9)
 public class StartGUI extends Activity implements OnClickListener {
 	private boolean flag = true;
 	private Chronometer mChronometer;
@@ -133,8 +135,8 @@ public class StartGUI extends Activity implements OnClickListener {
 
 				data2.open();
 				data2.deleteTable();
-				for (int j=0; j<13; j++)
-					if (sensorCheck[j]) data2.prepareTransaction(j);
+//				for (int j=0; j<13; j++)
+//					if (sensorCheck[j]) data2.prepareTransaction(j);
 				Sensors_SQLite_Setting.setRate(rates);
 				startService(new Intent(this, Sensors_SQLite_Service.class));
                 if (sensorCheck[13])
@@ -176,8 +178,8 @@ public class StartGUI extends Activity implements OnClickListener {
 			if (state[1]) 
 			{
 				try {
-					for (int j=0; j<13; j++)
-						if (sensorCheck[j]) data2.endTransaction(j);
+//					for (int j=0; j<13; j++)
+//						if (sensorCheck[j]) data2.endTransaction(j);
 					data2.copy();
 					data2.close();
 				} catch (Exception e) {
@@ -218,8 +220,8 @@ public class StartGUI extends Activity implements OnClickListener {
 			}
 			if (state[1]) {
 				try {
-					for (int j=0; j<13; j++)
-						if (sensorCheck[j]) data2.endTransaction(j);
+//					for (int j=0; j<13; j++)
+//						if (sensorCheck[j]) data2.endTransaction(j);
 					data2.close();
 				} catch (Exception e) {
 				}
@@ -285,6 +287,7 @@ public class StartGUI extends Activity implements OnClickListener {
 		try {
 			path.mkdirs();
 			file.setWritable(true);
+			
 			if (flag2)
 				output = new FileWriter(file);
 			else

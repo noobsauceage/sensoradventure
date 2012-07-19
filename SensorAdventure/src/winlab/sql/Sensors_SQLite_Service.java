@@ -8,6 +8,7 @@ import winlab.file.SnapShotValue;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 //import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -40,10 +41,9 @@ SensorEventListener{
 		data = new Sensors_SQLite(this);
 		data.open();
 		data.deleteTable();
-		for (int i=0; i<13; i++)
-			if (Sensors_SQLite_Setting.sensors[i])
-		                       data.prepareTransaction(i);
-		
+//		for (int i=0; i<13; i++)
+//			if (Sensors_SQLite_Setting.sensors[i])
+		                       data.prepareTransaction();	
 	}
 	
 	public void onSensorChanged (SensorEvent event) {
@@ -116,6 +116,7 @@ SensorEventListener{
 					}catch (Exception e){Toast.makeText(this, "sensor error", Toast.LENGTH_LONG).show();}
 				}
 			
+			
 			/*
 			int count1=0,count2=0,count3=0;
 			String result1="", result2="", result3="";
@@ -124,7 +125,7 @@ SensorEventListener{
 			
 			
 			for (int i=0; i<13; i++)
-			if (Sensors_SQLite_Setting.sensors[i])
+			if ((Sensors_SQLite_Setting.sensors[i]))
 			{	
 				count1=0; count2=0; count3=0;
 				switch (i+1) {
@@ -168,12 +169,13 @@ SensorEventListener{
 		               Toast.makeText(this, result3, Toast.LENGTH_LONG).show();
 		               break;
 				}
-		     }*/
+		     }
+			*/
 			
 			try{
-				for (int i=0; i<13; i++)
-					if (Sensors_SQLite_Setting.sensors[i])
-			          data.endTransaction(i);
+//				for (int i=0; i<13; i++)
+//					if (Sensors_SQLite_Setting.sensors[i])
+			          data.endTransaction();
 			data.copy();
 			data.close();
 			}
