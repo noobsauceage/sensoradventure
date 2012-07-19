@@ -294,52 +294,35 @@ public class Sensors_SQLite {
 	}
 
 	public void copy(){
-		
-		InputStream myInput;
-			 
-				try {
-		 
-					myInput = new FileInputStream("/data/data/winlab.sql/databases/SensorDatabase");//this is
-		// the path for all apps
-		//insert your package instead packagename,ex:com.mybusiness.myapp
+			try {
+				File sd = Environment.getExternalStorageDirectory();
+				File data = Environment.getDataDirectory();
+				
+				if (sd.canWrite()) {
+					String currentDBPath ="//data//" + "winlab.sensoradventure" + "//databases//" + "SensorDatabase.db";
+					String backupDBPath = "/Download/SensorDatabase.db";
+					File currentDB= new File(data, currentDBPath);
+					
+					File backupDB = new File(sd, backupDBPath);
+
+					FileChannel src = new FileInputStream(currentDB).getChannel();
+					FileChannel dst = new FileOutputStream(backupDB).getChannel();
+					dst.transferFrom(src, 0, src.size());
+					src.close();
+					dst.close();
 					Message msg = handler.obtainMessage();
 					msg.arg1 = 1;
 					handler.sendMessage(msg);
-		 
-				    // Set the output folder on the SDcard
-				    File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-				    // Create the folder if it doesn't exist:
-				    if (!directory.exists()) 
-				    {
-				        directory.mkdirs();
-				    } 
-				    // Set the output file stream up:
-				    
-				    OutputStream myOutput = new FileOutputStream(directory.getPath()+
-		 "/SensorDatabase_Backup");
-		 
-		 
-		 
-				    // Transfer bytes from the input file to the output file
-				    byte[] buffer = new byte[1024];
-				    int length;
-				    while ((length = myInput.read(buffer))>0)
-				    {
-				        myOutput.write(buffer, 0, length);
-				    }
-				    // Close and clear the streams
-				    myOutput.flush();
-				    myOutput.close();
-				    myInput.close();
-				    
-				} catch (Exception e) {
 
-			Message msg = handler.obtainMessage();
-			msg.arg1 = 2;
-			handler.sendMessage(msg);
+				}
+			} catch (Exception e) {
 
+				Message msg = handler.obtainMessage();
+				msg.arg1 = 2;
+				handler.sendMessage(msg);
+
+			}
 		}
-	}
 
 	private final Handler handler = new Handler() {
 		public void handleMessage(Message msg) {

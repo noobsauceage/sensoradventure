@@ -298,7 +298,7 @@ public void copy() {
 		
 		if (sd.canWrite()) {
 			String currentDBPath ="//data//" + "winlab.sensoradventure" + "//databases//" + "InstantReading.db";
-			String backupDBPath = "/Download/InstantReading";
+			String backupDBPath = "/Download/InstantReading.db";
 			File currentDB= new File(data, currentDBPath);
 			
 			File backupDB = new File(sd, backupDBPath);
