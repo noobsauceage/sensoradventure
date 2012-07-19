@@ -3,6 +3,8 @@ package winlab.sql;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 
 import android.content.ContentValues;
@@ -17,6 +19,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
+
 
 public class Sensors_SQLite {
 	public static final String KEY_ROWID = "_id";
@@ -290,29 +293,46 @@ public class Sensors_SQLite {
 				.update(DATABASE_TABLE[i], args, KEY_ROWID + "=" + rowId, null) > 0;
 	}
 
-	public void copy() {
-		try {
-			File sd = Environment.getExternalStorageDirectory();
-			File data = Environment.getDataDirectory();
-
-			if (sd.canWrite()) {
-				String currentDBPath = "//data//" + "winlab.CR"
-						+ "//databases//" + "SensorDatabase3";
-				String backupDBPath = "/temp/SensorDatabase3";
-				File currentDB = new File(data, currentDBPath);
-				File backupDB = new File(sd, backupDBPath);
-
-				FileChannel src = new FileInputStream(currentDB).getChannel();
-				FileChannel dst = new FileOutputStream(backupDB).getChannel();
-				dst.transferFrom(src, 0, src.size());
-				src.close();
-				dst.close();
-				Message msg = handler.obtainMessage();
-				msg.arg1 = 1;
-				handler.sendMessage(msg);
-
-			}
-		} catch (Exception e) {
+	public void copy(){
+		
+		InputStream myInput;
+			 
+				try {
+		 
+					myInput = new FileInputStream("/data/data/winlab.sql/databases/SensorDatabase");//this is
+		// the path for all apps
+		//insert your package instead packagename,ex:com.mybusiness.myapp
+					Message msg = handler.obtainMessage();
+					msg.arg1 = 1;
+					handler.sendMessage(msg);
+		 
+				    // Set the output folder on the SDcard
+				    File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+				    // Create the folder if it doesn't exist:
+				    if (!directory.exists()) 
+				    {
+				        directory.mkdirs();
+				    } 
+				    // Set the output file stream up:
+				    
+				    OutputStream myOutput = new FileOutputStream(directory.getPath()+
+		 "/SensorDatabase_Backup");
+		 
+		 
+		 
+				    // Transfer bytes from the input file to the output file
+				    byte[] buffer = new byte[1024];
+				    int length;
+				    while ((length = myInput.read(buffer))>0)
+				    {
+				        myOutput.write(buffer, 0, length);
+				    }
+				    // Close and clear the streams
+				    myOutput.flush();
+				    myOutput.close();
+				    myInput.close();
+				    
+				} catch (Exception e) {
 
 			Message msg = handler.obtainMessage();
 			msg.arg1 = 2;

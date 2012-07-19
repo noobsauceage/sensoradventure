@@ -174,7 +174,7 @@ SensorEventListener{
 				for (int i=0; i<13; i++)
 					if (Sensors_SQLite_Setting.sensors[i])
 			          data.endTransaction(i);
-			
+			data.copy();
 			data.close();
 			}
 			catch (Exception e) {Toast.makeText(this, "3", Toast.LENGTH_LONG).show();}

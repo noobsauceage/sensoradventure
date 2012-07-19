@@ -295,12 +295,12 @@ public void copy() {
 	try {
 		File sd = Environment.getExternalStorageDirectory();
 		File data = Environment.getDataDirectory();
-
+		
 		if (sd.canWrite()) {
-			String currentDBPath = "//data//" + "winlab.CR"
-					+ "//databases//" + "SensorDatabase3";
-			String backupDBPath = "/temp/SensorDatabase3";
-			File currentDB = new File(data, currentDBPath);
+			String currentDBPath ="//data//" + "winlab.sensoradventure" + "//databases//" + "InstantReading.db";
+			String backupDBPath = "/Download/InstantReading";
+			File currentDB= new File(data, currentDBPath);
+			
 			File backupDB = new File(sd, backupDBPath);
 
 			FileChannel src = new FileInputStream(currentDB).getChannel();
@@ -325,7 +325,7 @@ public void copy() {
 private final Handler handler = new Handler() {
 	public void handleMessage(Message msg) {
 		if (msg.arg1 == 1)
-			Toast.makeText(context, "/temp/SensorDatabase",
+			Toast.makeText(context, "/Download/InstantReading",
 					Toast.LENGTH_LONG).show();
 		if (msg.arg1 == 2)
 			Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();

@@ -178,6 +178,7 @@ public class StartGUI extends Activity implements OnClickListener {
 				try {
 					for (int j=0; j<13; j++)
 						if (sensorCheck[j]) data2.endTransaction(j);
+					data2.copy();
 					data2.close();
 				} catch (Exception e) {
 					Toast.makeText(this, "2", Toast.LENGTH_LONG).show();
