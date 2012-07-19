@@ -325,7 +325,7 @@ public void copy() {
 private final Handler handler = new Handler() {
 	public void handleMessage(Message msg) {
 		if (msg.arg1 == 1)
-			Toast.makeText(context, "/Download/InstantReading",
+			Toast.makeText(context, "see SQLite file at: /Download/InstantReading.db",
 					Toast.LENGTH_LONG).show();
 		if (msg.arg1 == 2)
 			Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
