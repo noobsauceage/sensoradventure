@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import winlab.file.SensorSetting;
 import winlab.sensoradventure.R;
 import android.content.Context;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -176,7 +177,12 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 
 		TextView name = (TextView) v.findViewById(R.id.name);
 		if (name != null)
+		{
 			name.setText(groups.get(groupPosition).getName());
+			if ((groupPosition<13)&&(SensorSetting.available_sensors[groupPosition]==false))
+				name.setTextColor(Color.RED);
+			
+		}
 		checkbox[groupPosition] = (CheckBox) v.findViewById(R.id.checkBox1);
 		if (checkbox[groupPosition] != null) {
 			checkbox[groupPosition].setChecked(groups.get(groupPosition)
@@ -186,6 +192,7 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 				checkbox[groupPosition].setChecked(false);
 				checkbox[groupPosition].setClickable(false);
 				checkbox[groupPosition].setText("NA");
+				checkbox[groupPosition].setTextColor(Color.RED);
 			}
 		}
 		final int grouppos = groupPosition;
