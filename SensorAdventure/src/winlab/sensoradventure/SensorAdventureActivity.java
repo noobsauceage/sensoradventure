@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Scanner;
 
 import winlab.SensorGUI.AdvanceSettingsGUI;
@@ -35,6 +36,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class SensorAdventureActivity extends ExpandableListActivity {
+	private static Calendar c = Calendar.getInstance();
+	private static String Direc = null;
+	public static File DataPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 	private SensorAdapter sensorAdapter;
 	private Button start, config, save;
 	private ArrayList<Group> groups = new ArrayList<Group>();
@@ -171,7 +175,19 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			}
 
 			else
+			{
+				c = Calendar.getInstance();
+				Direc = "/" + Integer.toString(c.get(Calendar.YEAR)) + "_"
+						+ Integer.toString(c.get(Calendar.MONTH) + 1) + "_"
+						+ Integer.toString(c.get(Calendar.DATE)) + "_"
+						+ Integer.toString(c.get(Calendar.HOUR_OF_DAY)) + "Hr_"
+						+ Integer.toString(c.get(Calendar.MINUTE)) + "Min_"
+						+ Integer.toString(c.get(Calendar.SECOND)) + "Sec/";
+				DataPath = Environment
+						.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS
+								+ Direc);
 				startActivity(intent);
+			}
 		}
 	};
 

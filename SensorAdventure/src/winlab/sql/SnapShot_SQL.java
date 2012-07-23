@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
+import winlab.sensoradventure.SensorAdventureActivity;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -295,12 +297,13 @@ public boolean updateTitle3(long rowId, String time, String x, String y,
 
 public void copy() {
 	try {
-		File sd = Environment.getExternalStorageDirectory();
+		File sd = SensorAdventureActivity.DataPath;
 		File data = Environment.getDataDirectory();
+        
+		if (sd.exists()==false) sd.mkdirs();
 		
-		if (sd.canWrite()) {
 			String currentDBPath ="//data//" + "winlab.sensoradventure" + "//databases//" + "InstantReading.db";
-			String backupDBPath = "/Download/InstantReading.db";
+			String backupDBPath = "InstantReading.db";
 			File currentDB= new File(data, currentDBPath);
 			
 			File backupDB = new File(sd, backupDBPath);
@@ -314,7 +317,6 @@ public void copy() {
 			msg.arg1 = 1;
 			handler.sendMessage(msg);
 
-		}
 	} catch (Exception e) {
 
 		Message msg = handler.obtainMessage();
@@ -327,7 +329,8 @@ public void copy() {
 private final Handler handler = new Handler() {
 	public void handleMessage(Message msg) {
 		if (msg.arg1 == 1)
-			Toast.makeText(context, "see SQLite file at: /Download/InstantReading.db",
+			Toast.makeText(context, "see SQLite file at: "
+		            +SensorAdventureActivity.DataPath.toString()+"InstantReading.db",
 					Toast.LENGTH_LONG).show();
 		if (msg.arg1 == 2)
 			Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();

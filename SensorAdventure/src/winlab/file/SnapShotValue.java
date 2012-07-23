@@ -3,6 +3,7 @@ package winlab.file;
 import java.io.File;
 import java.io.FileWriter;
 
+import winlab.sensoradventure.SensorAdventureActivity;
 import winlab.sql.Sensors_SQLite_Setting;
 import winlab.sql.SnapShot_SQL;
 import android.hardware.Sensor;
@@ -79,7 +80,7 @@ public class SnapShotValue {
 			"Ambient_Temperature.txt" };
 	private static String time="";
 	public static void print() {
-		path = SensorSetting.path;
+		path = SensorAdventureActivity.DataPath;
 		file = new File(path, fileName);
 		String str = "";
 		str = str + "Timestamp (ms): "

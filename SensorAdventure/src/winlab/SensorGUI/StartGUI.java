@@ -7,6 +7,7 @@ import winlab.file.SensorSetting;
 import winlab.file.SnapShotValue;
 import winlab.sensoradventure.ContinuousRecorder;
 import winlab.sensoradventure.R;
+import winlab.sensoradventure.SensorAdventureActivity;
 import winlab.sensoradventure.gps.GPSloggerService;
 import winlab.sql.Sensors_SQLite_Service;
 import winlab.sql.Sensors_SQLite_Setting;
@@ -279,7 +280,7 @@ public class StartGUI extends Activity implements OnClickListener {
 
 
 	public void print() {
-		path = SensorSetting.path;
+		path = SensorAdventureActivity.DataPath;
 		file = new File(path, fileName);
 		String str = "";
 		str = str + "Timestamp (ms): "

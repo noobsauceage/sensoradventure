@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 
+import winlab.sensoradventure.SensorAdventureActivity;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -297,26 +299,26 @@ public class Sensors_SQLite {
 
 	public void copy(){
 			try {
-				File sd = Environment.getExternalStorageDirectory();
+				File sd = SensorAdventureActivity.DataPath;
 				File data = Environment.getDataDirectory();
 				
-				if (sd.canWrite()) {
-					String currentDBPath ="//data//" + "winlab.sensoradventure" + "//databases//" + "SensorDatabase.db";
-					String backupDBPath = "/Download/SensorDatabase.db";
-					File currentDB= new File(data, currentDBPath);
+				if (sd.exists()==false) sd.mkdirs();
+				String currentDBPath ="//data//" + "winlab.sensoradventure" + "//databases//" + "SensorDatabase.db";
+				String backupDBPath = "SensorDatabase.db";
+				File currentDB= new File(data, currentDBPath);
 					
-					File backupDB = new File(sd, backupDBPath);
+				File backupDB = new File(sd, backupDBPath);
 
-					FileChannel src = new FileInputStream(currentDB).getChannel();
-					FileChannel dst = new FileOutputStream(backupDB).getChannel();
-					dst.transferFrom(src, 0, src.size());
-					src.close();
-					dst.close();
-					Message msg = handler.obtainMessage();
-					msg.arg1 = 1;
-					handler.sendMessage(msg);
+				FileChannel src = new FileInputStream(currentDB).getChannel();
+				FileChannel dst = new FileOutputStream(backupDB).getChannel();
+				dst.transferFrom(src, 0, src.size());
+				src.close();
+				dst.close();
+				Message msg = handler.obtainMessage();
+				msg.arg1 = 1;
+				handler.sendMessage(msg);
 
-				}
+				
 			} catch (Exception e) {
 
 				Message msg = handler.obtainMessage();
@@ -329,7 +331,8 @@ public class Sensors_SQLite {
 	private final Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			if (msg.arg1 == 1)
-				Toast.makeText(context, "see SQLite file at: /Download/SensorDatabase.db",
+				Toast.makeText(context, "see SQLite file at: "
+			            +SensorAdventureActivity.DataPath.toString()+"SensorDatabase.db",
 						Toast.LENGTH_LONG).show();
 			if (msg.arg1 == 2)
 				Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();

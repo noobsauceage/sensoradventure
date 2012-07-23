@@ -14,7 +14,7 @@ public class SensorSetting {
 	public static boolean sensors[] = { true, true, true, true, true, true,
 			true, true, true, true, true, true, true };
 	public static int updateRate[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-	public static File path;
+	//public static File path;
     public static boolean available_sensors[]={ true, true, true, true, true, true,
 		true, true, true, true, true, true, true };
 	public void testAvailableSensors() {
