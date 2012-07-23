@@ -283,6 +283,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	public void onGroupCollapse(int groupPosition) {
 		update();
 		expanded[groupPosition] = false;
+		
 	}
 
 	public void update() {

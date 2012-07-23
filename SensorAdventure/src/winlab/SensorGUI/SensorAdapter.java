@@ -165,6 +165,9 @@ public class SensorAdapter extends BaseExpandableListAdapter {
 		// else
 
 		v = inflater.inflate(R.layout.group_row, parent, false);
+		if ((groupPosition<13)&&(SensorSetting.available_sensors[groupPosition]==false))
+		v.setClickable(true);
+		else v.setClickable(false);
 
 		/*
 		 * The following block of code retrieves the specific child that needs
