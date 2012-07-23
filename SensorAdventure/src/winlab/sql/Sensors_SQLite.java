@@ -334,7 +334,7 @@ public class Sensors_SQLite {
 		public void handleMessage(Message msg) {
 			if (msg.arg1 == 1)
 				Toast.makeText(context, "see SQLite file at: "
-			            +SensorAdventureActivity.DataPath.toString()+"SensorDatabase.db",
+			            +SensorAdventureActivity.DataPath.toString()+"/SensorDatabase.db",
 						Toast.LENGTH_LONG).show();
 			if (msg.arg1 == 2)
 				Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
