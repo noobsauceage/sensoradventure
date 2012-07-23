@@ -2,7 +2,7 @@ package winlab.file;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Calendar;
+//import java.util.Calendar;
 
 import winlab.sensoradventure.SensorAdventureActivity;
 
@@ -13,7 +13,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Environment;
+//import android.os.Environment;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;

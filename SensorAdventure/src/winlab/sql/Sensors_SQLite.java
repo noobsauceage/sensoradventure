@@ -3,16 +3,17 @@ package winlab.sql;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+//import java.io.InputStream;
+//import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 
 import winlab.sensoradventure.SensorAdventureActivity;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils.InsertHelper;
+//import android.database.DatabaseUtils.InsertHelper;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -23,6 +24,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 
+@SuppressLint("HandlerLeak")
 public class Sensors_SQLite {
 	public static final String KEY_ROWID = "_id";
 	public static final String KEY_TIME = "timestamp";
@@ -47,7 +49,7 @@ public class Sensors_SQLite {
 	private DatabaseHelper DBHelper;
 	private SQLiteDatabase db;
 
-	private InsertHelper[] ihs = new InsertHelper[DATABASE_TABLE.length];
+	//private InsertHelper[] ihs = new InsertHelper[DATABASE_TABLE.length];
 
 	public Sensors_SQLite(Context ctx) {
 		this.context = ctx;

@@ -3,7 +3,7 @@ package winlab.SensorGUI;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.List;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -11,7 +11,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import winlab.sensoradventure.R;
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
-import android.content.Context;
+//import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,9 +46,9 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 	private Spinner micsampleingrate;
 	private Spinner micchannelinput;
 	private Spinner micchannelaudio;
-	private Spinner accelerometerate;
-	private Spinner gyroscoperate;
-	private Spinner magnetometerrate;
+//	private Spinner accelerometerate;
+//	private Spinner gyroscoperate;
+//	private Spinner magnetometerrate;
 	private Spinner othersamplingrate;
 	private Spinner servernames;
  

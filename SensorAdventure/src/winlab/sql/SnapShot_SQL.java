@@ -11,7 +11,7 @@ import winlab.sensoradventure.SensorAdventureActivity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils.InsertHelper;
+//import android.database.DatabaseUtils.InsertHelper;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -45,7 +45,7 @@ private final Context context;
 private DatabaseHelper DBHelper;
 private SQLiteDatabase db;
 
-private InsertHelper[] ihs = new InsertHelper[DATABASE_TABLE.length];
+//private InsertHelper[] ihs = new InsertHelper[DATABASE_TABLE.length];
 
 public SnapShot_SQL(Context ctx) {
 	this.context = ctx;
