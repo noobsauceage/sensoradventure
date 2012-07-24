@@ -45,7 +45,7 @@ public class StartGUI extends Activity implements OnClickListener {
 	private int[] rates;
 	private String[] Sensors;
 	private ContinuousRecorder record;
-
+    private int micchanneli,micchannelo,micencode,micsampling;
 	private AsyncTask<Void, Void, Void> asyncTask;  //add
     private long rate=100;//add in ms
     private long duration=5; //add in s
@@ -92,7 +92,6 @@ public class StartGUI extends Activity implements OnClickListener {
 
 		ll1 = (LinearLayout) findViewById(R.id.layout1);
 		ll2 = (LinearLayout) findViewById(R.id.layout2);
-		record = new ContinuousRecorder(StartGUI.this);
 
 		for (int i = 0; i < 10; i++)
 			times[i] = "";
@@ -106,6 +105,22 @@ public class StartGUI extends Activity implements OnClickListener {
 		state = extras.getBooleanArray("state");
 		Sensors = extras.getStringArray("Sensors");
 		rates = extras.getIntArray("rates");
+		micsampling=(int)(extras.getDouble("micsampling")*1000);
+		if (extras.getString("micchannel").equals("MONO"))
+		{
+		micchanneli=16;
+		micchannelo=4;
+		}
+		if (extras.getString("micchannel").equals("STEREO"))
+		{
+		micchanneli=12;
+		micchannelo=12;
+		}
+		if (extras.getInt("micencode")==16)
+			micencode=2;
+		if (extras.getInt("micencode")==8)
+			micencode=3;
+		record = new ContinuousRecorder(1,micsampling,micchanneli,micchannelo,micencode,3,1,StartGUI.this);
 		ok = new SensorSetting(this);
 		ok2 = new Sensors_SQLite_Setting(this);
 		ok.selectSensors(sensorCheck);

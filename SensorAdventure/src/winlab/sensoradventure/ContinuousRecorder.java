@@ -80,13 +80,13 @@ public class ContinuousRecorder {
 
 	// Creates a customized C.R. where all parameters need to be set.
 	public ContinuousRecorder(int mic, int sample, int channeli, int channelo,
-			int format, int buffersize, int stream, int mode, Context con) {
+			int format, int stream, int mode, Context con) {
 		setMic(mic);
 		setSamplingRate(sample);
 		setChannelInput(channeli);
 		setChannelOutput(channelo);
 		setEncodingFormat(format);
-		setBufferSize(buffersize);
+		setBufferSize(AudioRecord.getMinBufferSize(SAMPLE, CHANNELI, FORMAT));
 		setStream(stream);
 		setMode(mode);
 
