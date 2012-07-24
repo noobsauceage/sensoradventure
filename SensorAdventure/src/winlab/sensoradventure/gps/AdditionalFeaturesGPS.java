@@ -26,8 +26,8 @@ public class AdditionalFeaturesGPS extends  Activity{
 	Button database;
 	EditText folder;
 	EditText file;
-	 String foldername; 
-	 String filename;  
+	String foldername; 
+	String filename;  
 	String b[]=null;
 	String c[]=null;
     /** Called when the activity is first created. */
@@ -107,14 +107,11 @@ public class AdditionalFeaturesGPS extends  Activity{
 	        }
 	    });
     }
- 	
-    
+ 	   
 	private void getUriListForImages1()
 	{
 		Toast.makeText(this, "Folder/File does not exist or is Empty", Toast.LENGTH_SHORT).show();
 	}
-	
- 
 	
     
 }

@@ -18,7 +18,8 @@
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
-        <activity
+        <uses-library android:name="com.google.android.maps" />
+    	 <activity
             android:name=".SensorAdventureActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateHidden" >
@@ -28,17 +29,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-         <activity android:name="winlab.sensoradventure.gps.AdditionalFeaturesGPS" />
-		<activity android:name="winlab.sensoradventure.gps.RealTimeTrackingGPS" />	
-		<activity android:name="winlab.sensoradventure.gps.TrackActivity" />
-		<activity android:name="winlab.sensoradventure.gps.BackupDatabase" />	
         <activity android:name=".winlab.sensoradventure.SensorMonitor" />
         <activity android:name=".winlab.SensorGUI.SensorGUIActivity" />
         <activity android:name=".winlab.sensoradventure.SendAll.java" />
         <activity android:name="winlab.SensorGUI.OptionsGUI" />
         <activity android:name="winlab.SensorGUI.StartGUI"
             android:windowSoftInputMode="adjustPan|adjustResize|stateHidden" />
- 
+ 		<activity android:name="winlab.sensoradventure.gps.AdditionalFeaturesGPS" />
+		<activity android:name="winlab.sensoradventure.gps.RealTimeTrackingGPS" />	
+		<activity android:name="winlab.sensoradventure.gps.TrackActivity" />
+		<activity android:name="winlab.sensoradventure.gps.BackupDatabase" />
 
         <service
             android:name="winlab.file.RunningService"
