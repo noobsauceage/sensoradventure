@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background = "@drawable/gps2"
+    android:orientation="vertical" >
+ 
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="         		  		      MAP TRACKING                   "
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+ 
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="    FOLDER                                         "
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left" >
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="    FILE                                         "
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left" >
+    </EditText>
+
+    
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="20dp" />
+    
+    
+    <Button
+        android:id="@+id/trackmap"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:text="Track on Map" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:text="         				    REAL TIME TRACKING           "
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+ 
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="10dp" />
+
+    <Button
+        android:id="@+id/realtimegps"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="REAL TIME GPS/NETWORK VALUES" />
+    
+     <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:text="         				    DATABASE BACKUP         "
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+ 
+
+    <Button
+        android:id="@+id/database"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="GPS DATABASE BKUP" />
+
+</LinearLayout>
