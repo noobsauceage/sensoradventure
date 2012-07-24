@@ -28,12 +28,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+         <activity android:name="winlab.sensoradventure.gps.AdditionalFeaturesGPS" />
+		<activity android:name="winlab.sensoradventure.gps.RealTimeTrackingGPS" />	
+		<activity android:name="winlab.sensoradventure.gps.TrackActivity" />
+		<activity android:name="winlab.sensoradventure.gps.BackupDatabase" />	
         <activity android:name=".winlab.sensoradventure.SensorMonitor" />
         <activity android:name=".winlab.SensorGUI.SensorGUIActivity" />
         <activity android:name=".winlab.sensoradventure.SendAll.java" />
         <activity android:name="winlab.SensorGUI.OptionsGUI" />
         <activity android:name="winlab.SensorGUI.StartGUI"
             android:windowSoftInputMode="adjustPan|adjustResize|stateHidden" />
+ 
 
         <service
             android:name="winlab.file.RunningService"
@@ -43,9 +48,6 @@
             android:enabled="true" />
         <service
             android:name="winlab.sensoradventure.gps.GPSloggerservice"
-            android:enabled="true" />
-        <service
-            android:name="winlab.sensoradventure.gps.GPSloggerservicedb"
             android:enabled="true" />
 
         <activity android:name="winlab.SensorGUI.AdvanceSettingsGUI"/>

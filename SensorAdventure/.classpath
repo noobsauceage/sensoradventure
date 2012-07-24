@@ -4,10 +4,10 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry exported="true" kind="lib" path="C:/sensorLib/gcrs.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/sensorLib/http-20070405.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/sensorLib/json_simple-1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/sensorLib/junit-4.8.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/sensorLib/mysql-connector-java-5.1.13-bin.jar"/>
+	<classpathentry kind="lib" path="/Users/malathidharmalingam/git/sensoradventure/SensorAdventure/lib/gcrs.jar"/>
+	<classpathentry kind="lib" path="/Users/malathidharmalingam/git/sensoradventure/SensorAdventure/lib/http-20070405.jar"/>
+	<classpathentry kind="lib" path="/Users/malathidharmalingam/git/sensoradventure/SensorAdventure/lib/json_simple-1.1.jar"/>
+	<classpathentry kind="lib" path="/Users/malathidharmalingam/git/sensoradventure/SensorAdventure/lib/junit-4.8.2.jar"/>
+	<classpathentry kind="lib" path="/Users/malathidharmalingam/git/sensoradventure/SensorAdventure/lib/mysql-connector-java-5.1.13-bin.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

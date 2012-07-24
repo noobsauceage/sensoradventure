@@ -5,19 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileLock;
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
-
-import winlab.file.SnapShotValue;
- 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -37,13 +27,6 @@ import android.widget.Toast;
 
 public class GPSloggerService extends Service {
 
-	public static final String DATABASE_NAME = "GPSLOGGERDB";
-	public static final String POINTS_TABLE_NAME = "LOCATION_POINTS";
-	public static final String TRIPS_TABLE_NAME = "TRIPS";
-
-	private final DecimalFormat sevenSigDigits = new DecimalFormat("0.#######");
-	private final DateFormat timestampFormat = new SimpleDateFormat("yyyyMMddHHmmss");
-
 	private LocationManager lm;
 	private LocationListener locationListener;
 	private SQLiteDatabase db;
@@ -56,7 +39,8 @@ public class GPSloggerService extends Service {
 	private static boolean showingDebugToast = false;
 	private GPSLoggerSQLite data;
 	private static final String tag = "GPSLoggerService";
-
+ 
+	
 	/** Called when the activity is first created. */
 	private void startLoggerService() {
 
@@ -67,23 +51,13 @@ public class GPSloggerService extends Service {
 				minTimeMillis, 
 				0,
 				locationListener);
-		//data = new GPSLoggerSQLite(this);
-		//initDatabase();
-	}
-	
-	private void initDatabase() {
-		db = this.openOrCreateDatabase(DATABASE_NAME, SQLiteDatabase.OPEN_READWRITE, null);
-		db.execSQL("CREATE TABLE IF NOT EXISTS " +
-				POINTS_TABLE_NAME + " (GMTTIMESTAMP VARCHAR, LATITUDE REAL, LONGITUDE REAL," +
-						"ALTITUDE REAL, ACCURACY REAL, SPEED REAL, BEARING REAL);");
-		db.close();
-		Log.i(tag, "Database opened ok");
+		data = new GPSLoggerSQLite(this);
+		startService(new Intent(this, GPSLoggerSQLite.class));
 	}
 
 	private void shutdownLoggerService() {
 		lm.removeUpdates(locationListener);
-	}
- 
+	} 
 
 public class MyLocationListener implements LocationListener {
 		
@@ -92,38 +66,17 @@ public class MyLocationListener implements LocationListener {
 			Double m  = loc.getLongitude();
 			Log.i(s.toString(),m.toString());
 			if (loc != null) {
-				boolean pointIsRecorded = false;
 				try {
-			 
-						GregorianCalendar greg = new GregorianCalendar();
-						TimeZone tz = greg.getTimeZone();
-						int offset = tz.getOffset(System.currentTimeMillis());
-						greg.add(Calendar.SECOND, (offset/1000) * -1);
-						saveCoordinatesfile(loc.getLatitude(),loc.getLongitude(),loc.getAltitude(),loc.getBearing(),loc.getAccuracy(),"GPS",loc.getSpeed() );
-					//	saveCoordinatesdb(loc.getLatitude(),loc.getLongitude(),loc.getAltitude(),loc.getBearing(),loc.getAccuracy(),"GPS",loc.getSpeed() );
+			  
+					    saveCoordinatesfile(loc.getLatitude(),loc.getLongitude(),loc.getAltitude(),loc.getBearing(),loc.getAccuracy(),"NETWORK",loc.getSpeed() );
+						saveCoordinatesdb(loc.getLatitude(),loc.getLongitude(),loc.getAltitude(),loc.getBearing(),loc.getAccuracy(),"NETWORK",loc.getSpeed() );
 						 
 				} catch (Exception e) {
 					Log.e(tag, e.toString());
 				} finally {
-				 
+
 				}
-				if (pointIsRecorded) {
-					if (showingDebugToast) Toast.makeText(
-							getBaseContext(),
-							"Location stored: \nLat: " + sevenSigDigits.format(loc.getLatitude())
-									+ " \nLon: " + sevenSigDigits.format(loc.getLongitude())
-									+ " \nAlt: " + (loc.hasAltitude() ? loc.getAltitude()+"m":"?")
-									+ " \nAcc: " + (loc.hasAccuracy() ? loc.getAccuracy()+"m":"?"),
-							Toast.LENGTH_SHORT).show();
-				} else {
-					if (showingDebugToast) Toast.makeText(
-							getBaseContext(),
-							"Location not accurate enough: \nLat: " + sevenSigDigits.format(loc.getLatitude())
-									+ " \nLon: " + sevenSigDigits.format(loc.getLongitude())
-									+ " \nAlt: " + (loc.hasAltitude() ? loc.getAltitude()+"m":"?")
-									+ " \nAcc: " + (loc.hasAccuracy() ? loc.getAccuracy()+"m":"?"),
-							Toast.LENGTH_SHORT).show();
-				}
+ 
 			}
 		}
 
@@ -159,8 +112,7 @@ public class MyLocationListener implements LocationListener {
 
 private void saveCoordinatesfile(double latitude, double longitude, double altitude, double bearing, double accuracy,String provider,double speed){
 	AppLog.logString("GPSloggerService.onProviderEnabled().");
-	File folder = new File(Environment.getExternalStorageDirectory(), "GPSLogger");
-	 
+	File folder = new File(Environment.getExternalStorageDirectory(), "GPSLog");
 	boolean isNew = false;
 	if (!folder.exists())
 	{
@@ -169,7 +121,7 @@ private void saveCoordinatesfile(double latitude, double longitude, double altit
 		isNew = true;
 	}
 	try {
-		File kmlFile = new File(folder.getPath(),"GPSlog.txt");
+		File kmlFile = new File(folder.getPath(),"GPSlog1.txt");
 		if (!kmlFile.exists())
 		{
 			kmlFile.createNewFile();	
@@ -183,30 +135,20 @@ private void saveCoordinatesfile(double latitude, double longitude, double altit
 	        String xml1 = "DEVICE ID "  +TelephonyMgr1.getDeviceId() +"\n";      
 	        initialWriter.write( xml1.getBytes());
 	        
-			String xml = "TIME         ,LONG       ,LAT        " +
-					" ,ALT   ,BEA   ,ACCU    ,PROV  ,SPEED \n" ;		
+			String xml = "TIME (ms)    ,          LONG(deg)      ,         LAT(deg)        ,       ALT(m) 		   , 	 BEA(deg)   	     ,              ACCU(m)    , PROV     ,      SPEED(m/s) \n" ;		
 			initialWriter.write(xml.getBytes());
 			initialWriter.flush();
 			initialWriter.close();
  
 		}
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-		String dateString = sdf.format(new Date());
-		long currentDeviceTime=Calendar.getInstance().getTimeInMillis();
- 
-		String placemark =  currentDeviceTime +"," +String.valueOf(longitude) + "," + String.valueOf(latitude) + "," 
-				+String.valueOf(altitude) + ","+ bearing + "," + String.valueOf(accuracy) +"," +provider +"," +String.valueOf(speed)+"\n";
-		
+		String placemark;
+		placemark= String.format("%d%s%25s%s%25s%s%25s%s%25s%s%25s%s%10s%s%25s\n",System.currentTimeMillis(),",",String.valueOf(longitude),",",String.valueOf(latitude),",",String.valueOf(altitude),",",bearing,",",String.valueOf(accuracy) ,",",provider,",",String.valueOf(speed));
 		RandomAccessFile fileAccess = new RandomAccessFile(kmlFile, "rw");
 	 	FileLock lock = fileAccess.getChannel().lock();
-		
 	    fileAccess.seek(kmlFile.length());
 		fileAccess.write(placemark.getBytes());
- 
 	 	lock.release();
 		fileAccess.close();
-	
 	}
 	catch (IOException e) {
 		e.printStackTrace();
@@ -214,85 +156,29 @@ private void saveCoordinatesfile(double latitude, double longitude, double altit
 	 
 }
 
-private void saveCoordinatesdb(double latitude, double longitude, double altitude, double bearing, double accuracy,String provider,double speed){
+private void saveCoordinatesdb(double latitude, double longitude, double altitude, double bearing, double accuracy,String provider,double speed) throws IOException{
+ 
+	AppLog.logString("GPSloggerService.onProviderEnabled().");
 	TelephonyManager TelephonyMgr1 = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
 	String device_id = TelephonyMgr1.getDeviceId();
 	data.open();
 	long currentDeviceTime = Calendar.getInstance().getTimeInMillis();
 	data.insertgpsrow(currentDeviceTime, device_id, latitude, longitude,
 			altitude, bearing, accuracy, provider, speed);
-	/*
-	String result = "device_id(IMEI)       timestamp (ms)            LAT (degrees)            LONG (degrees)          ALT (degrees)        BEARING         ACCURACY     PROVIDER \n";
-	Cursor c = data.getAllgpsdata(1);
-	if (c.moveToFirst()) {
-
-		do {
-			result = result + c.getString(1) + "    " + c.getString(2)
-					+ "    " + c.getString(3) + "      " + c.getString(4)
-					+ "      " + c.getString(5) + "           "
-					+ c.getString(6) + "\n";
-		} while ((c.moveToNext()));
-
-	}
-	AppLog.logString("result" + result);
-	 */
-	data.close();
-
 }
-
-	private NotificationManager mNM;
-
+ 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
 		startLoggerService();
-
-		// Display a notification about us starting. We put an icon in the
-		// status bar.
-		//showNotification();
 	}
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
-		
+		super.onDestroy();	
 		shutdownLoggerService();
+	}
  
-	}
-
-	/**
-	 * Show a notification while this service is running.
-	 */
-	/*
-	private void showNotification() {
-		// In this sample, we'll use the same text for the ticker and the
-		// expanded notification
-		CharSequence text = getText(R.string.local_service_started);
-
-		// Set the icon, scrolling text and timestamp
-		Notification notification = new Notification(R.drawable.gpslogger16,
-				text, System.currentTimeMillis());
-
-		// The PendingIntent to launch our activity if the user selects this
-		// notification
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-				new Intent(this, GPSLoggerService.class), 0);
-
-		// Set the info for the views that show in the notification panel.
-		notification.setLatestEventInfo(this, getText(R.string.service_name),
-				text, contentIntent);
-
-		// Send the notification.
-		// We use a layout id because it is a unique number. We use it later to
-		// cancel.
-		mNM.notify(R.string.local_service_started, notification);
-	}
-
-*/
-	// This is the object that receives interactions from clients. See
-	// RemoteService for a more complete example.
 	private final IBinder mBinder = new LocalBinder();
 
 	@Override

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    
+    <LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:text="Latitude     :"
+        android:inputType="text"
+        />
+    <TextView
+         android:id="@+id/latitude"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="0"
+        android:layout_gravity="right"
+        android:inputType="text"
+        />
+</LinearLayout>
+
+        
+    <LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:text="Longitude  :"
+        android:inputType="text"
+        />
+    <TextView
+         android:id="@+id/longitude"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="0"
+        android:layout_gravity="right"
+        android:inputType="text"
+        />
+</LinearLayout>
+          
+     <LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:text="Altitude     :"
+        android:inputType="text"
+        />
+    <TextView
+         android:id="@+id/altitude"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="0"
+        android:layout_gravity="right"
+        android:inputType="text"
+        />
+</LinearLayout>  
+
+         <LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:text="Bearing     :"
+        android:inputType="text"
+        />
+    <TextView
+         android:id="@+id/bearing"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="0"
+        android:layout_gravity="right"
+        android:inputType="text"
+        />
+</LinearLayout>
+
+        
+    <LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:text="Speed        :"
+        android:inputType="text"
+        />
+    <TextView
+         android:id="@+id/speed"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="0"
+        android:layout_gravity="right"
+        android:inputType="text"
+        />
+</LinearLayout>
+          
+     <LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:text="Accuracy    :"
+        android:inputType="text"
+        />
+    <TextView
+         android:id="@+id/accuracy"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="0"
+        android:layout_gravity="right"
+        android:inputType="text"
+        />
+</LinearLayout>   
+  
+          <LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:text="Notification:"
+        android:inputType="text"
+        />
+    <TextView
+         android:id="@+id/notification"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_weight="0"
+        android:layout_gravity="right"
+        android:inputType="text"
+        />
+</LinearLayout>
+
+          <Button
+              android:id="@+id/stsatview"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Street/Satellite" />
+          
+        <com.google.android.maps.MapView
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/mapview"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:enabled="true"
+		android:clickable="true"
+		android:apiKey="0ZNNh4zFN7cb5b-cCfsfrGDnrsH5OThPAuF9sgQ" />
+
+        <LinearLayout android:id="@+id/zoom" 
+        android:layout_width="wrap_content" 
+        android:layout_height="wrap_content" 
+        android:layout_alignParentBottom="true" 
+        android:layout_centerHorizontal="true" 
+        /> 
+	    
+</LinearLayout>

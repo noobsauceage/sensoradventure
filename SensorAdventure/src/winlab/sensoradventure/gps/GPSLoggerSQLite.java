@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -24,18 +23,18 @@ import android.widget.Toast;
  */
 public class GPSLoggerSQLite {
 
-	public static final String KEY_ROWID = "id";
-	public static final String KEY_TIME = "timestamp";
-	public static final String KEY_LAT = "LAT";
-	public static final String KEY_LONG = "LONG";
-	public static final String KEY_ALT = "ALT";
-	public static final String KEY_BEARING = "BEARING";
-	public static final String KEY_ACCURACY = "ACCURACY";
-	public static final String KEY_PROVIDER = "PROVIDER";
-	public static final String KEY_SPEED= "SPEED";
+	public static final String KEY_ROWID     = "ID";
+	public static final String KEY_TIME      = "TIMESTAMP";
+	public static final String KEY_LAT       = "LAT";
+	public static final String KEY_LONG      = "LONG";
+	public static final String KEY_ALT       = "ALT";
+	public static final String KEY_BEARING   = "BEARING";
+	public static final String KEY_ACCURACY  = "ACCURACY";
+	public static final String KEY_PROVIDER  = "PROVIDER";
+	public static final String KEY_SPEED     = "SPEED";
 	private static final String TAG = "SQLtable";
-	private static final String DATABASE_NAME = "SensorDatabase";
-	private static final String DATABASE_TABLE = "gps";
+	private static final String DATABASE_NAME = "SensorDatabase1";
+	private static final String DATABASE_TABLE = "gps1";
 	private static final int DATABASE_VERSION = 1;
 
 	private final Context context;
@@ -111,45 +110,7 @@ public class GPSLoggerSQLite {
 				KEY_PROVIDER,KEY_SPEED }, null, null, null, null, null);
 	}
 
-	public void copy() {
-		try {
-			File sd = Environment.getExternalStorageDirectory();
-			File data = Environment.getDataDirectory();
-
-			if (sd.canWrite()) {
-				String currentDBPath = "//data//" + "winlab.CR"
-						+ "//databases//" + "SensorDatabase2";
-				String backupDBPath = "/temp/SensorDatabase2";
-				File currentDB = new File(data, currentDBPath);
-				File backupDB = new File(sd, backupDBPath);
-
-				FileChannel src = new FileInputStream(currentDB).getChannel();
-				FileChannel dst = new FileOutputStream(backupDB).getChannel();
-				dst.transferFrom(src, 0, src.size());
-				src.close();
-				dst.close();
-				Message msg = handler.obtainMessage();
-				msg.arg1 = 1;
-				handler.sendMessage(msg);
-
-			}
-		} catch (Exception e) {
-
-			Message msg = handler.obtainMessage();
-			msg.arg1 = 2;
-			handler.sendMessage(msg);
-
-		}
-	}
-
-	private final Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-			if (msg.arg1 == 1)
-				Toast.makeText(context, "/temp/SensorDatabase",
-						Toast.LENGTH_LONG).show();
-			if (msg.arg1 == 2)
-				Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
-		}
-	};
+	 
+ 
 
 }
