@@ -105,7 +105,7 @@ public class StartGUI extends Activity implements OnClickListener {
 		state = extras.getBooleanArray("state");
 		Sensors = extras.getStringArray("Sensors");
 		rates = extras.getIntArray("rates");
-		micsampling=(int)(Double.parseDouble(extras.getString("micsampling"))*1000);
+		micsampling=rates[13];
 		if (extras.getString("micchannel").equals("MONO"))
 		{
 		micchanneli=16;

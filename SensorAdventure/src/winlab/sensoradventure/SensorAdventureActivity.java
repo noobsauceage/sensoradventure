@@ -59,6 +59,8 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	public static String magnetorate = "1";
 	public static String otherlograte = "1";
 	public static String Last_lograte = "1";
+	public static String Last_GPS_lograte="1";
+	public static String Last_micsampling="44.1";
 	public static String Servers = "Servers";
 	private SensorSetting ok;
 	private String fileName = "Save.txt";
@@ -100,10 +102,19 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		setListAdapter(sensorAdapter);
 		for (int i = 0; i < groups.size(); i++) {
 			if (!file.isFile())
+			{
+				if ((i!=13)&&(i!=14))
 				SensorAdapter.value[i] = otherlograte;
+				if (i==13)
+					SensorAdapter.value[i] =""+(int)(Double.parseDouble(micsampling)*1000);
+				if (i==14)
+					SensorAdapter.value[i]=lograte;
+			}
 			expanded[i] = false;
 		}
 		Last_lograte = otherlograte;
+		Last_GPS_lograte=lograte;
+		Last_micsampling=micsampling;
 		start = (Button) findViewById(R.id.button1);
 		start.setOnClickListener(startClick);
 		config = (Button) findViewById(R.id.button2);
@@ -118,7 +129,7 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 		// Toast.makeText(this, "I am called", Toast.LENGTH_LONG).show();
 		if (Last_lograte.equals(otherlograte)) {
 		} else {
-			for (int i = 0; i < groups.size(); i++) {
+			for (int i = 0; i < 13; i++) {
 				SensorAdapter.value[i] = otherlograte;
 				if ((sensorAdapter.edittext[i] != null) && (expanded[i]))
 					sensorAdapter.edittext[i].setText(otherlograte);
@@ -126,6 +137,22 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			}
 			Last_lograte = otherlograte;
 		}
+		if (Last_GPS_lograte.equals(lograte)){}
+		else{
+			SensorAdapter.value[14] = lograte;
+			if ((sensorAdapter.edittext[14] != null) && (expanded[14]))
+				sensorAdapter.edittext[14].setText(lograte);
+			Last_GPS_lograte=lograte;
+		}
+		
+		if (Last_micsampling.equals(micsampling)){}
+		else {
+			SensorAdapter.value[13] = ""+(int)(Double.parseDouble(micsampling)*1000);
+			if ((sensorAdapter.edittext[13] != null) && (expanded[13]))
+				sensorAdapter.edittext[13].setText(SensorAdapter.value[13]);
+			Last_micsampling=micsampling;
+		}
+		
 	}
 
 	private OnClickListener startClick = new OnClickListener() {
@@ -139,10 +166,13 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 				sensorCheck[i] = sensorAdapter.checkbox[i].isChecked();
 				if (sensorCheck[i])
 					check++;
-				if (sensorCheck[i] && SensorAdapter.value[i] != null)
+				if (SensorAdapter.value[i] != null)
 					rates[i] = Integer.parseInt(SensorAdapter.value[i]);
-				else if (sensorCheck[i] && SensorAdapter.value[i] == null)
-					rates[i] = Integer.parseInt(otherlograte);
+				else {
+					if (i==13) rates[i]=(int) (Double.parseDouble(micsampling)*1000);
+					if (i==14) rates[i]=Integer.parseInt(lograte);
+					if ((i!=13)&&(i!=14)) rates[i]=Integer.parseInt(otherlograte);
+				}
 			}
 			intent.putExtra("Sensors", Sensors);
 			intent.putExtra("sensorCheck", sensorCheck);
