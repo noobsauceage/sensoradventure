@@ -105,7 +105,7 @@ public class StartGUI extends Activity implements OnClickListener {
 		state = extras.getBooleanArray("state");
 		Sensors = extras.getStringArray("Sensors");
 		rates = extras.getIntArray("rates");
-		micsampling=(int)(extras.getDouble("micsampling")*1000);
+		micsampling=(int)(Double.parseDouble(extras.getString("micsampling"))*1000);
 		if (extras.getString("micchannel").equals("MONO"))
 		{
 		micchanneli=16;
@@ -116,11 +116,13 @@ public class StartGUI extends Activity implements OnClickListener {
 		micchanneli=12;
 		micchannelo=12;
 		}
-		if (extras.getInt("micencode")==16)
+		if (extras.getString("micencode").equals("16"))
 			micencode=2;
-		if (extras.getInt("micencode")==8)
+		if (extras.getString("micencode").equals("8"))
 			micencode=3;
 		record = new ContinuousRecorder(1,micsampling,micchanneli,micchannelo,micencode,3,1,StartGUI.this);
+        //record = new ContinuousRecorder(StartGUI.this);
+		//record.debug();
 		ok = new SensorSetting(this);
 		ok2 = new Sensors_SQLite_Setting(this);
 		ok.selectSensors(sensorCheck);

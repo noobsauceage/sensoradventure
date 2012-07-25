@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import winlab.SensorGUI.StartGUI;
 import winlab.sql.Mic_SQL;
 import android.content.Context;
 import android.media.AudioFormat;
@@ -15,6 +17,7 @@ import android.media.MediaRecorder.AudioSource;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
 /* This is a class that implements continuous time recording.
  * It makes use of the AudioTrack & AudioRecord classes available
@@ -128,7 +131,7 @@ public class ContinuousRecorder {
 	public void setMode(int modeStream) {
 		MODE = modeStream;
 	}
-
+    
 	// Below are the get functions which allow the user to retrieve the data of
 	// the private members.
 	public int getMic() {
@@ -307,6 +310,15 @@ public class ContinuousRecorder {
 			return null;
 
 		}
+	}
+	
+	//the function is for debugging
+	public void debug(){
+		//MIC,SAMPLE,CHANNELI,CHANNELO,FORMAT,BUFFERSIZE; 
+
+	//STREAM,MODE 
+		Toast.makeText(context, "debug: "+MIC+" "+SAMPLE+" "+CHANNELI+" "+CHANNELO+" "
+				+FORMAT+" "+BUFFERSIZE+" "+STREAM+" "+MODE,Toast.LENGTH_LONG).show();
 	}
 
 }
