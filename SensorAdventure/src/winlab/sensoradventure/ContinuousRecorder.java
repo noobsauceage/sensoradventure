@@ -67,6 +67,7 @@ public class ContinuousRecorder {
 	// Creates the default C.R. with optimal settings.
 	public ContinuousRecorder(Context con) {
 		path=SensorAdventureActivity.DataPath;
+		if (path.exists()==false) path.mkdirs();
 		file = new File(path,fileName);
 		setMic(AudioSource.MIC);
 		setSamplingRate(44100);
@@ -86,6 +87,7 @@ public class ContinuousRecorder {
 	public ContinuousRecorder(int mic, int sample, int channeli, int channelo,
 			int format, int stream, int mode, Context con) {
 		path=SensorAdventureActivity.DataPath;
+		if (path.exists()==false) path.mkdirs();
 		file = new File(path,fileName);
 		setMic(mic);
 		setSamplingRate(sample);
