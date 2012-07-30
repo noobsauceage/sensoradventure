@@ -134,10 +134,10 @@ public class Mic_SQL {
 
 	private final Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
-			if (msg.arg1 == 1)
-				Toast.makeText(context,"see SQLite file at: "
-			            +SensorAdventureActivity.DataPath.toString()+"/MicDatabase.db",
-						Toast.LENGTH_LONG).show();
+//			if (msg.arg1 == 1)
+//				Toast.makeText(context,"see SQLite file at: "
+//			            +SensorAdventureActivity.DataPath.toString()+"/MicDatabase.db",
+//						Toast.LENGTH_LONG).show();
 			if (msg.arg1 == 2)
 				Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
 		}

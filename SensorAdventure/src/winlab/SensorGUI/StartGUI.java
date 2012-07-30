@@ -209,7 +209,10 @@ public class StartGUI extends Activity implements OnClickListener {
 					record.stop();
 				record.cancel();
 				}
+				
 			}
+			Toast.makeText(this, "Data are stored in: "+
+				       SensorAdventureActivity.DataPath.toString()+"/", Toast.LENGTH_LONG).show();
 			mChronometer.stop();
 			break;
 		case R.id.snapshot:
@@ -248,7 +251,10 @@ public class StartGUI extends Activity implements OnClickListener {
 					record.stop();
 				record.cancel();
 				}
+				
 			}
+			Toast.makeText(this, "Data are stored in: "+
+				       SensorAdventureActivity.DataPath.toString()+"/", Toast.LENGTH_LONG).show();
 			mChronometer.stop();
 		}
 		super.onDestroy();

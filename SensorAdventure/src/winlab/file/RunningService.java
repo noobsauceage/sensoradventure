@@ -6,6 +6,7 @@ import java.io.FileWriter;
 
 import winlab.sensoradventure.SensorAdventureActivity;
 
+import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -51,6 +52,7 @@ public class RunningService extends Service implements SensorEventListener {
 		return null;
 	}
 
+	@TargetApi(9)
 	@Override
 	public void onCreate() {
 		Toast.makeText(this, "Start taking data", Toast.LENGTH_LONG).show();
@@ -116,6 +118,7 @@ public class RunningService extends Service implements SensorEventListener {
 			}
 	}
 
+	@TargetApi(9)
 	public void onSensorChanged(SensorEvent event) {
 		String str = "";
 		int i = event.sensor.getType();
@@ -186,8 +189,8 @@ public class RunningService extends Service implements SensorEventListener {
 				if (file[i].exists())
 					file[i].delete();
 			}
-		Toast.makeText(this, "Data is saved in " + path.getPath(),
-				Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, "Data is saved in " + path.getPath(),
+		//		Toast.LENGTH_LONG).show();
 		for (int i = 0; i < 13; i++)
 			SensorSetting.sensors[i] = true;
 
