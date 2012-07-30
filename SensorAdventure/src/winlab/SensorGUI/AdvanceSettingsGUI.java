@@ -208,7 +208,7 @@ public class AdvanceSettingsGUI extends ListActivity implements OnClickListener,
 		micchannelaudio.setAdapter(adapter4);
 		selection=0;
 		for (int k=0;k<micchannelencoding.length;k++)
-			if (micchannelencoding[k].equals(SensorAdventureActivity.micchannel))
+			if (micchannelencoding[k].equals(SensorAdventureActivity.micencode))
 				selection=k;
 		micchannelaudio.setSelection(selection);
  
