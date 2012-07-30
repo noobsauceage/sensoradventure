@@ -56,17 +56,18 @@ public class ContinuousRecorder {
 	private Mic_SQL sqla; // SQLite Database helper.
 	private Context context; // Program context needed to create SQLite helper.
 	private String fileName = "PCM.txt"; // Filename of the raw audio data.
-	private File path = Environment
-			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS); // Location
+	private File path; // Location
 																					// of
 																					// file.
-	private File file = new File(path, fileName); // Raw audio data file.
+	private File file; // Raw audio data file.
 	private FileOutputStream output; // Used to write to above file.
 	
 	private boolean SQLite = false;
 
 	// Creates the default C.R. with optimal settings.
 	public ContinuousRecorder(Context con) {
+		path=SensorAdventureActivity.DataPath;
+		file = new File(path,fileName);
 		setMic(AudioSource.MIC);
 		setSamplingRate(44100);
 		setChannelInput(AudioFormat.CHANNEL_IN_MONO);
@@ -84,6 +85,8 @@ public class ContinuousRecorder {
 	// Creates a customized C.R. where all parameters need to be set.
 	public ContinuousRecorder(int mic, int sample, int channeli, int channelo,
 			int format, int stream, int mode, Context con) {
+		path=SensorAdventureActivity.DataPath;
+		file = new File(path,fileName);
 		setMic(mic);
 		setSamplingRate(sample);
 		setChannelInput(channeli);

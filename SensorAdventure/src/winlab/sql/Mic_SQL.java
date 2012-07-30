@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
+import winlab.sensoradventure.SensorAdventureActivity;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -101,26 +103,26 @@ public class Mic_SQL {
 	}
 	public void copy() {
 		try {
-			File sd = Environment.getExternalStorageDirectory();
+			File sd = SensorAdventureActivity.DataPath;
 			File data = Environment.getDataDirectory();
 
-			if (sd.canWrite()) {
-				String currentDBPath = "//data//" + "winlab.CR"
-						+ "//databases//" + "MicDatabase";
-				String backupDBPath = "/temp/MicDatabase";
-				File currentDB = new File(data, currentDBPath);
-				File backupDB = new File(sd, backupDBPath);
+			if (sd.exists()==false) sd.mkdirs();
+			String currentDBPath ="//data//" + "winlab.sensoradventure" + "//databases//" + "MicDatabase.db";
+			String backupDBPath = "MicDatabase.db";
+			File currentDB= new File(data, currentDBPath);
+				
+			File backupDB = new File(sd, backupDBPath);
 
-				FileChannel src = new FileInputStream(currentDB).getChannel();
-				FileChannel dst = new FileOutputStream(backupDB).getChannel();
-				dst.transferFrom(src, 0, src.size());
-				src.close();
-				dst.close();
-				Message msg = handler.obtainMessage();
-				msg.arg1 = 1;
-				handler.sendMessage(msg);
+			FileChannel src = new FileInputStream(currentDB).getChannel();
+			FileChannel dst = new FileOutputStream(backupDB).getChannel();
+			dst.transferFrom(src, 0, src.size());
+			src.close();
+			dst.close();
+			Message msg = handler.obtainMessage();
+			msg.arg1 = 1;
+			handler.sendMessage(msg);
 
-			}
+			
 		} catch (Exception e) {
 
 			Message msg = handler.obtainMessage();
@@ -133,7 +135,8 @@ public class Mic_SQL {
 	private final Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			if (msg.arg1 == 1)
-				Toast.makeText(context, "/temp/MicDatabase",
+				Toast.makeText(context,"see SQLite file at: "
+			            +SensorAdventureActivity.DataPath.toString()+"/MicDatabase.db",
 						Toast.LENGTH_LONG).show();
 			if (msg.arg1 == 2)
 				Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
