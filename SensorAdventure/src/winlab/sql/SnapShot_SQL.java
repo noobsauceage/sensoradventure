@@ -130,7 +130,7 @@ public SnapShot_SQL open() throws SQLException {
 
 // ---closes the database---
 public void close() {
-	db.close();
+//	db.close();
 }
 
 public void deleteTable() {
