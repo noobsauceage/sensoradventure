@@ -35,6 +35,14 @@ public class Mic_SQL {
 	private SQLiteDatabase db;
 
 	public Mic_SQL(Context ctx) {
+		try{
+			File data = Environment.getDataDirectory();
+			String currentDBPath ="//data//" + "winlab.sensoradventure" + "//databases//" + "MicDatabase.db";
+			
+			File currentDB= new File(data, currentDBPath);
+			
+			if(currentDB.exists()) currentDB.delete();
+			} catch (Exception e){}
 		this.context = ctx;
 
 	}

@@ -52,12 +52,21 @@ public class Sensors_SQLite {
 	//private InsertHelper[] ihs = new InsertHelper[DATABASE_TABLE.length];
 
 	public Sensors_SQLite(Context ctx) {
+		try{
+			File data = Environment.getDataDirectory();
+			String currentDBPath ="//data//" + "winlab.sensoradventure" + "//databases//" + "SensorDatabase.db";
+			
+			File currentDB= new File(data, currentDBPath);
+			
+			if(currentDB.exists()) currentDB.delete();
+			} catch (Exception e){}
 		this.context = ctx;
 
 	}
 
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 		DatabaseHelper(Context context) {
+	
 			super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		}
 
