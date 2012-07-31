@@ -30,7 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 @TargetApi(9)
-public class StartGUI extends Activity implements OnClickListener {
+public class StartGUI extends Activity {
 	private boolean flag = true;
 	private Chronometer mChronometer;
 	private Button mark, stop, snapshot;
@@ -45,20 +45,22 @@ public class StartGUI extends Activity implements OnClickListener {
 	private int[] rates;
 	private String[] Sensors;
 	private ContinuousRecorder record;
-    private int micchanneli,micchannelo,micencode,micsampling;
-	private AsyncTask<Void, Void, Void> asyncTask;  //add
-    private long rate=100;//add in ms
-    private long duration=5; //add in s
-    private EditText editText1,editText2; //add edittext
-    private boolean Snapshot_finish=true; //add
-    private final Handler handler1 = new Handler() {
+	private int micchanneli, micchannelo, micencode, micsampling;
+	private AsyncTask<Void, Void, Void> asyncTask; // add
+	private long rate = 100;// add in ms
+	private long duration = 5; // add in s
+	private EditText editText1, editText2; // add edittext
+	private boolean Snapshot_finish = true; // add
+	private final Handler handler1 = new Handler() {
 		public void handleMessage(Message msg) {
-				Toast.makeText(StartGUI.this, "Continuous snapShot starts!",Toast.LENGTH_LONG).show();
+			Toast.makeText(StartGUI.this, "Continuous snapShot starts!",
+					Toast.LENGTH_LONG).show();
 		}
 	};
 	private final Handler handler2 = new Handler() {
 		public void handleMessage(Message msg) {
-				Toast.makeText(StartGUI.this, "Continuous snapShot finished!",Toast.LENGTH_LONG).show();
+			Toast.makeText(StartGUI.this, "Continuous snapShot finished!",
+					Toast.LENGTH_LONG).show();
 		}
 	};
 	private File path;
@@ -74,29 +76,29 @@ public class StartGUI extends Activity implements OnClickListener {
 
 		setContentView(R.layout.start_gui);
 
-        editText1=(EditText) findViewById(R.id.editText1);
-        editText2=(EditText) findViewById(R.id.editText2);
-        editText1.setText(String.format("%d",duration));
-        editText2.setText(String.format("%d",rate));
-        editText1.requestFocus(0);
-        editText2.requestFocus(0);
-        snapshot = (Button) findViewById(R.id.snapshot);
-        snapshot.setOnClickListener(this);
-
-        mChronometer = (Chronometer) findViewById(R.id.chronometer);
-
+		editText1 = (EditText) findViewById(R.id.editText1);
+		editText2 = (EditText) findViewById(R.id.editText2);
+		editText1.setText(String.format("%d", duration));
+		editText2.setText(String.format("%d", rate));
+		editText1.requestFocus(0);
+		editText2.requestFocus(0);
+		snapshot = (Button) findViewById(R.id.snapshot);
+		snapshot.setOnClickListener(snapClick);
 		mark = (Button) findViewById(R.id.button1);
-		mark.setOnClickListener(this);
+		mark.setOnClickListener(markClick);
 		stop = (Button) findViewById(R.id.button2);
-		stop.setOnClickListener(this);
+		stop.setText("Start");
+		stop.setOnClickListener(startClick);
+
+		mChronometer = (Chronometer) findViewById(R.id.chronometer);
+
+
 
 		ll1 = (LinearLayout) findViewById(R.id.layout1);
 		ll2 = (LinearLayout) findViewById(R.id.layout2);
 
 		for (int i = 0; i < 10; i++)
 			times[i] = "";
-		mChronometer.setBase(SystemClock.elapsedRealtime());
-		mChronometer.start();
 
 		// Retrieve data on which sensors are on
 		// And what upload options exist
@@ -105,24 +107,23 @@ public class StartGUI extends Activity implements OnClickListener {
 		state = extras.getBooleanArray("state");
 		Sensors = extras.getStringArray("Sensors");
 		rates = extras.getIntArray("rates");
-		micsampling=rates[13];
-		if (extras.getString("micchannel").equals("MONO"))
-		{
-		micchanneli=16;
-		micchannelo=4;
+		micsampling = rates[13];
+		if (extras.getString("micchannel").equals("MONO")) {
+			micchanneli = 16;
+			micchannelo = 4;
 		}
-		if (extras.getString("micchannel").equals("STEREO"))
-		{
-		micchanneli=12;
-		micchannelo=12;
+		if (extras.getString("micchannel").equals("STEREO")) {
+			micchanneli = 12;
+			micchannelo = 12;
 		}
 		if (extras.getString("micencode").equals("16"))
-			micencode=2;
+			micencode = 2;
 		if (extras.getString("micencode").equals("8"))
-			micencode=3;
-		record = new ContinuousRecorder(1,micsampling,micchanneli,micchannelo,micencode,3,1,StartGUI.this);
-        //record = new ContinuousRecorder(StartGUI.this);
-		//record.debug();
+			micencode = 3;
+		record = new ContinuousRecorder(1, micsampling, micchanneli,
+				micchannelo, micencode, 3, 1, StartGUI.this);
+		// record = new ContinuousRecorder(StartGUI.this);
+		// record.debug();
 		ok = new SensorSetting(this);
 		ok2 = new Sensors_SQLite_Setting(this);
 		ok.selectSensors(sensorCheck);
@@ -137,170 +138,178 @@ public class StartGUI extends Activity implements OnClickListener {
 			}
 
 			SnapShotValue.set();
+		}
+	}
+
+	private OnClickListener startClick = new OnClickListener() {
+		public void onClick(View a) {
+			mChronometer.setBase(SystemClock.elapsedRealtime());
+			mChronometer.start();
 			if (state[0]) {
 				SensorSetting.setRate(rates);
-				startService(new Intent(this, RunningService.class));
-				if ((sensorCheck[13])&&(state[1]==false)) {
+				startService(new Intent(StartGUI.this, RunningService.class));
+				if ((sensorCheck[13]) && (state[1] == false)) {
 					record.record();
 				}
-				if ((sensorCheck[14])&&(state[1]==false)) {
-					startService(new Intent(this, GPSloggerService.class));
+				if ((sensorCheck[14]) && (state[1] == false)) {
+					startService(new Intent(StartGUI.this, GPSloggerService.class));
 				}
 			}
 
 			if (state[1]) {
-				data2 = new SnapShot_SQL(this);
+				data2 = new SnapShot_SQL(StartGUI.this);
 
 				data2.open();
 				data2.deleteTable();
-//				for (int j=0; j<13; j++)
-//					if (sensorCheck[j]) data2.prepareTransaction(j);
+				// for (int j=0; j<13; j++)
+				// if (sensorCheck[j]) data2.prepareTransaction(j);
 				Sensors_SQLite_Setting.setRate(rates);
-				startService(new Intent(this, Sensors_SQLite_Service.class));
-                if (sensorCheck[13])
-                {
-                	record.writeToSQLite();
-                	record.record();
-                }
+				startService(new Intent(StartGUI.this, Sensors_SQLite_Service.class));
+				if (sensorCheck[13]) {
+					record.writeToSQLite();
+					record.record();
+				}
 			}
+			
+			stop.setOnClickListener(stopClick);
+			stop.setText("Stop");
+			
 		}
-	}
+	};
+	
+	private OnClickListener markClick = new OnClickListener() {
 
-	public void onClick(View a) {
-		switch (a.getId()) {
-		case R.id.button1:
+		public void onClick(View a) {
+
 			if (state[0])
 				SnapShotValue.print();
-			if (state[1])
+			if (state[1]) {
 				try {
 					SnapShotValue.insertSQL(data2);
 				} catch (Exception e) {
-					Toast.makeText(this, "1", Toast.LENGTH_LONG).show();
-				}
-			TextView tv = new TextView(this);
-			tv.setText(mChronometer.getInstantTime());
-			ll1.addView(tv);
-			break;
-
-		case R.id.button2:
-			flag = false;
-			if (state[0])
-			{
-				stopService(new Intent(this, RunningService.class));
-				if ((sensorCheck[13])&&(state[1]==false))
-				{
-					record.stop();
-				record.cancel();
+					Toast.makeText(StartGUI.this, "1", Toast.LENGTH_LONG).show();
 				}
 			}
-			if (state[1]) 
-			{
+			TextView tv = new TextView(StartGUI.this);
+			tv.setText(mChronometer.getInstantTime());
+			ll1.addView(tv);
+		}
+	};
+
+	private OnClickListener stopClick = new OnClickListener() {
+		public void onClick(View v) {
+			flag = false;
+			if (state[0]) {
+				stopService(new Intent(StartGUI.this, RunningService.class));
+				if ((sensorCheck[13]) && (state[1] == false)) {
+					record.stop();
+					record.cancel();
+				}
+			}
+			if (state[1]) {
 				try {
-//					for (int j=0; j<13; j++)
-//						if (sensorCheck[j]) data2.endTransaction(j);
+					// for (int j=0; j<13; j++)
+					// if (sensorCheck[j]) data2.endTransaction(j);
 					data2.copy();
 					data2.close();
 				} catch (Exception e) {
-					Toast.makeText(this, "2", Toast.LENGTH_LONG).show();
+					Toast.makeText(StartGUI.this, "2", Toast.LENGTH_LONG).show();
 				}
-				stopService(new Intent(this, Sensors_SQLite_Service.class));
-				if (sensorCheck[13])
-				{
+				stopService(new Intent(StartGUI.this, Sensors_SQLite_Service.class));
+				if (sensorCheck[13]) {
 					record.stop();
-				record.cancel();
+					record.cancel();
 				}
-				
+
 			}
-			Toast.makeText(this, "Data are stored in: "+
-				       SensorAdventureActivity.DataPath.toString()+"/", Toast.LENGTH_LONG).show();
+			Toast.makeText(
+					StartGUI.this,
+					"Data are stored in: "
+							+ SensorAdventureActivity.DataPath.toString() + "/",
+					Toast.LENGTH_LONG).show();
 			mChronometer.stop();
-			break;
-		case R.id.snapshot:
-        	if (Snapshot_finish)
-        	{
-        	duration=Long.parseLong(editText1.getText().toString());
-        	rate=Long.parseLong(editText2.getText().toString());
-        	asyncTask = new start();
-    		asyncTask.execute();
-        	}
-        	
 		}
-	}
+	};
+
+	private OnClickListener snapClick = new OnClickListener() {
+		public void onClick(View v) {
+			if (Snapshot_finish) {
+				duration = Long.parseLong(editText1.getText().toString());
+				rate = Long.parseLong(editText2.getText().toString());
+				asyncTask = new start();
+				asyncTask.execute();
+			}
+
+			
+			
+		}
+	};
 
 	public void onDestroy() {
 
 		if (flag) {
-			if (state[0])
-			{
+			if (state[0]) {
 				stopService(new Intent(this, RunningService.class));
-				if ((sensorCheck[13])&&(state[1]==false))
-				{
+				if ((sensorCheck[13]) && (state[1] == false)) {
 					record.stop();
-				record.cancel();
+					record.cancel();
 				}
 			}
 			if (state[1]) {
 				try {
-//					for (int j=0; j<13; j++)
-//						if (sensorCheck[j]) data2.endTransaction(j);
+					// for (int j=0; j<13; j++)
+					// if (sensorCheck[j]) data2.endTransaction(j);
 					data2.close();
 				} catch (Exception e) {
 				}
 				stopService(new Intent(this, Sensors_SQLite_Service.class));
 				{
 					record.stop();
-				record.cancel();
+					record.cancel();
 				}
-				
+
 			}
-			Toast.makeText(this, "Data are stored in: "+
-				       SensorAdventureActivity.DataPath.toString()+"/", Toast.LENGTH_LONG).show();
+			Toast.makeText(
+					this,
+					"Data are stored in: "
+							+ SensorAdventureActivity.DataPath.toString() + "/",
+					Toast.LENGTH_LONG).show();
 			mChronometer.stop();
 		}
 		super.onDestroy();
 	}
 
-	//added part
-    private class start extends AsyncTask<Void, Void, Void> {
+	// added part
+	private class start extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... n) {
 
-			long startTime,currentTime,lastTime;
+			long startTime, currentTime, lastTime;
 
-
-			Snapshot_finish=false;
+			Snapshot_finish = false;
 
 			Message msg1 = handler1.obtainMessage();
 			handler1.sendMessage(msg1);
 
-			startTime=System.currentTimeMillis();
-			lastTime=startTime;
+			startTime = System.currentTimeMillis();
+			lastTime = startTime;
 			print();
-			do
-			{
+			do {
 
-				currentTime=System.currentTimeMillis();
-				if (currentTime-lastTime>=rate)
-				{
+				currentTime = System.currentTimeMillis();
+				if (currentTime - lastTime >= rate) {
 					print();
-					lastTime=currentTime;
+					lastTime = currentTime;
 				}
-			}while (currentTime-startTime<duration*1000);
+			} while (currentTime - startTime < duration * 1000);
 
 			Message msg2 = handler2.obtainMessage();
 			handler2.sendMessage(msg2);
-            Snapshot_finish=true;
+			Snapshot_finish = true;
 			return null;
 		}
 
-
 	}
-    
-
-
-   
-    
-
 
 	public void print() {
 		path = SensorAdventureActivity.DataPath;
@@ -311,7 +320,7 @@ public class StartGUI extends Activity implements OnClickListener {
 		try {
 			path.mkdirs();
 			file.setWritable(true);
-			
+
 			if (flag2)
 				output = new FileWriter(file);
 			else
@@ -481,14 +490,14 @@ public class StartGUI extends Activity implements OnClickListener {
 									+ "\n";
 
 						break;
-					case 12: //Sensor.TYPE_RELATIVE_HUMIDITY
+					case 12: // Sensor.TYPE_RELATIVE_HUMIDITY
 						str = str
 								+ "Relative Humidity %: "
 								+ String.format("%17.10f",
 										SnapShotValue.instantValue[i][0])
 								+ "\n";
 						break;
-					case 13: //Sensor.TYPE_AMBIENT_TEMPERATURE
+					case 13: // Sensor.TYPE_AMBIENT_TEMPERATURE
 						str = str
 								+ "Ambient air temperature (degree Celsius): "
 								+ String.format("%17.10f",
@@ -505,6 +514,11 @@ public class StartGUI extends Activity implements OnClickListener {
 		} catch (Exception e) {
 		}
 
+	}
+
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
