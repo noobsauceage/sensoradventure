@@ -31,26 +31,31 @@ import android.widget.Toast;
 
 @TargetApi(9)
 public class StartGUI extends Activity {
-	private boolean flag = true;
-	private Chronometer mChronometer;
-	private Button mark, stop, snapshot;
-	private String[] times = new String[10];
-	private LinearLayout ll1;
-	private LinearLayout ll2;
-	private SensorSetting ok;
-	private Sensors_SQLite_Setting ok2;
-	private SnapShot_SQL data2;
-	private boolean[] state;
-	private boolean[] sensorCheck;
-	private int[] rates;
-	private String[] Sensors;
-	private ContinuousRecorder record;
-	private int micchanneli, micchannelo, micencode, micsampling;
 	private AsyncTask<Void, Void, Void> asyncTask; // add
+	private boolean flag = true;
+	private boolean flag2 = true;
+	private boolean Snapshot_finish = true;
+	private boolean[] state; // Which data configuration settings are checked
+								// "On"
+	private boolean[] sensorCheck; // Which sensors are checked "On" in main
+									// activity
+	private Button mark, startAndStop, snapshot;
+	private EditText editText1, editText2;
+	private Chronometer mChronometer;
+	private LinearLayout markTimes;
+	private LinearLayout runningSensors;
+	private String fileName = "Continuous_snapShot.txt";
+	private String[] Sensors = { "Accelerometer ", "Magnetic ", "Orientation ",
+			"Gyroscope ", "Light ", "Pressure ", "Temperature ", "Proximity ",
+			"Gravity ", "L. Accelerometer ", "Rotation ", "Humidity ",
+			"A. Temperature ", "Microphone ", "GPS " };
+	private int[] rates;
+	private int micchanneli, micchannelo, micencode, micsampling;
 	private long rate = 100;// add in ms
 	private long duration = 5; // add in s
-	private EditText editText1, editText2; // add edittext
-	private boolean Snapshot_finish = true; // add
+	private FileWriter output;
+	private File path;
+	private File file;
 	private final Handler handler1 = new Handler() {
 		public void handleMessage(Message msg) {
 			Toast.makeText(StartGUI.this, "Continuous snapShot starts!",
@@ -63,51 +68,57 @@ public class StartGUI extends Activity {
 					Toast.LENGTH_LONG).show();
 		}
 	};
-	private File path;
-	private String fileName = "Continuous_snapShot.txt";
-	private File file;
-	private FileWriter output;
-	private boolean flag2 = true;
+	private SensorSetting ok;
+	private Sensors_SQLite_Setting ok2;
+	private SnapShot_SQL data2;
+	private ContinuousRecorder record;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		/*
+		 * This block of code creates and initializes a series of Views that are
+		 * used on the screen.
+		 */
 		setContentView(R.layout.start_gui);
-
 		editText1 = (EditText) findViewById(R.id.editText1);
 		editText2 = (EditText) findViewById(R.id.editText2);
+
 		editText1.setText(String.format("%d", duration));
 		editText2.setText(String.format("%d", rate));
+
 		editText1.requestFocus(0);
 		editText2.requestFocus(0);
+
 		snapshot = (Button) findViewById(R.id.snapshot);
 		snapshot.setOnClickListener(snapClick);
+
 		mark = (Button) findViewById(R.id.button1);
 		mark.setOnClickListener(markClick);
-		stop = (Button) findViewById(R.id.button2);
-		stop.setText("Start");
-		stop.setOnClickListener(startClick);
+
+		startAndStop = (Button) findViewById(R.id.button2);
+		startAndStop.setOnClickListener(startClick);
 
 		mChronometer = (Chronometer) findViewById(R.id.chronometer);
 
+		markTimes = (LinearLayout) findViewById(R.id.layout1);
+		runningSensors = (LinearLayout) findViewById(R.id.layout2);
 
+		/*
+		 * Retrieve the bundle of information from SensorAdventureActivity This
+		 * contains important information such as configuration settings, which
+		 * sensors have been checked on, and update rates.
+		 */
 
-		ll1 = (LinearLayout) findViewById(R.id.layout1);
-		ll2 = (LinearLayout) findViewById(R.id.layout2);
-
-		for (int i = 0; i < 10; i++)
-			times[i] = "";
-
-		// Retrieve data on which sensors are on
-		// And what upload options exist
 		Bundle extras = getIntent().getExtras();
 		sensorCheck = extras.getBooleanArray("sensorCheck");
 		state = extras.getBooleanArray("state");
-		Sensors = extras.getStringArray("Sensors");
 		rates = extras.getIntArray("rates");
 		micsampling = rates[13];
+
+		// This block of code sets the configuration for the microphone.
 		if (extras.getString("micchannel").equals("MONO")) {
 			micchanneli = 16;
 			micchannelo = 4;
@@ -122,8 +133,8 @@ public class StartGUI extends Activity {
 			micencode = 3;
 		record = new ContinuousRecorder(1, micsampling, micchanneli,
 				micchannelo, micencode, 3, 1, StartGUI.this);
-		// record = new ContinuousRecorder(StartGUI.this);
-		// record.debug();
+
+		// Instantiate the service objects
 		ok = new SensorSetting(this);
 		ok2 = new Sensors_SQLite_Setting(this);
 		ok.selectSensors(sensorCheck);
@@ -134,7 +145,7 @@ public class StartGUI extends Activity {
 			if (sensorCheck[i]) {
 				TextView tv = new TextView(this);
 				tv.setText(Sensors[i]);
-				ll2.addView(tv);
+				runningSensors.addView(tv);
 			}
 
 			SnapShotValue.set();
@@ -143,79 +154,121 @@ public class StartGUI extends Activity {
 
 	private OnClickListener startClick = new OnClickListener() {
 		public void onClick(View a) {
+
+			// Prepare the timer
 			mChronometer.setBase(SystemClock.elapsedRealtime());
 			mChronometer.start();
+
+			// If 'Write to File' is checked, use the RunningService to write to
+			// a file
 			if (state[0]) {
+				// Pass update rates to the sensors
 				SensorSetting.setRate(rates);
 				startService(new Intent(StartGUI.this, RunningService.class));
+				// If the microphone is on and SQLite is not checked
 				if ((sensorCheck[13]) && (state[1] == false)) {
 					record.record();
 				}
+				// If GPS is on and SQLite is not checked
 				if ((sensorCheck[14]) && (state[1] == false)) {
-					startService(new Intent(StartGUI.this, GPSloggerService.class));
+					startService(new Intent(StartGUI.this,
+							GPSloggerService.class));
 				}
 			}
 
+			// If 'Write to SQLite Database' is checked
 			if (state[1]) {
+				// Prepare the special SQLite db for the 'Mark' button
 				data2 = new SnapShot_SQL(StartGUI.this);
-
 				data2.open();
 				data2.deleteTable();
+
 				// for (int j=0; j<13; j++)
 				// if (sensorCheck[j]) data2.prepareTransaction(j);
+
+				// Pass the update rates to SQLite service
 				Sensors_SQLite_Setting.setRate(rates);
-				startService(new Intent(StartGUI.this, Sensors_SQLite_Service.class));
+				startService(new Intent(StartGUI.this,
+						Sensors_SQLite_Service.class));
+				// If microphone is on, write to SQLite db
 				if (sensorCheck[13]) {
 					record.writeToSQLite();
 					record.record();
 				}
 			}
-			
-			stop.setOnClickListener(stopClick);
-			stop.setText("Stop");
-			
+
+			// Switch the 'Start' button to a 'Stop' button
+			startAndStop.setOnClickListener(stopClick);
+			startAndStop.setText("Stop");
+
 		}
 	};
-	
+
 	private OnClickListener markClick = new OnClickListener() {
 
 		public void onClick(View a) {
 
+			// If 'Write to File' is selected
 			if (state[0])
+				// Write to the instant reading file
 				SnapShotValue.print();
+
+			// If 'Write to SQLite' is selected
 			if (state[1]) {
 				try {
+					// Attempt insertion into SQLite database
 					SnapShotValue.insertSQL(data2);
 				} catch (Exception e) {
-					Toast.makeText(StartGUI.this, "1", Toast.LENGTH_LONG).show();
+					Toast.makeText(StartGUI.this, "1", Toast.LENGTH_LONG)
+							.show();
 				}
 			}
+
+			/*
+			 * This block of code dynamically adds the time the mark button is
+			 * pressed to the LinearLayout on the screen
+			 */
 			TextView tv = new TextView(StartGUI.this);
 			tv.setText(mChronometer.getInstantTime());
-			ll1.addView(tv);
+			markTimes.addView(tv);
 		}
 	};
 
 	private OnClickListener stopClick = new OnClickListener() {
 		public void onClick(View v) {
 			flag = false;
+
+			// If 'Write to File' was selected
 			if (state[0]) {
+				// Stop the file writing service
 				stopService(new Intent(StartGUI.this, RunningService.class));
+
+				// If the microphone is selected & 'Write to SQLite' is not
+				// selected
 				if ((sensorCheck[13]) && (state[1] == false)) {
 					record.stop();
 					record.cancel();
 				}
 			}
+
+			// If 'Write to SQLite' is selected
 			if (state[1]) {
 				try {
 					// for (int j=0; j<13; j++)
 					// if (sensorCheck[j]) data2.endTransaction(j);
+
+					// Attempt to copy the database to the sdcard and then close
+					// it
 					data2.copy();
 					data2.close();
 				} catch (Exception e) {
-					Toast.makeText(StartGUI.this, "2", Toast.LENGTH_LONG).show();
+					Toast.makeText(StartGUI.this, "2", Toast.LENGTH_LONG)
+							.show();
 				}
-				stopService(new Intent(StartGUI.this, Sensors_SQLite_Service.class));
+				stopService(new Intent(StartGUI.this,
+						Sensors_SQLite_Service.class));
+
+				// If the microphone is on
 				if (sensorCheck[13]) {
 					record.stop();
 					record.cancel();
@@ -227,12 +280,19 @@ public class StartGUI extends Activity {
 					"Data are stored in: "
 							+ SensorAdventureActivity.DataPath.toString() + "/",
 					Toast.LENGTH_LONG).show();
+
+			// Stop the timer
 			mChronometer.stop();
+			// Disable the start/stop button
+			startAndStop.setClickable(false);
 		}
 	};
 
 	private OnClickListener snapClick = new OnClickListener() {
 		public void onClick(View v) {
+
+			// If a previous continuous snapshot has finished, we can begin
+			// another one
 			if (Snapshot_finish) {
 				duration = Long.parseLong(editText1.getText().toString());
 				rate = Long.parseLong(editText2.getText().toString());
@@ -240,14 +300,14 @@ public class StartGUI extends Activity {
 				asyncTask.execute();
 			}
 
-			
-			
 		}
 	};
 
 	public void onDestroy() {
 
+		// If the 'Stop' button has not been pushed
 		if (flag) {
+			// If 'Write to File' has been selected
 			if (state[0]) {
 				stopService(new Intent(this, RunningService.class));
 				if ((sensorCheck[13]) && (state[1] == false)) {
@@ -255,6 +315,8 @@ public class StartGUI extends Activity {
 					record.cancel();
 				}
 			}
+
+			// If 'Write to SQLite' has been selected
 			if (state[1]) {
 				try {
 					// for (int j=0; j<13; j++)
@@ -279,7 +341,7 @@ public class StartGUI extends Activity {
 		super.onDestroy();
 	}
 
-	// added part
+	// Asynchronous task that performs the continuous snapshot
 	private class start extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... n) {
@@ -288,19 +350,27 @@ public class StartGUI extends Activity {
 
 			Snapshot_finish = false;
 
+			// Print the beginning message as a toast
 			Message msg1 = handler1.obtainMessage();
 			handler1.sendMessage(msg1);
 
 			startTime = System.currentTimeMillis();
 			lastTime = startTime;
+
 			print();
 			do {
 
 				currentTime = System.currentTimeMillis();
+				/*
+				 * If the difference between the two intervals are greater than
+				 * the rate of data capture
+				 */
 				if (currentTime - lastTime >= rate) {
 					print();
 					lastTime = currentTime;
 				}
+				// While the difference between two intervals is less than
+				// duration in seconds
 			} while (currentTime - startTime < duration * 1000);
 
 			Message msg2 = handler2.obtainMessage();
@@ -321,6 +391,8 @@ public class StartGUI extends Activity {
 			path.mkdirs();
 			file.setWritable(true);
 
+			// If the output object has not been created yet
+			// This method will be called multiple times
 			if (flag2)
 				output = new FileWriter(file);
 			else
@@ -514,11 +586,6 @@ public class StartGUI extends Activity {
 		} catch (Exception e) {
 		}
 
-	}
-
-	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
