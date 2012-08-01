@@ -38,6 +38,7 @@ public class OptionsGUI extends Activity {
 			cb[i].setOnCheckedChangeListener(checked);
 			// Check to see if the state variable exists
 			// If so, place the previous states inside of it
+			// If not, initialize to false
 			if (state == null)
 				cb[i].setChecked(false);
 			else

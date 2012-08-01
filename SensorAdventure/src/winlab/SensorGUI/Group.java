@@ -1,7 +1,15 @@
 package winlab.SensorGUI;
 
 import java.util.ArrayList;
-
+ /*This is a Group class used in the ExpandableListView in main activity.
+  * It contains it's children; an ArrayList of Child objects. Every time
+  * a child is added to the children field, we increase the number of fields
+  * under the expanded group.
+  * The name refers to the name of the group ("Microphone" or "Accelerometer.
+  * The boolean variable state refers to the boolean value of the CheckBox 'On'
+  * next to it in the GUI.
+  * 
+  */
 public class Group {
 
 	private ArrayList<Child> children = new ArrayList<Child>();

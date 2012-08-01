@@ -1,5 +1,7 @@
 package winlab.SensorGUI;
 
+// This is a program that reads the configuration file created by
+// the AdvancedSettingsGUI.
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

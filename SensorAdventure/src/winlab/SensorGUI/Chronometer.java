@@ -1,5 +1,9 @@
 package winlab.SensorGUI;
 
+// This is a modification of Android's Chronometer class.
+// We needed to modify it for a time format of 00:00:000.
+// It is used in StartGUI as the timer that runs when "Start" is clicked.
+// This is not a terribly important file so it won't get documentation.
 
 import android.content.Context;
 import android.os.Handler;
