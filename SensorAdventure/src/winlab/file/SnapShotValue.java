@@ -6,17 +6,32 @@ import java.io.FileWriter;
 import winlab.sensoradventure.SensorAdventureActivity;
 import winlab.sql.Sensors_SQLite_Setting;
 import winlab.sql.SnapShot_SQL;
+import android.annotation.TargetApi;
 import android.hardware.Sensor;
 
 public class SnapShotValue {
+	public static double[][] instantValue = new double[13][];
+	private static String fileName = "Instant_Reading.txt";
+	private static String time = "";
+	private static String markFile[] = { "Accelerometer.txt",
+			"MagneticField.txt", "Orientation.txt", "Gyroscope.txt",
+			"Light.txt", "Pressure.txt", "Temperature.txt", "Proximity.txt",
+			"Gravity.txt", "Linear_Acceleration.txt", "Rotation_Vector.txt",
+			"Humidity.txt", "Ambient_Temperature.txt" };
+	private static File path;
+	private static File file;
+	private static File otherFile[] = new File[13];
+	private static FileWriter output;
+	private static boolean flag = true;
 
 	public SnapShotValue() {
 	}
 
-	public static double[][] instantValue = new double[13][];
-
+	// This method prepares the arrays for file writing.
 	public static void set() {
 		for (int i = 0; i < 13; i++)
+			// If we are using a sensor that has three printable fields,
+			// we give an array of size 3.
 			switch (i + 1) {
 			case Sensor.TYPE_ACCELEROMETER:
 			case Sensor.TYPE_MAGNETIC_FIELD:
@@ -28,11 +43,14 @@ public class SnapShotValue {
 				for (int j = 0; j < 3; j++)
 					instantValue[i][j] = 0;
 				break;
+			// If we are using a sensor that has four printable fields,
+			// we give an array of size 4.
 			case Sensor.TYPE_ROTATION_VECTOR:
 				instantValue[i] = new double[4];
 				for (int j = 0; j < 4; j++)
 					instantValue[i][j] = 0;
 				break;
+			// All other cases default to one printable field.
 			default:
 				instantValue[i] = new double[1];
 				instantValue[i][0] = 0;
@@ -40,8 +58,11 @@ public class SnapShotValue {
 			}
 	}
 
+	// This method resets all of the values in each array after
+	// the snapshot is finished.
 	public static void reset() {
 		for (int i = 0; i < 13; i++)
+			// If a sensor that has three printable fields
 			switch (i + 1) {
 			case Sensor.TYPE_ACCELEROMETER:
 			case Sensor.TYPE_MAGNETIC_FIELD:
@@ -52,10 +73,12 @@ public class SnapShotValue {
 				for (int j = 0; j < 3; j++)
 					instantValue[i][j] = 0;
 				break;
+			// If a sensor has 4 printable fields
 			case Sensor.TYPE_ROTATION_VECTOR:
 				for (int j = 0; j < 4; j++)
 					instantValue[i][j] = 0;
 				break;
+			// Else, default to one
 			default:
 				instantValue[i][0] = 0;
 				break;
@@ -63,38 +86,30 @@ public class SnapShotValue {
 
 	}
 
+	// This method retrieves the instant value for a sensor.
 	public static double[] getInstVal(int sensorType) {
 		return instantValue[sensorType - 1];
 	}
 
-	private static File path;
-	private static String fileName = "Instant_Reading.txt";
-	private static File file;
-	private static File otherFile[]=new File [13];
-	private static FileWriter output;
-	private static boolean flag = true;
-	private static String markFile[] = { "Accelerometer.txt", "MagneticField.txt",
-			"Orientation.txt", "Gyroscope.txt", "Light.txt", "Pressure.txt",
-			"Temperature.txt", "Proximity.txt", "Gravity.txt",
-			"Linear_Acceleration.txt", "Rotation_Vector.txt", "Humidity.txt",
-			"Ambient_Temperature.txt" };
-	private static String time="";
+	// This method performs the file writing portion of the Mark event.
 	public static void print() {
 		path = SensorAdventureActivity.DataPath;
 		file = new File(path, fileName);
 		String str = "";
 		str = str + "Timestamp (ms): "
 				+ String.format("%d", System.currentTimeMillis()) + "\n";
-		time=String.format("%d", System.currentTimeMillis());
+		time = String.format("%d", System.currentTimeMillis());
 		try {
 			path.mkdirs();
 			file.setWritable(true);
+			// If the FileWriter does not already exist
 			if (flag)
 				output = new FileWriter(file);
 			else
 				output = new FileWriter(file, true);
 			flag = false;
 			for (int i = 0; i < 13; i++)
+				// If a given sensor is set as 'On'
 				if (SensorSetting.sensors[i]) {
 					switch (i + 1) {
 					case Sensor.TYPE_ACCELEROMETER:
@@ -281,28 +296,34 @@ public class SnapShotValue {
 			output.close();
 		} catch (Exception e) {
 		}
-      print_others(time);
+		print_others(time);
 	}
 
+	// This method prints the marker in the file.
+	@TargetApi(9)
 	private static void print_others(String sysTime) {
-		for (int i=0; i<13; i++) otherFile[i]=new File(path, markFile[i]);
-		for (int i=0; i<13; i++)
+		for (int i = 0; i < 13; i++)
+			otherFile[i] = new File(path, markFile[i]);
+		for (int i = 0; i < 13; i++)
+			// If a sensor has been selected
 			if (SensorSetting.sensors[i]) {
 				try {
 					path.mkdirs();
 					otherFile[i].setWritable(true);
 					output = new FileWriter(otherFile[i], true);
-					output.write("\n"+sysTime+"***********MARK*********************");
+					output.write("\n" + sysTime
+							+ "***********MARK*********************");
 					output.close();
-				}catch (Exception e){}
+				} catch (Exception e) {
+				}
 			}
 	}
-	
-	
-	
+
+	// This method inserts the Marker into a seperate SQLite database.
 	public static void insertSQL(SnapShot_SQL instant) {
 		String timestamp, str1, str2, str3, str4;
 		for (int i = 0; i < 13; i++)
+			// If a sensor is selected for SQLite insertion
 			if (Sensors_SQLite_Setting.sensors[i])
 				switch (i + 1) {
 				case Sensor.TYPE_ACCELEROMETER:
