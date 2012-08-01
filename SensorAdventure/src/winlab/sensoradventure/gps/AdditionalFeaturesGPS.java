@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
+//Author Malathi Dharmalingam
 public class AdditionalFeaturesGPS extends  Activity{
  
 	Button realtimetrack;
