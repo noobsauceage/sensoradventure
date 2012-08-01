@@ -56,6 +56,7 @@ public class RunningService extends Service implements SensorEventListener {
 	@Override
 	public void onCreate() {
 		Toast.makeText(this, "Start taking data", Toast.LENGTH_LONG).show();
+		telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		for (int i = 0; i < 13; i++)
 			if (SensorSetting.sensors[i]) {
@@ -66,7 +67,7 @@ public class RunningService extends Service implements SensorEventListener {
 					// Toast.makeText(this,"Data will be saved in " +
 					// file.getAbsolutePath(), Toast.LENGTH_LONG).show();
 					FileWriter output = new FileWriter(file[i]);
-					telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+					
 					output.write("Phone ID: " + telephonyManager.getDeviceId());
 
 					switch (i + 1) {
