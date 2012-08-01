@@ -181,7 +181,7 @@ public class ContinuousRecorder {
 		recorder = new AudioRecord(MIC, SAMPLE, CHANNELI, FORMAT, BUFFERSIZE);
 		track = new AudioTrack(STREAM, SAMPLE, CHANNELO, FORMAT, BUFFERSIZE,
 				MODE);
-
+		
 		asyncTask = new start(); // See below for the start class definition.
 		asyncTask.execute();
 
@@ -213,7 +213,7 @@ public class ContinuousRecorder {
 	private class start extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... n) {
-
+			//System.out.println("here!");
 			// Create the F.O.S. to write the byte buffer to the file.
 			try {
 				output = new FileOutputStream(file);
@@ -252,8 +252,8 @@ public class ContinuousRecorder {
 
 			}
 			end = System.currentTimeMillis();
-			Log.e("APP", Long.toString(end - begin));
-			System.out.println(end - begin);
+		//	Log.e("APP", Long.toString(end - begin));
+			System.out.println("File time(ms): "+(end - begin));
 
 			// Close the output file.
 			try {
@@ -266,7 +266,6 @@ public class ContinuousRecorder {
 			if(SQLite){
 			ast = new fill();
 			ast.execute();}
-			System.out.println("end");
 
 			return null;
 		}
@@ -305,10 +304,12 @@ public class ContinuousRecorder {
 			}
 			sqla.endTransaction(); // Ends the batch transaction.
 			long end = System.currentTimeMillis();
-			Log.e("SQL", Long.toString(end - begin));
+		//	Log.e("SQL", Long.toString(end - begin));
+			System.out.println("SQL time(ms):"+(end - begin));
 			sqla.copy(); // Copies SQLite database to SDCard.
 			sqla.close(); // Closes SQLite database.
 			SQLite = false;
+		//	Toast.makeText(context, "End writing data.",Toast.LENGTH_LONG).show();
 			return null;
 
 		}
