@@ -181,7 +181,7 @@ public class ContinuousRecorder {
 		recorder = new AudioRecord(MIC, SAMPLE, CHANNELI, FORMAT, BUFFERSIZE);
 		track = new AudioTrack(STREAM, SAMPLE, CHANNELO, FORMAT, BUFFERSIZE,
 				MODE);
-
+		
 		asyncTask = new start(); // See below for the start class definition.
 		asyncTask.execute();
 
@@ -213,7 +213,7 @@ public class ContinuousRecorder {
 	private class start extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... n) {
-
+			//System.out.println("here!");
 			// Create the F.O.S. to write the byte buffer to the file.
 			try {
 				output = new FileOutputStream(file);
