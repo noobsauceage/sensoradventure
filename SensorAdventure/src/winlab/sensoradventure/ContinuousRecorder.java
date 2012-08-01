@@ -181,11 +181,7 @@ public class ContinuousRecorder {
 		recorder = new AudioRecord(MIC, SAMPLE, CHANNELI, FORMAT, BUFFERSIZE);
 		track = new AudioTrack(STREAM, SAMPLE, CHANNELO, FORMAT, BUFFERSIZE,
 				MODE);
-        if (SQLite)
-        {
-		sqla.open();
-		sqla.deleteTable();
-        }
+
 		asyncTask = new start(); // See below for the start class definition.
 		asyncTask.execute();
 
@@ -281,7 +277,8 @@ public class ContinuousRecorder {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-
+			sqla.open();
+			sqla.deleteTable();
 			sqla.prepareTransaction(); // Prepares the SQLite database for batch
 										// inputs.
 			long begin = System.currentTimeMillis();
