@@ -79,7 +79,7 @@ public class Mic_SQL {
 
 	// ---closes the database---
 	public void close() {
-	//	db.close();
+		db.close();
 	}
 
 	public void deleteTable() {
@@ -97,6 +97,7 @@ public class Mic_SQL {
 
 	
 	public long insertMic(byte[] sample) {
+		if (db.isOpen()==false) return 0;
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_SAMPLE, sample);
 		return db.insert(DATABASE_TABLE, null,

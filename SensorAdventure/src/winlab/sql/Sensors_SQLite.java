@@ -135,7 +135,7 @@ public class Sensors_SQLite {
 
 	// ---closes the database---
 	public void close() {
-//		db.close();
+		db.close();
 	}
 
 	public void deleteTable() {
@@ -170,7 +170,7 @@ public class Sensors_SQLite {
 		ihs[i].bind(ihs[i].getColumnIndex(KEY_X), x);
 		ihs[i].bind(ihs[i].getColumnIndex(KEY_Y), y);
 		ihs[i].bind(ihs[i].getColumnIndex(KEY_Z), z);*/
-		
+		if (db.isOpen()==false) return 0;		
 		  ContentValues initialValues = new ContentValues();
 		  initialValues.put(KEY_TIME, time); initialValues.put(KEY_X, x);
 		  initialValues.put(KEY_Y, y); initialValues.put(KEY_Z, z); 
@@ -183,7 +183,7 @@ public class Sensors_SQLite {
 //		ihs[i].bind(ihs[i].getColumnIndex(KEY_TIME), time);
 //		ihs[i].bind(ihs[i].getColumnIndex("Value"),value);
 		
-		
+		if (db.isOpen()==false) return 0;
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_TIME, time);
 		initialValues.put("Value", value);
@@ -197,7 +197,7 @@ public class Sensors_SQLite {
 		ihs[i].bind(ihs[i].getColumnIndex(KEY_Y), y);
 		ihs[i].bind(ihs[i].getColumnIndex(KEY_Z), z);
 		ihs[i].bind(ihs[i].getColumnIndex("Scalar"),scalar);*/
-		
+		if (db.isOpen()==false) return 0;
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_TIME, time);
 		initialValues.put(KEY_X, x);
@@ -210,7 +210,7 @@ public class Sensors_SQLite {
 	public long insertMic(byte[] sample, int i) {
 	//	ihs[i].bind(ihs[i].getColumnIndex(KEY_SAMPLE), sample);
 
-		
+		if (db.isOpen()==false) return 0;
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_SAMPLE, sample);
 		return db.insert(DATABASE_TABLE[DATABASE_TABLE.length - 1], null,
