@@ -1,4 +1,5 @@
-/**
+/*This program creates the Configuration file that is used in
+ * AdvancedSettingsGUI.
  * 
  */
 package winlab.SensorGUI;

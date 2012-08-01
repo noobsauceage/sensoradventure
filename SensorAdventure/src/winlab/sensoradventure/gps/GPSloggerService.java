@@ -1,16 +1,19 @@
 package winlab.sensoradventure.gps;
-
+ 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileLock;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import winlab.sensoradventure.R;
+import winlab.sensoradventure.SensorAdventureActivity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
@@ -34,16 +37,18 @@ public class GPSloggerService extends Service {
 	private static long minTimeMillis = 1000;
 	private static long minDistanceMeters = 10;
 	private static float minAccuracyMeters = 35;
-	
+ 
 	private int lastStatus = 0;
 	private static boolean showingDebugToast = false;
 	private GPSLoggerSQLite data;
 	private static final String tag = "GPSLoggerService";
- 
+	private static String[]  file_default_string;
 	
-	/** Called when the activity is first created. */
-	private void startLoggerService() {
-
+	/** Called when the activity is first created. 
+	 * @throws Exception */
+	private void startLoggerService() throws Exception {
+		Resources res = getResources();
+		file_default_string = res.getStringArray(R.array.gps_default);
 		// ---use the LocationManager class to obtain GPS locations---
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		locationListener = new MyLocationListener();
@@ -112,16 +117,18 @@ public class MyLocationListener implements LocationListener {
 
 private void saveCoordinatesfile(double latitude, double longitude, double altitude, double bearing, double accuracy,String provider,double speed){
 	AppLog.logString("GPSloggerService.onProviderEnabled().");
-	File folder = new File(Environment.getExternalStorageDirectory(), "GPSLog");
+    File path;
+	path=SensorAdventureActivity.DataPath;
+	if (path.exists()==false) path.mkdirs();
 	boolean isNew = false;
-	if (!folder.exists())
+	if (!path.exists())
 	{
 		AppLog.logString("Folder does not exist" +Environment.getExternalStorageDirectory());
-		folder.mkdirs();
+		path.mkdirs();
 		isNew = true;
 	}
 	try {
-		File kmlFile = new File(folder.getPath(),"GPSlog1.txt");
+		File kmlFile = new File(path,file_default_string[0]);
 		if (!kmlFile.exists())
 		{
 			kmlFile.createNewFile();	
@@ -170,7 +177,12 @@ private void saveCoordinatesdb(double latitude, double longitude, double altitud
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		startLoggerService();
+		try {
+			startLoggerService();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -228,4 +240,13 @@ private void saveCoordinatesdb(double latitude, double longitude, double altitud
 		}
 	}
 
+	public static String[] load(String filename)
+		    throws Exception {
+			BufferedReader br = new BufferedReader(new FileReader(filename));
+			String nextLine = br.readLine();
+			String nextLine2 = br.readLine();
+			String a[] = nextLine2.split(",");
+			return a;
+		}
+	
 }
