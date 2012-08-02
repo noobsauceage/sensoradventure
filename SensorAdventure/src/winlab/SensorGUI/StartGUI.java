@@ -142,7 +142,7 @@ public class StartGUI extends Activity {
 		ok2.selectSensors(sensorCheck);
 
 		// Print which sensors are on to the screen
-		for (int i = 0; i < sensorCheck.length; i++) {
+		for (int i = 0; i < sensorCheck.length; i++) 
 			if (sensorCheck[i]) {
 				TextView tv = new TextView(this);
 				tv.setText(Sensors[i]);
@@ -168,7 +168,7 @@ public class StartGUI extends Activity {
 				Sensors_SQLite_Setting.setRate(rates);
 			}
 
-		}
+		
 	}
 
 	private OnClickListener startClick = new OnClickListener() {
