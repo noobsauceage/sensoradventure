@@ -32,8 +32,9 @@ import android.widget.Toast;
 @TargetApi(9)
 public class StartGUI extends Activity {
 	private AsyncTask<Void, Void, Void> asyncTask; // add
-	private boolean flag = true;
+	private boolean flag = true; //check whether "stop" button is ever pushed
 	private boolean flag2 = true;
+	private boolean flag3 = true; //check whether "start" button is ever pushed
 	private boolean Snapshot_finish = true;
 	private boolean[] state; // Which data configuration settings are checked
 								// "On"
@@ -148,13 +149,31 @@ public class StartGUI extends Activity {
 				runningSensors.addView(tv);
 			}
 
-			SnapShotValue.set();
+		SnapShotValue.set();
+		
+		// If 'Write to File' is checked, use the RunningService to write to
+		// a file
+		if (state[0]) 
+			// Pass update rates to the sensors
+			SensorSetting.setRate(rates);
+			
+
+		// If 'Write to SQLite Database' is checked
+		if (state[1]) {
+				// Prepare the special SQLite db for the 'Mark' button
+				data2 = new SnapShot_SQL(StartGUI.this);
+				data2.open();
+				data2.deleteTable();
+				// Pass the update rates to SQLite service
+				Sensors_SQLite_Setting.setRate(rates);
+			}
+
 		}
 	}
 
 	private OnClickListener startClick = new OnClickListener() {
 		public void onClick(View a) {
-
+            flag3=false; //"start" button gets pushed.
 			// Prepare the timer
 			mChronometer.setBase(SystemClock.elapsedRealtime());
 			mChronometer.start();
@@ -162,8 +181,6 @@ public class StartGUI extends Activity {
 			// If 'Write to File' is checked, use the RunningService to write to
 			// a file
 			if (state[0]) {
-				// Pass update rates to the sensors
-				SensorSetting.setRate(rates);
 				startService(new Intent(StartGUI.this, RunningService.class));
 				// If the microphone is on and SQLite is not checked
 				if ((sensorCheck[13]) && (state[1] == false)) {
@@ -178,16 +195,6 @@ public class StartGUI extends Activity {
 
 			// If 'Write to SQLite Database' is checked
 			if (state[1]) {
-				// Prepare the special SQLite db for the 'Mark' button
-				data2 = new SnapShot_SQL(StartGUI.this);
-				data2.open();
-				data2.deleteTable();
-
-				// for (int j=0; j<13; j++)
-				// if (sensorCheck[j]) data2.prepareTransaction(j);
-
-				// Pass the update rates to SQLite service
-				Sensors_SQLite_Setting.setRate(rates);
 				startService(new Intent(StartGUI.this,
 						Sensors_SQLite_Service.class));
 				// If microphone is on, write to SQLite db
@@ -304,9 +311,13 @@ public class StartGUI extends Activity {
 	};
 
 	public void onDestroy() {
-
-		// If the 'Stop' button has not been pushed
-		if (flag) {
+		//If both "stop" and "start" haven't been pushed
+        if (flag && flag3 && state[1])
+			try {
+				data2.close();
+			} catch (Exception e) {}
+		// If the 'Stop' button has not been pushed and "Start" button has been pushed
+		if (flag && (flag3==false)) {
 			// If 'Write to File' has been selected
 			if (state[0]) {
 				stopService(new Intent(this, RunningService.class));
@@ -319,12 +330,11 @@ public class StartGUI extends Activity {
 			// If 'Write to SQLite' has been selected
 			if (state[1]) {
 				try {
-					// for (int j=0; j<13; j++)
-					// if (sensorCheck[j]) data2.endTransaction(j);
 					data2.close();
 				} catch (Exception e) {
 				}
 				stopService(new Intent(this, Sensors_SQLite_Service.class));
+				if (sensorCheck[13])
 				{
 					record.stop();
 					record.cancel();
