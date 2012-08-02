@@ -95,10 +95,12 @@ public class StartGUI extends Activity {
 
 		snapshot = (Button) findViewById(R.id.snapshot);
 		snapshot.setOnClickListener(snapClick);
-
+        snapshot.setEnabled(false);
+		
 		mark = (Button) findViewById(R.id.button1);
 		mark.setOnClickListener(markClick);
-
+        mark.setEnabled(false);
+		
 		startAndStop = (Button) findViewById(R.id.button2);
 		startAndStop.setOnClickListener(startClick);
 
@@ -207,7 +209,8 @@ public class StartGUI extends Activity {
 			// Switch the 'Start' button to a 'Stop' button
 			startAndStop.setOnClickListener(stopClick);
 			startAndStop.setText("Stop");
-
+            mark.setEnabled(true);
+            snapshot.setEnabled(true);
 		}
 	};
 
@@ -292,6 +295,8 @@ public class StartGUI extends Activity {
 			mChronometer.stop();
 			// Disable the start/stop button
 			startAndStop.setClickable(false);
+			mark.setEnabled(false);
+            snapshot.setEnabled(false);
 		}
 	};
 

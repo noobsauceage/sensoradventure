@@ -122,7 +122,7 @@
         android:layout_alignBaseline="@+id/editText1"
         android:layout_alignBottom="@+id/editText1"
         android:layout_toLeftOf="@+id/editText1"
-        android:text="Duration" />
+        android:text="Duration (s)" />
 
     <Button
         android:id="@+id/snapshot"
@@ -139,6 +139,6 @@
         android:layout_alignBaseline="@+id/editText2"
         android:layout_alignBottom="@+id/editText2"
         android:layout_alignRight="@+id/textView4"
-        android:text="Sampling Rate" />
+        android:text="Sampling Rate (ms)" />
 
 </RelativeLayout>
