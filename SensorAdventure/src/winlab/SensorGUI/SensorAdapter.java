@@ -1,5 +1,4 @@
 package winlab.SensorGUI;
-
 /*This is an Expandable List Adapter that is used to transform the
  * Group data structure into a view containing [TextView][CheckBox]
  * and the Child data structure into a view containing [TextView][EditText][TextView].

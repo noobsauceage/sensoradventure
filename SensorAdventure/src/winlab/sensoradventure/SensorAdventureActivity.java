@@ -25,6 +25,7 @@ import winlab.SensorGUI.StartGUI;
 import winlab.file.SensorSetting;
 import android.app.ExpandableListActivity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -36,6 +37,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class SensorAdventureActivity extends ExpandableListActivity {
+
 
     public static String provider = "GPS";
 	public static String lograte = "1";

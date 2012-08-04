@@ -3,113 +3,114 @@ package winlab.file;
 import java.io.File;
 import java.io.FileWriter;
 
-import winlab.sensoradventure.SensorAdventureActivity;
-import winlab.sql.Sensors_SQLite_Setting;
-import winlab.sql.SnapShot_SQL;
+
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.hardware.Sensor;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.widget.Toast;
 
-public class SnapShotValue {
-	public static double[][] instantValue = new double[13][];
-	private static String fileName = "Instant_Reading.txt";
-	private static String time = "";
-	private static String markFile[] = { "Accelerometer.txt",
-			"MagneticField.txt", "Orientation.txt", "Gyroscope.txt",
-			"Light.txt", "Pressure.txt", "Temperature.txt", "Proximity.txt",
-			"Gravity.txt", "Linear_Acceleration.txt", "Rotation_Vector.txt",
-			"Humidity.txt", "Ambient_Temperature.txt" };
-	private static File path;
-	private static File file;
-	private static File otherFile[] = new File[13];
-	private static FileWriter output;
-	private static boolean flag = true;
+public class ContinuousSnapshot {
+	private AsyncTask<Void, Void, Void> asyncTask; // add
+	private long rate, duration;
+	private File path = Environment
+			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+	private String fileName = "Continuous_snapShot.txt";
+	private File file = new File(path, fileName);
+	private boolean flag2 = true;
+	private FileWriter output;
+	private final Handler handler1, handler2;
+	private Context programContext;
+	private boolean Snapshot_finish = true;
 
-	public SnapShotValue() {
-	}
+	public ContinuousSnapshot(long rate, long duration, Context con) {
+		programContext = con;
+		this.rate = rate;
+		this.duration = duration;
 
-	// This method prepares the arrays for file writing.
-	public static void set() {
-		for (int i = 0; i < 13; i++)
-			// If we are using a sensor that has three printable fields,
-			// we give an array of size 3.
-			switch (i + 1) {
-			case Sensor.TYPE_ACCELEROMETER:
-			case Sensor.TYPE_MAGNETIC_FIELD:
-			case Sensor.TYPE_ORIENTATION:
-			case Sensor.TYPE_GYROSCOPE:
-			case Sensor.TYPE_GRAVITY:
-			case Sensor.TYPE_LINEAR_ACCELERATION:
-				instantValue[i] = new double[3];
-				for (int j = 0; j < 3; j++)
-					instantValue[i][j] = 0;
-				break;
-			// If we are using a sensor that has four printable fields,
-			// we give an array of size 4.
-			case Sensor.TYPE_ROTATION_VECTOR:
-				instantValue[i] = new double[4];
-				for (int j = 0; j < 4; j++)
-					instantValue[i][j] = 0;
-				break;
-			// All other cases default to one printable field.
-			default:
-				instantValue[i] = new double[1];
-				instantValue[i][0] = 0;
-				break;
+		handler1 = new Handler() {
+			public void handleMessage(Message msg) {
+				Toast.makeText(programContext, "Continuous snapShot starts!",
+						Toast.LENGTH_LONG).show();
 			}
-	}
+		};
 
-	// This method resets all of the values in each array after
-	// the snapshot is finished.
-	public static void reset() {
-		for (int i = 0; i < 13; i++)
-			// If a sensor that has three printable fields
-			switch (i + 1) {
-			case Sensor.TYPE_ACCELEROMETER:
-			case Sensor.TYPE_MAGNETIC_FIELD:
-			case Sensor.TYPE_ORIENTATION:
-			case Sensor.TYPE_GYROSCOPE:
-			case Sensor.TYPE_GRAVITY:
-			case Sensor.TYPE_LINEAR_ACCELERATION:
-				for (int j = 0; j < 3; j++)
-					instantValue[i][j] = 0;
-				break;
-			// If a sensor has 4 printable fields
-			case Sensor.TYPE_ROTATION_VECTOR:
-				for (int j = 0; j < 4; j++)
-					instantValue[i][j] = 0;
-				break;
-			// Else, default to one
-			default:
-				instantValue[i][0] = 0;
-				break;
+		handler2 = new Handler() {
+			public void handleMessage(Message msg) {
+				Toast.makeText(programContext, "Continuous snapShot finished!",
+						Toast.LENGTH_LONG).show();
 			}
+		};
 
 	}
 
-	// This method retrieves the instant value for a sensor.
-	public static double[] getInstVal(int sensorType) {
-		return instantValue[sensorType - 1];
+	public void performSnapshot() {
+		if (Snapshot_finish) {
+			asyncTask = new start();
+			asyncTask.execute();
+		}
 	}
 
-	// This method performs the file writing portion of the Mark event.
-	public static void print() {
-		path = SensorAdventureActivity.DataPath;
+	// Asynchronous task that performs the continuous snapshot
+	private class start extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... n) {
+
+			long startTime, currentTime, lastTime;
+
+			Snapshot_finish = false;
+
+			// Print the beginning message as a toast
+			Message msg1 = handler1.obtainMessage();
+			handler1.sendMessage(msg1);
+
+			startTime = System.currentTimeMillis();
+			lastTime = startTime;
+
+			print();
+			do {
+				currentTime = System.currentTimeMillis();
+				/*
+				 * If the difference between the two intervals are greater than
+				 * the rate of data capture
+				 */
+				if (currentTime - lastTime >= rate) {
+					print();
+					lastTime = currentTime;
+				}
+				// While the difference between two intervals is less than
+				// duration in seconds
+			} while (currentTime - startTime < duration * 1000);
+
+			Message msg2 = handler2.obtainMessage();
+			handler2.sendMessage(msg2);
+			Snapshot_finish = true;
+			return null;
+		}
+	}
+
+	@TargetApi(9)
+	public void print() {
 		file = new File(path, fileName);
 		String str = "";
 		str = str + "Timestamp (ms): "
 				+ String.format("%d", System.currentTimeMillis()) + "\n";
-		time = String.format("%d", System.currentTimeMillis());
 		try {
 			path.mkdirs();
 			file.setWritable(true);
-			// If the FileWriter does not already exist
-			if (flag)
+
+			// If the output object has not been created yet
+			// This method will be called multiple times
+
+			if (flag2)
 				output = new FileWriter(file);
 			else
 				output = new FileWriter(file, true);
-			flag = false;
+			flag2 = false;
 			for (int i = 0; i < 13; i++)
-				// If a given sensor is set as 'On'
 				if (SensorSetting.sensors[i]) {
 					switch (i + 1) {
 					case Sensor.TYPE_ACCELEROMETER:
@@ -296,69 +297,6 @@ public class SnapShotValue {
 			output.close();
 		} catch (Exception e) {
 		}
-		print_others(time);
 	}
 
-	// This method prints the marker in the file.
-	@TargetApi(9)
-	private static void print_others(String sysTime) {
-		for (int i = 0; i < 13; i++)
-			otherFile[i] = new File(path, markFile[i]);
-		for (int i = 0; i < 13; i++)
-			// If a sensor has been selected
-			if (SensorSetting.sensors[i]) {
-				try {
-					path.mkdirs();
-					otherFile[i].setWritable(true);
-					output = new FileWriter(otherFile[i], true);
-					output.write("\n" + sysTime
-							+ "***********MARK*********************");
-					output.close();
-				} catch (Exception e) {
-				}
-			}
-	}
-
-	// This method inserts the Marker into a separate SQLite database.
-	public static void insertSQL(SnapShot_SQL instant) {
-		String timestamp, str1, str2, str3, str4;
-		for (int i = 0; i < 13; i++)
-			// If a sensor is selected for SQLite insertion
-			if (Sensors_SQLite_Setting.sensors[i])
-				switch (i + 1) {
-				case Sensor.TYPE_ACCELEROMETER:
-				case Sensor.TYPE_MAGNETIC_FIELD:
-				case Sensor.TYPE_ORIENTATION:
-				case Sensor.TYPE_GYROSCOPE:
-				case Sensor.TYPE_GRAVITY:
-				case Sensor.TYPE_LINEAR_ACCELERATION:
-					timestamp = String.format("%d", System.currentTimeMillis());
-					str1 = String.format("%.10f", instantValue[i][0]);
-					str2 = String.format("%.10f", instantValue[i][1]);
-					str3 = String.format("%.10f", instantValue[i][2]);
-					instant.insertTitle1(timestamp, str1, str2, str3, i);
-					break;
-				case Sensor.TYPE_LIGHT:
-				case Sensor.TYPE_PRESSURE:
-				case Sensor.TYPE_TEMPERATURE:
-				case Sensor.TYPE_PROXIMITY:
-				case 12:
-				case 13:
-					timestamp = String.format("%d", System.currentTimeMillis());
-					str1 = String.format("%.10f", instantValue[i][0]);
-					instant.insertTitle2(timestamp, str1, i);
-					break;
-				case Sensor.TYPE_ROTATION_VECTOR:
-					timestamp = String.format("%d", System.currentTimeMillis());
-					str1 = String.format("%.10f", instantValue[i][0]);
-					str2 = String.format("%.10f", instantValue[i][1]);
-					str3 = String.format("%.10f", instantValue[i][2]);
-					if (Math.abs(SnapShotValue.instantValue[i][3] - 0) < 1.0e-15)
-						str4 = "NA";
-					else
-						str4 = String.format("%.10f", instantValue[i][3]);
-					instant.insertTitle3(timestamp, str1, str2, str3, str4, i);
-					break;
-				}
-	}
 }

@@ -24,6 +24,10 @@ public class SensorSetting {
 	public static boolean available_sensors[] = { true, true, true, true, true,
 			true, true, true, true, true, true, true, true };
 
+	public SensorSetting(Context con) {
+		this.context = con;
+
+	}
 	// Test to see which sensors exist on the phone
 	public void testAvailableSensors() {
 
@@ -46,11 +50,6 @@ public class SensorSetting {
 	public static void setRate(int[] Rate) {
 		for (int i = 0; i < 13; i++)
 			updateRate[i] = Rate[i];
-	}
-
-	public SensorSetting(Context con) {
-		this.context = con;
-
 	}
 
 	// This is used in GUI. If the sensor is selected there
