@@ -5,23 +5,22 @@ import java.util.ArrayList;
 import winlab.file.ContinuousSnapshot;
 import winlab.file.RunningService;
 import winlab.file.SensorSetting;
-import winlab.file.SnapShotValue;
+import winlab.file.MarkValue;
 import winlab.sensoradventure.ContinuousRecorder;
 import winlab.sensoradventure.SensorAdventureActivity;
 import winlab.sensoradventure.gps.GPSloggerService;
 import winlab.sql.Sensors_SQLite_Service;
 import winlab.sql.Sensors_SQLite_Setting;
-import winlab.sql.SnapShot_SQL;
+import winlab.sql.Mark_SQL;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.widget.Toast;
 
 public class AndroidSensors {
 
 	private SensorSetting sensorSetting;
 	private Sensors_SQLite_Setting sqliteSetting;
-	private SnapShot_SQL snapshotSQL;
+	private Mark_SQL markSQL;
 	private ContinuousRecorder record;
 	private Context programContext;
 	private boolean[] selectedSensors; // Which sensors are selected
@@ -39,7 +38,7 @@ public class AndroidSensors {
 		programContext = context;
 		record = new ContinuousRecorder(programContext);
 		sqliteSetting = new Sensors_SQLite_Setting(programContext);
-		snapshotSQL = new SnapShot_SQL(programContext);
+		markSQL = new Mark_SQL(programContext);
 		sensorSetting = new SensorSetting(programContext);
 		selectedSensors = new boolean[15];
 		rates = new int[15];
@@ -91,13 +90,13 @@ public class AndroidSensors {
 		// If 'Write to File' is selected
 		if (dataConfig[0])
 			// Write to the instant reading file
-			SnapShotValue.print();
+			MarkValue.print();
 
 		// If 'Write to SQLite' is selected
 		if (dataConfig[1]) {
 			try {
 				// Attempt insertion into SQLite database
-				SnapShotValue.insertSQL(snapshotSQL);
+				MarkValue.insertSQL(markSQL);
 			} catch (Exception e) {
 				Toast.makeText(programContext, "1", Toast.LENGTH_LONG).show();
 			}
@@ -105,7 +104,7 @@ public class AndroidSensors {
 	}
 
 	public void prepareForLogging() {
-		SnapShotValue.set();
+		MarkValue.set();
 		if (dataConfig[0] == true) {
 			sensorSetting.selectSensors(selectedSensors);
 			SensorSetting.setRate(rates);
@@ -113,8 +112,8 @@ public class AndroidSensors {
 		}
 		if (dataConfig[1] == true) {
 			sqliteSetting.selectSensors(selectedSensors);
-			snapshotSQL.open();
-			snapshotSQL.deleteTable();
+			markSQL.open();
+			markSQL.deleteTable();
 			Sensors_SQLite_Setting.setRate(rates);
 		}
 
@@ -168,8 +167,8 @@ public class AndroidSensors {
 
 				// Attempt to copy the database to the sdcard and then close
 				// it
-				snapshotSQL.copy();
-				snapshotSQL.close();
+				markSQL.copy();
+				markSQL.close();
 			} catch (Exception e) {
 				Toast.makeText(programContext, "2", Toast.LENGTH_LONG).show();
 			}
@@ -301,35 +300,45 @@ public class AndroidSensors {
 	}
 
 	public void setProximityRate(int rate) {
-		rates[6] = rate;
-	}
-
-	public void setGravityRate(int rate) {
 		rates[7] = rate;
 	}
 
-	public void setLinearAccelerometerRate(int rate) {
+	public void setGravityRate(int rate) {
 		rates[8] = rate;
 	}
 
-	public void setRotationVectorRate(int rate) {
+	public void setLinearAccelerometerRate(int rate) {
 		rates[9] = rate;
 	}
 
-	public void setAmbientTemperatureRate(int rate) {
+	public void setRotationVectorRate(int rate) {
 		rates[10] = rate;
+	}
+
+	public void setHumidityRate(int rate) {
+		rates[11] = rate;
+	}
+
+	public void setAmbientTemperatureRate(int rate) {
+		rates[12] = rate;
+	}
+
+	public void setMicrophoneRate(int rate) {
+		rates[13] = rate;
+	}
+
+	public void setGPSRate(int rate) {
+		rates[14] = rate;
 	}
 
 	public void configureMicrophone(int mic, int sample, int channeli,
 			int channelo, int format, int stream, int mode) {
-		rates[11] = sample;
+		rates[13] = sample;
 		record = new ContinuousRecorder(mic, sample, channeli, channelo,
 				format, stream, mode, programContext);
 	}
 
-	public void setGPSRate(int rate) {
-		rates[12] = rate;
-	}
+
 
 	public void onDestroy() {
 	}

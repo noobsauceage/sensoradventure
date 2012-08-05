@@ -117,68 +117,68 @@ public class ContinuousSnapshot {
 						str = str
 								+ "Accelerometer x (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Accelerometer y (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Accelerometer z (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
 						break;
 					case Sensor.TYPE_MAGNETIC_FIELD:
 						str = str
 								+ "Magnetic Field x (uT): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Magnetic Field y (uT): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Magnetic Field z (uT): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
 						break;
 					case Sensor.TYPE_ORIENTATION:
 						str = str
 								+ "Orientation x (degrees): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Orientation y (degrees): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Orientation z (degrees): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
 						break;
 					case Sensor.TYPE_GYROSCOPE:
 						str = str
 								+ "Gyroscope x (rad/s): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Gyroscope y (rad/s): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Gyroscope z (rad/s): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
 
 						break;
@@ -186,28 +186,28 @@ public class ContinuousSnapshot {
 						str = str
 								+ "Light (lx): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						break;
 					case Sensor.TYPE_PRESSURE:
 						str = str
 								+ "Pressure (hPa): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						break;
 					case Sensor.TYPE_TEMPERATURE:
 						str = str
 								+ "Device Temperature (degree Celsius): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						break;
 					case Sensor.TYPE_PROXIMITY:
 						str = str
 								+ "Proximity (cm)"
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						break;
 
@@ -215,17 +215,17 @@ public class ContinuousSnapshot {
 						str = str
 								+ "Gravity x (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Gravity x (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Gravity x (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
 
 						break;
@@ -233,17 +233,17 @@ public class ContinuousSnapshot {
 						str = str
 								+ "Linear Accelerometer x (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Linear Accelerometer y (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Linear Accelerometer z (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
 
 						break;
@@ -251,26 +251,26 @@ public class ContinuousSnapshot {
 						str = str
 								+ "Rotation Vector x unitless: "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Rotation Vector y unitless: "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Rotation Vector z unitless: "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
-						if (Math.abs(SnapShotValue.instantValue[i][3] - 0) < 1.0e-15)
+						if (Math.abs(MarkValue.instantValue[i][3] - 0) < 1.0e-15)
 							str = str
 									+ "Rotation Vector scalar:                NA\n";
 						else
 							str = str
 									+ "Rotation Vector scalar: "
 									+ String.format("%17.10f",
-											SnapShotValue.instantValue[i][3])
+											MarkValue.instantValue[i][3])
 									+ "\n";
 
 						break;
@@ -278,14 +278,14 @@ public class ContinuousSnapshot {
 						str = str
 								+ "Relative Humidity %: "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						break;
 					case 13: // Sensor.TYPE_AMBIENT_TEMPERATURE
 						str = str
 								+ "Ambient air temperature (degree Celsius): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						break;
 					}

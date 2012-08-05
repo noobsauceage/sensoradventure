@@ -160,9 +160,9 @@ public class RunningService extends Service implements SensorEventListener {
 			case 4:
 			case 9:
 			case 10:
-				SnapShotValue.instantValue[i - 1][0] = event.values[0];
-				SnapShotValue.instantValue[i - 1][1] = event.values[1];
-				SnapShotValue.instantValue[i - 1][2] = event.values[2];
+				MarkValue.instantValue[i - 1][0] = event.values[0];
+				MarkValue.instantValue[i - 1][1] = event.values[1];
+				MarkValue.instantValue[i - 1][2] = event.values[2];
 				str = String.format("\n%d%17.10f%17.10f%17.10f",
 						System.currentTimeMillis(), event.values[0],
 						event.values[1], event.values[2]);
@@ -174,7 +174,7 @@ public class RunningService extends Service implements SensorEventListener {
 			case 8:
 			case 12:
 			case 13:
-				SnapShotValue.instantValue[i - 1][0] = event.values[0];
+				MarkValue.instantValue[i - 1][0] = event.values[0];
 				str = String.format("\n%d%17.10f", System.currentTimeMillis(),
 						event.values[0]);
 				break;
@@ -182,19 +182,19 @@ public class RunningService extends Service implements SensorEventListener {
 			case 11:
 				// If we have 4 values to print.
 				if (event.values.length == 4) {
-					SnapShotValue.instantValue[i - 1][0] = event.values[0];
-					SnapShotValue.instantValue[i - 1][1] = event.values[1];
-					SnapShotValue.instantValue[i - 1][2] = event.values[2];
-					SnapShotValue.instantValue[i - 1][3] = event.values[3];
+					MarkValue.instantValue[i - 1][0] = event.values[0];
+					MarkValue.instantValue[i - 1][1] = event.values[1];
+					MarkValue.instantValue[i - 1][2] = event.values[2];
+					MarkValue.instantValue[i - 1][3] = event.values[3];
 					str = String.format("\n%d%10.5f%10.5f%10.5f%10.5f",
 							System.currentTimeMillis(), event.values[0],
 							event.values[1], event.values[2], event.values[3]);
 				}
 				// The only other option is three values.
 				else {
-					SnapShotValue.instantValue[i - 1][0] = event.values[0];
-					SnapShotValue.instantValue[i - 1][1] = event.values[1];
-					SnapShotValue.instantValue[i - 1][2] = event.values[2];
+					MarkValue.instantValue[i - 1][0] = event.values[0];
+					MarkValue.instantValue[i - 1][1] = event.values[1];
+					MarkValue.instantValue[i - 1][2] = event.values[2];
 					str = String.format("\n%d%10.5f%10.5f%10.5f          NA",
 							System.currentTimeMillis(), event.values[0],
 							event.values[1], event.values[2]);

@@ -5,11 +5,11 @@ import java.io.FileWriter;
 
 import winlab.sensoradventure.SensorAdventureActivity;
 import winlab.sql.Sensors_SQLite_Setting;
-import winlab.sql.SnapShot_SQL;
+import winlab.sql.Mark_SQL;
 import android.annotation.TargetApi;
 import android.hardware.Sensor;
 
-public class SnapShotValue {
+public class MarkValue {
 	public static double[][] instantValue = new double[13][];
 	private static String fileName = "Instant_Reading.txt";
 	private static String time = "";
@@ -24,7 +24,7 @@ public class SnapShotValue {
 	private static FileWriter output;
 	private static boolean flag = true;
 
-	public SnapShotValue() {
+	public MarkValue() {
 	}
 
 	// This method prepares the arrays for file writing.
@@ -92,6 +92,7 @@ public class SnapShotValue {
 	}
 
 	// This method performs the file writing portion of the Mark event.
+	@TargetApi(9)
 	public static void print() {
 		path = SensorAdventureActivity.DataPath;
 		file = new File(path, fileName);
@@ -116,68 +117,68 @@ public class SnapShotValue {
 						str = str
 								+ "Accelerometer x (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Accelerometer y (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Accelerometer z (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
 						break;
 					case Sensor.TYPE_MAGNETIC_FIELD:
 						str = str
 								+ "Magnetic Field x (uT): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Magnetic Field y (uT): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Magnetic Field z (uT): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
 						break;
 					case Sensor.TYPE_ORIENTATION:
 						str = str
 								+ "Orientation x (degrees): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Orientation y (degrees): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Orientation z (degrees): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
 						break;
 					case Sensor.TYPE_GYROSCOPE:
 						str = str
 								+ "Gyroscope x (rad/s): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Gyroscope y (rad/s): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Gyroscope z (rad/s): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
 
 						break;
@@ -185,28 +186,28 @@ public class SnapShotValue {
 						str = str
 								+ "Light (lx): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						break;
 					case Sensor.TYPE_PRESSURE:
 						str = str
 								+ "Pressure (hPa): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						break;
 					case Sensor.TYPE_TEMPERATURE:
 						str = str
 								+ "Device Temperature (degree Celsius): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						break;
 					case Sensor.TYPE_PROXIMITY:
 						str = str
 								+ "Proximity (cm)"
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						break;
 
@@ -214,17 +215,17 @@ public class SnapShotValue {
 						str = str
 								+ "Gravity x (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Gravity x (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Gravity x (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
 
 						break;
@@ -232,17 +233,17 @@ public class SnapShotValue {
 						str = str
 								+ "Linear Accelerometer x (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Linear Accelerometer y (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Linear Accelerometer z (m/s^2): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
 
 						break;
@@ -250,26 +251,26 @@ public class SnapShotValue {
 						str = str
 								+ "Rotation Vector x unitless: "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						str = str
 								+ "Rotation Vector y unitless: "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][1])
+										MarkValue.instantValue[i][1])
 								+ "\n";
 						str = str
 								+ "Rotation Vector z unitless: "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][2])
+										MarkValue.instantValue[i][2])
 								+ "\n";
-						if (Math.abs(SnapShotValue.instantValue[i][3] - 0) < 1.0e-15)
+						if (Math.abs(MarkValue.instantValue[i][3] - 0) < 1.0e-15)
 							str = str
 									+ "Rotation Vector scalar:                NA\n";
 						else
 							str = str
 									+ "Rotation Vector scalar: "
 									+ String.format("%17.10f",
-											SnapShotValue.instantValue[i][3])
+											MarkValue.instantValue[i][3])
 									+ "\n";
 
 						break;
@@ -277,14 +278,14 @@ public class SnapShotValue {
 						str = str
 								+ "Relative Humidity %: "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						break;
 					case 13: // Sensor.TYPE_AMBIENT_TEMPERATURE
 						str = str
 								+ "Ambient air temperature (degree Celsius): "
 								+ String.format("%17.10f",
-										SnapShotValue.instantValue[i][0])
+										MarkValue.instantValue[i][0])
 								+ "\n";
 						break;
 					}
@@ -320,7 +321,7 @@ public class SnapShotValue {
 	}
 
 	// This method inserts the Marker into a separate SQLite database.
-	public static void insertSQL(SnapShot_SQL instant) {
+	public static void insertSQL(Mark_SQL instant) {
 		String timestamp, str1, str2, str3, str4;
 		for (int i = 0; i < 13; i++)
 			// If a sensor is selected for SQLite insertion
@@ -353,7 +354,7 @@ public class SnapShotValue {
 					str1 = String.format("%.10f", instantValue[i][0]);
 					str2 = String.format("%.10f", instantValue[i][1]);
 					str3 = String.format("%.10f", instantValue[i][2]);
-					if (Math.abs(SnapShotValue.instantValue[i][3] - 0) < 1.0e-15)
+					if (Math.abs(MarkValue.instantValue[i][3] - 0) < 1.0e-15)
 						str4 = "NA";
 					else
 						str4 = String.format("%.10f", instantValue[i][3]);

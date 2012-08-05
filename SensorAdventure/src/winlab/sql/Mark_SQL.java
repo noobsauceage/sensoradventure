@@ -21,7 +21,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-public class SnapShot_SQL {
+public class Mark_SQL {
 	public static final String KEY_ROWID = "_id";
 	public static final String KEY_TIME = "timestamp";
 	public static final String KEY_X = "x";
@@ -47,7 +47,7 @@ private SQLiteDatabase db;
 
 //private InsertHelper[] ihs = new InsertHelper[DATABASE_TABLE.length];
 
-public SnapShot_SQL(Context ctx) {
+public Mark_SQL(Context ctx) {
 	try{
 		File data = Environment.getDataDirectory();
 		String currentDBPath ="//data//" + "winlab.sensoradventure" + "//databases//" + "InstantReading.db";
@@ -122,7 +122,7 @@ private static class DatabaseHelper extends SQLiteOpenHelper {
 }
 
 // opens the database
-public SnapShot_SQL open() throws SQLException {
+public Mark_SQL open() throws SQLException {
 	DBHelper = new DatabaseHelper(context);
 	db = DBHelper.getWritableDatabase();
 	return this;

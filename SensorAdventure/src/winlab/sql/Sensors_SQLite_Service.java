@@ -4,7 +4,7 @@ package winlab.sql;
 //import java.io.File;
 //import java.io.FileWriter;
 
-import winlab.file.SnapShotValue;
+import winlab.file.MarkValue;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -60,15 +60,15 @@ SensorEventListener{
 					str1 = String.format("%.10f", event.values[0]);
 					str2 = String.format("%.10f",event.values[1]);
 					str3 = String.format("%.10f",event.values[2]);
-					SnapShotValue.instantValue[i-1][0]=event.values[0];
-					SnapShotValue.instantValue[i-1][1]=event.values[1];
-					SnapShotValue.instantValue[i-1][2]=event.values[2];
+					MarkValue.instantValue[i-1][0]=event.values[0];
+					MarkValue.instantValue[i-1][1]=event.values[1];
+					MarkValue.instantValue[i-1][2]=event.values[2];
 					data.insertTitle1(timestamp, str1, str2, str3,i-1);
 					break;
 			case 5: case 6: case 7: case 8: case 12: case 13:
 				    timestamp=String.format("%d",System.currentTimeMillis());
 				    str1 = String.format("%.10f", event.values[0]);
-				    SnapShotValue.instantValue[i-1][0]=event.values[0];
+				    MarkValue.instantValue[i-1][0]=event.values[0];
 					data.insertTitle2(timestamp, str1,i-1);
 					break;
 			 case 11:
@@ -79,10 +79,10 @@ SensorEventListener{
 					str2 = String.format("%.10f",event.values[1]);
 					str3 = String.format("%.10f",event.values[2]);
 					str4 = String.format("%.10f",event.values[3]);
-					SnapShotValue.instantValue[i-1][0]=event.values[0];
-					SnapShotValue.instantValue[i-1][1]=event.values[1];
-					SnapShotValue.instantValue[i-1][2]=event.values[2];
-					SnapShotValue.instantValue[i-1][3]=event.values[3];
+					MarkValue.instantValue[i-1][0]=event.values[0];
+					MarkValue.instantValue[i-1][1]=event.values[1];
+					MarkValue.instantValue[i-1][2]=event.values[2];
+					MarkValue.instantValue[i-1][3]=event.values[3];
 					data.insertTitle3(timestamp, str1, str2, str3, str4, i-1);
 				 } else {
 					 timestamp=String.format("%d",System.currentTimeMillis());
@@ -90,9 +90,9 @@ SensorEventListener{
 						str2 = String.format("%.10f",event.values[1]);
 						str3 = String.format("%.10f",event.values[2]);
 		                str4 = "NA";
-						SnapShotValue.instantValue[i-1][0]=event.values[0];
-						SnapShotValue.instantValue[i-1][1]=event.values[1];
-						SnapShotValue.instantValue[i-1][2]=event.values[2];
+						MarkValue.instantValue[i-1][0]=event.values[0];
+						MarkValue.instantValue[i-1][1]=event.values[1];
+						MarkValue.instantValue[i-1][2]=event.values[2];
 						data.insertTitle3(timestamp, str1, str2, str3, str4, i-1);
 				 }
 					break;

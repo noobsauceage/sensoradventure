@@ -1,6 +1,6 @@
 package winlab.contexts;
 
-import winlab.file.SnapShotValue;
+import winlab.file.MarkValue;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.location.Location;
@@ -27,59 +27,59 @@ public class Defs {
 	public static final int BLUETOOTH = 23;
 	
 	public double[] getAccelerometer() {
-		return SnapShotValue.getInstVal(Sensor.TYPE_ACCELEROMETER);
+		return MarkValue.getInstVal(Sensor.TYPE_ACCELEROMETER);
 	}
 
 	public double[] getMagnetic() {
-		return SnapShotValue.getInstVal(Sensor.TYPE_MAGNETIC_FIELD);
+		return MarkValue.getInstVal(Sensor.TYPE_MAGNETIC_FIELD);
 	}
 
 	public double[] getOrientation() {
-		return SnapShotValue.getInstVal(Sensor.TYPE_ORIENTATION);
+		return MarkValue.getInstVal(Sensor.TYPE_ORIENTATION);
 	}
 
 	public double[] getGyroscope() {
-		return SnapShotValue.getInstVal(Sensor.TYPE_GYROSCOPE);
+		return MarkValue.getInstVal(Sensor.TYPE_GYROSCOPE);
 	}
 
 	public double[] getLight() {
-		return SnapShotValue.getInstVal(Sensor.TYPE_LIGHT);
+		return MarkValue.getInstVal(Sensor.TYPE_LIGHT);
 	}
 
 	public double[] getPressure() {
-		return SnapShotValue.getInstVal(Sensor.TYPE_PRESSURE);
+		return MarkValue.getInstVal(Sensor.TYPE_PRESSURE);
 	}
 
 	public double[] getTemperature() {
-		return SnapShotValue.getInstVal(Sensor.TYPE_TEMPERATURE);
+		return MarkValue.getInstVal(Sensor.TYPE_TEMPERATURE);
 	}
 
 	public double[] getProximity() {
-		return SnapShotValue.getInstVal(Sensor.TYPE_PROXIMITY);
+		return MarkValue.getInstVal(Sensor.TYPE_PROXIMITY);
 	}
 
 	public double[] getGravity() {
-		return SnapShotValue.getInstVal(Sensor.TYPE_GRAVITY);
+		return MarkValue.getInstVal(Sensor.TYPE_GRAVITY);
 	}
 
 	public double[] getLinear_Accelerator() {
-		return SnapShotValue.getInstVal(Sensor.TYPE_LINEAR_ACCELERATION);
+		return MarkValue.getInstVal(Sensor.TYPE_LINEAR_ACCELERATION);
 	}
 
 	public double[] getLinear_Rotation() {
-		return SnapShotValue.getInstVal(Sensor.TYPE_ROTATION_VECTOR);
+		return MarkValue.getInstVal(Sensor.TYPE_ROTATION_VECTOR);
 	}
 
 	public double[] getMic() {
-		return SnapShotValue.getInstVal(MIC);
+		return MarkValue.getInstVal(MIC);
 	}
 
 	public double[] getGPS() {
-		return SnapShotValue.getInstVal(GPS);
+		return MarkValue.getInstVal(GPS);
 	}
 
 	public double[] getBluetooth() {
-		return SnapShotValue.getInstVal(BLUETOOTH);
+		return MarkValue.getInstVal(BLUETOOTH);
 	}
 	
 	

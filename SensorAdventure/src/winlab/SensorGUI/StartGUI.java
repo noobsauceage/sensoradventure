@@ -9,7 +9,7 @@ import winlab.sensoradventure.ContinuousRecorder;
 import winlab.sensoradventure.R;
 import winlab.sensoradventure.SensorAdventureActivity;
 import winlab.sql.Sensors_SQLite_Service;
-import winlab.sql.SnapShot_SQL;
+import winlab.sql.Mark_SQL;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
@@ -44,7 +44,7 @@ public class StartGUI extends Activity {
 	private int micchanneli, micchannelo, micencode, micsampling;
 	private long rate = 100;// add in ms
 	private long duration = 5; // add in s
-	private SnapShot_SQL data2;
+	private Mark_SQL data2;
 	private ContinuousRecorder record;
 	private AndroidSensors androidSensors;
 
