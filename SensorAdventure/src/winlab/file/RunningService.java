@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileWriter;
 //import java.util.Calendar;
 
+import winlab.ASL.AndroidSensors;
 import winlab.sensoradventure.SensorAdventureActivity;
 
 import android.annotation.TargetApi;
@@ -32,7 +33,8 @@ public class RunningService extends Service implements SensorEventListener {
 			"Temperature.txt", "Proximity.txt", "Gravity.txt",
 			"Linear_Acceleration.txt", "Rotation_Vector.txt", "Humidity.txt",
 			"Ambient_Temperature.txt" };
-	private File path = SensorAdventureActivity.DataPath;
+	private File path = AndroidSensors.DataPath;
+	
 	private File file[] = { new File(path, fileName[0]),
 			new File(path, fileName[1]), new File(path, fileName[2]),
 			new File(path, fileName[3]), new File(path, fileName[4]),
@@ -40,6 +42,7 @@ public class RunningService extends Service implements SensorEventListener {
 			new File(path, fileName[7]), new File(path, fileName[8]),
 			new File(path, fileName[9]), new File(path, fileName[10]),
 			new File(path, fileName[11]), new File(path, fileName[12]) };	
+	
 	
 	// private String Direc = "/" + Integer.toString(c.get(Calendar.YEAR)) + "_"
 	// + Integer.toString(c.get(Calendar.MONTH) + 1) + "_"

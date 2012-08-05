@@ -3,17 +3,13 @@ package winlab.sql;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-//import java.io.InputStream;
-//import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 
-import winlab.sensoradventure.SensorAdventureActivity;
-
+import winlab.ASL.AndroidSensors;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-//import android.database.DatabaseUtils.InsertHelper;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -310,7 +306,7 @@ public class Sensors_SQLite {
 
 	public void copy(){
 			try {
-				File sd = SensorAdventureActivity.DataPath;
+				File sd = AndroidSensors.DataPath;
 				File data = Environment.getDataDirectory();
 				
 				if (sd.exists()==false) sd.mkdirs();

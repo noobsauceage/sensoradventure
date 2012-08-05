@@ -3,12 +3,11 @@ package winlab.file;
 import java.io.File;
 import java.io.FileWriter;
 
-
+import winlab.ASL.AndroidSensors;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
@@ -16,8 +15,7 @@ import android.widget.Toast;
 public class ContinuousSnapshot {
 	private AsyncTask<Void, Void, Void> asyncTask; // add
 	private long rate, duration;
-	private File path = Environment
-			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+	private File path;
 	private String fileName = "Continuous_snapShot.txt";
 	private File file = new File(path, fileName);
 	private boolean flag2 = true;
@@ -30,6 +28,7 @@ public class ContinuousSnapshot {
 		programContext = con;
 		this.rate = rate;
 		this.duration = duration;
+		path = AndroidSensors.DataPath;
 
 		handler1 = new Handler() {
 			public void handleMessage(Message msg) {

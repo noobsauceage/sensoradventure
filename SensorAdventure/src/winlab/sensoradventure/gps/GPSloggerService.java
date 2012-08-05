@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileLock;
 import java.util.Calendar;
+
+import winlab.ASL.AndroidSensors;
 import winlab.sensoradventure.R;
-import winlab.sensoradventure.SensorAdventureActivity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.location.LocationListener;
@@ -118,7 +118,7 @@ public class MyLocationListener implements LocationListener {
 private void saveCoordinatesfile(double latitude, double longitude, double altitude, double bearing, double accuracy,String provider,double speed){
 	AppLog.logString("GPSloggerService.onProviderEnabled().");
     File path;
-	path=SensorAdventureActivity.DataPath;
+	path=AndroidSensors.DataPath;
 	if (path.exists()==false) path.mkdirs();
 	boolean isNew = false;
 	if (!path.exists())

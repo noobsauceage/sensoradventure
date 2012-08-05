@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import winlab.ASL.AndroidSensors;
 import winlab.SensorGUI.StartGUI;
 import winlab.sql.Mic_SQL;
 import android.content.Context;
@@ -66,9 +67,6 @@ public class ContinuousRecorder {
 
 	// Creates the default C.R. with optimal settings.
 	public ContinuousRecorder(Context con) {
-		path=SensorAdventureActivity.DataPath;
-		if (path.exists()==false) path.mkdirs();
-		file = new File(path,fileName);
 		setMic(AudioSource.MIC);
 		setSamplingRate(44100);
 		setChannelInput(AudioFormat.CHANNEL_IN_MONO);
@@ -86,9 +84,6 @@ public class ContinuousRecorder {
 	// Creates a customized C.R. where all parameters need to be set.
 	public ContinuousRecorder(int mic, int sample, int channeli, int channelo,
 			int format, int stream, int mode, Context con) {
-		path=SensorAdventureActivity.DataPath;
-		if (path.exists()==false) path.mkdirs();
-		file = new File(path,fileName);
 		setMic(mic);
 		setSamplingRate(sample);
 		setChannelInput(channeli);
@@ -101,6 +96,12 @@ public class ContinuousRecorder {
 		context = con;
 		sqla = new Mic_SQL(context);
 
+	}
+	
+	public void setPath(){
+		path = AndroidSensors.DataPath;
+		if (path.exists()==false) path.mkdirs();
+		file = new File(path,fileName);
 	}
 
 	// Below are the set functions which assign values to the private members.

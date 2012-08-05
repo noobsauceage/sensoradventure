@@ -1,19 +1,21 @@
 package winlab.ASL;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import winlab.file.ContinuousSnapshot;
+import winlab.file.MarkValue;
 import winlab.file.RunningService;
 import winlab.file.SensorSetting;
-import winlab.file.MarkValue;
 import winlab.sensoradventure.ContinuousRecorder;
-import winlab.sensoradventure.SensorAdventureActivity;
 import winlab.sensoradventure.gps.GPSloggerService;
+import winlab.sql.Mark_SQL;
 import winlab.sql.Sensors_SQLite_Service;
 import winlab.sql.Sensors_SQLite_Setting;
-import winlab.sql.Mark_SQL;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 import android.widget.Toast;
 
 public class AndroidSensors {
@@ -33,6 +35,7 @@ public class AndroidSensors {
 	private ArrayList<String> availableSensors;
 	private ArrayList<String> unavailableSensors;
 	private ContinuousSnapshot continuoussnapshot;
+	public static File DataPath;
 
 	public AndroidSensors(Context context) {
 		programContext = context;
@@ -51,6 +54,17 @@ public class AndroidSensors {
 			if (i < 3)
 				dataConfig[i] = false;
 		}
+		
+		Calendar c = Calendar.getInstance();
+		String Direc = "/" + Integer.toString(c.get(Calendar.YEAR)) + "_"
+				+ Integer.toString(c.get(Calendar.MONTH) + 1) + "_"
+				+ Integer.toString(c.get(Calendar.DATE)) + "_"
+				+ Integer.toString(c.get(Calendar.HOUR_OF_DAY)) + "Hr_"
+				+ Integer.toString(c.get(Calendar.MINUTE)) + "Min_"
+				+ Integer.toString(c.get(Calendar.SECOND)) + "Sec/";
+		DataPath = Environment
+				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS
+						+ Direc);
 
 	}
 
@@ -105,6 +119,7 @@ public class AndroidSensors {
 
 	public void prepareForLogging() {
 		MarkValue.set();
+		record.setPath();
 		if (dataConfig[0] == true) {
 			sensorSetting.selectSensors(selectedSensors);
 			SensorSetting.setRate(rates);
@@ -185,7 +200,7 @@ public class AndroidSensors {
 		Toast.makeText(
 				programContext,
 				"Data is stored in: "
-						+ SensorAdventureActivity.DataPath.toString() + "/",
+						+ DataPath.toString() + "/",
 				Toast.LENGTH_LONG).show();
 	}
 

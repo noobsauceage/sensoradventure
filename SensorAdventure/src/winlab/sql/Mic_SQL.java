@@ -4,8 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
-import winlab.sensoradventure.SensorAdventureActivity;
-
+import winlab.ASL.AndroidSensors;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -112,7 +111,7 @@ public class Mic_SQL {
 	}
 	public void copy() {
 		try {
-			File sd = SensorAdventureActivity.DataPath;
+			File sd = AndroidSensors.DataPath;
 			File data = Environment.getDataDirectory();
 
 			if (sd.exists()==false) sd.mkdirs();

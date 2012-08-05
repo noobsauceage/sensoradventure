@@ -25,7 +25,6 @@ import winlab.SensorGUI.StartGUI;
 import winlab.file.SensorSetting;
 import android.app.ExpandableListActivity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -66,7 +65,6 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	private ArrayList<Child> normalSensor = new ArrayList<Child>();
 	private ArrayList<Child> micSensor = new ArrayList<Child>();
 	private boolean[] expanded;		// Boolean array that stores memory of which Groups are expanded
-	public static File DataPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 	private File path = Environment
 			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 	private File file = new File(path, fileName);
@@ -261,16 +259,6 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 			// Else, switch to StartGUI activity
 			else
 			{
-				c = Calendar.getInstance();
-				Direc = "/" + Integer.toString(c.get(Calendar.YEAR)) + "_"
-						+ Integer.toString(c.get(Calendar.MONTH) + 1) + "_"
-						+ Integer.toString(c.get(Calendar.DATE)) + "_"
-						+ Integer.toString(c.get(Calendar.HOUR_OF_DAY)) + "Hr_"
-						+ Integer.toString(c.get(Calendar.MINUTE)) + "Min_"
-						+ Integer.toString(c.get(Calendar.SECOND)) + "Sec/";
-				DataPath = Environment
-						.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS
-								+ Direc);
 				startActivity(intent);
 			}
 		}

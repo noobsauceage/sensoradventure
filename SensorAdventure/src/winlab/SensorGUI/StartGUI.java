@@ -7,7 +7,6 @@ import winlab.file.RunningService;
 import winlab.file.SensorSetting;
 import winlab.sensoradventure.ContinuousRecorder;
 import winlab.sensoradventure.R;
-import winlab.sensoradventure.SensorAdventureActivity;
 import winlab.sql.Sensors_SQLite_Service;
 import winlab.sql.Mark_SQL;
 import android.annotation.TargetApi;
@@ -224,7 +223,7 @@ public class StartGUI extends Activity {
 			Toast.makeText(
 					this,
 					"Data are stored in: "
-							+ SensorAdventureActivity.DataPath.toString() + "/",
+							+ AndroidSensors.DataPath.toString() + "/",
 					Toast.LENGTH_LONG).show();
 			mChronometer.stop();
 		}

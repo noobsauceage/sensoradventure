@@ -3,9 +3,9 @@ package winlab.file;
 import java.io.File;
 import java.io.FileWriter;
 
-import winlab.sensoradventure.SensorAdventureActivity;
-import winlab.sql.Sensors_SQLite_Setting;
+import winlab.ASL.AndroidSensors;
 import winlab.sql.Mark_SQL;
+import winlab.sql.Sensors_SQLite_Setting;
 import android.annotation.TargetApi;
 import android.hardware.Sensor;
 
@@ -94,7 +94,7 @@ public class MarkValue {
 	// This method performs the file writing portion of the Mark event.
 	@TargetApi(9)
 	public static void print() {
-		path = SensorAdventureActivity.DataPath;
+		path = AndroidSensors.DataPath;
 		file = new File(path, fileName);
 		String str = "";
 		str = str + "Timestamp (ms): "
