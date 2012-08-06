@@ -5,9 +5,13 @@ package winlab.file;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 //import java.util.Calendar;
 
 import winlab.ASL.AndroidSensors;
+import winlab.SensorGUI.StartGUI;
 import winlab.sensoradventure.SensorAdventureActivity;
 
 import android.annotation.TargetApi;
@@ -19,6 +23,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 //import android.os.Environment;
+import android.os.Environment;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
@@ -28,13 +33,19 @@ public class RunningService extends Service implements SensorEventListener {
 	private TelephonyManager telephonyManager;
 	private SensorManager mSensorManager;
 	private Sensor mSensor;
+	private int count=0;
+	private int sensor_type[]= new int[13];
+	public List<PrintWriter> captureFiles = new ArrayList<PrintWriter>();
 	private String fileName[] = { "Accelerometer.txt", "MagneticField.txt",
 			"Orientation.txt", "Gyroscope.txt", "Light.txt", "Pressure.txt",
 			"Temperature.txt", "Proximity.txt", "Gravity.txt",
 			"Linear_Acceleration.txt", "Rotation_Vector.txt", "Humidity.txt",
 			"Ambient_Temperature.txt" };
-	private File path = AndroidSensors.DataPath;
 	
+	private File path = AndroidSensors.DataPath;
+	private File upload_path = Environment
+			.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS
+					+ "/upload_to_server/");
 	private File file[] = { new File(path, fileName[0]),
 			new File(path, fileName[1]), new File(path, fileName[2]),
 			new File(path, fileName[3]), new File(path, fileName[4]),
@@ -70,6 +81,8 @@ public class RunningService extends Service implements SensorEventListener {
 				// i+1 since SensorManager logs sensors starting from '1' and
 				// not '0'
 				mSensor = mSensorManager.getDefaultSensor(i + 1);
+				if (StartGUI.state[0])
+				//For "Write to file" configuration 
 				try {
 					path.mkdirs();
 					file[i].setWritable(true);
@@ -127,7 +140,40 @@ public class RunningService extends Service implements SensorEventListener {
 					output.close();
 				} catch (Exception e) {
 				}
+				if (StartGUI.state[2])
+				//For "upload to server" configuration	
+				try{
+					upload_path.mkdirs();
+					File myFile = new File(upload_path, mSensor.getType() + "_"
+							+ mSensor.getName() + ".csv");
+
+					myFile.createNewFile();
+					captureFiles
+							.add(new PrintWriter(new FileWriter(myFile, false)));
+					captureFiles.get(count).println(
+							"`timestamp`" + "," + getFields(mSensor.getType()));
+					sensor_type[count]=mSensor.getType();
+					count++;
+				}catch(Exception e){}
 			}
+	}
+	private String getFields(int type) {
+		String fields = null;
+
+		switch (type) {
+		case 1:
+		case 2:
+		case 3:
+		case 9:
+		case 10:
+		case 11:
+			fields = "`x`" + "," + "`y`" + "," + "`z`";
+			break;
+		default:
+			fields = "`value`" + "," + "`null0`" + "," + "`null1`"; 
+		}
+		return fields;
+
 	}
 
 	@Override
@@ -150,7 +196,8 @@ public class RunningService extends Service implements SensorEventListener {
 		String str = "";
 		// Discover which sensor has changed, store value in i
 		int i = event.sensor.getType();
-
+        if (StartGUI.state[0])
+        	//"write to file" configuration
 		try {
 			path.mkdirs();
 			file[i - 1].setWritable(true);
@@ -208,6 +255,30 @@ public class RunningService extends Service implements SensorEventListener {
 			output.close();
 		} catch (Exception e) {
 		}
+        
+        if (StartGUI.state[2])
+        	//"upload to server" configuration
+        {
+        	long timestamp;
+        	int index = 0;
+        	for (int j=0; j<count; j++)
+        		if (i==sensor_type[j]) index=j;
+
+    		PrintWriter thiscaptureFile;
+
+    		timestamp = System.currentTimeMillis();
+
+    		thiscaptureFile = captureFiles.get(index);
+    		if (thiscaptureFile != null) {
+    			thiscaptureFile.print(timestamp);
+    			// for( int i = 0 ; i < event.values.length ; ++i ) {
+    			for (int k = 0; k < event.values.length; k++) {
+    				thiscaptureFile.print("," + event.values[k]);
+    			}
+    			thiscaptureFile.println();
+    		}
+	
+        }
 	}
 
 	// This method must be included but is not used.
@@ -225,7 +296,7 @@ public class RunningService extends Service implements SensorEventListener {
 			// If it does not, check to see if the file exists.
 			// Sometimes a file is written for sensors that we do not have; we
 			// must delete them.
-			else {
+			else if (StartGUI.state[0]){
 				if (file[i].exists())
 					file[i].delete();
 			}

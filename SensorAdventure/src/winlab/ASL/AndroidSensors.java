@@ -119,7 +119,7 @@ public class AndroidSensors {
 	public void prepareForLogging() {
 		MarkValue.set();
 		record.setPath();
-		if (dataConfig[0] == true) {
+		if ((dataConfig[0] == true)||(dataConfig[2])) {
 			sensorSetting.selectSensors(selectedSensors);
 			SensorSetting.setRate(rates);
 
@@ -134,6 +134,9 @@ public class AndroidSensors {
 	}
 
 	public void startLogging() {
+		if (dataConfig[2]) 
+			programContext.startService(new Intent(programContext,
+				RunningService.class));
 		if (dataConfig[0] == true) {
 			programContext.startService(new Intent(programContext,
 					RunningService.class));
@@ -196,6 +199,11 @@ public class AndroidSensors {
 			}
 
 		}
+		
+		if (dataConfig[2])
+			programContext.stopService(new Intent(programContext,
+					RunningService.class));
+		
 		Toast.makeText(programContext,
 				"Data is stored in: " + DataPath.toString() + "/",
 				Toast.LENGTH_LONG).show();

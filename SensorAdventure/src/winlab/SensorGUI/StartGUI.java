@@ -18,7 +18,7 @@ import android.widget.Toast;
 public class StartGUI extends Activity {
 	private boolean flag = true; // check whether "stop" button is ever pushed
 	private boolean flag3 = true; // check whether "start" button is ever pushed
-	private boolean[] state; // Which data configuration settings are checked
+	public static boolean[] state; // Which data configuration settings are checked
 								// "On"
 	private boolean[] sensorCheck; // Which sensors are checked "On" in main
 									// activity
