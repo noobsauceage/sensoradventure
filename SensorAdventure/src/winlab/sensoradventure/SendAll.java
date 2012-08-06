@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import edu.umass.cs.gcrs.gcrs.GCRS;
@@ -72,8 +73,10 @@ public class SendAll extends Activity {
 		DataOutputStream dos = null;
 		DataInputStream inStream = null;
 
-		String dirPath = "/sdcard/sensorData/";
-		File dir = new File(dirPath);
+		
+		File dir = Environment
+				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS
+						+ "/upload_to_server/");
 		File[] fileList = dir.listFiles();
 
 		String lineEnd = "\r\n";
