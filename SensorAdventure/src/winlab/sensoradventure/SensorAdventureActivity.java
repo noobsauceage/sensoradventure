@@ -13,7 +13,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Scanner;
 
 import winlab.SensorGUI.AdvanceSettingsGUI;
@@ -52,14 +51,12 @@ public class SensorAdventureActivity extends ExpandableListActivity {
 	public static String Last_micsampling="44.1";
 	public static String Servers = "Servers";
 	private String fileName = "Save.txt";
-	private static String Direc = null;
 	private String[] Sensors = { "Accelerometer", "Magnetic", "Orientation",
 			"Gyroscope", "Light", "Pressure", "Temperature", "Proximity",
 			"Gravity", "L. Accelerometer", "Rotation", "Humidity",
 			"A. Temperature", "Microphone", "GPS" };	
 	private SensorAdapter sensorAdapter;
 	private SensorSetting ok;
-	private static Calendar c = Calendar.getInstance();
 	private Button start, config, save;
 	private ArrayList<Group> groups = new ArrayList<Group>();
 	private ArrayList<Child> normalSensor = new ArrayList<Child>();

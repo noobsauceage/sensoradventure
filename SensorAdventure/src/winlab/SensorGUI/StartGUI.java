@@ -1,17 +1,9 @@
 package winlab.SensorGUI;
 
-
-
 import winlab.ASL.AndroidSensors;
-import winlab.file.RunningService;
-import winlab.file.SensorSetting;
-import winlab.sensoradventure.ContinuousRecorder;
 import winlab.sensoradventure.R;
-import winlab.sql.Sensors_SQLite_Service;
-import winlab.sql.Mark_SQL;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
@@ -43,8 +35,6 @@ public class StartGUI extends Activity {
 	private int micchanneli, micchannelo, micencode, micsampling;
 	private long rate = 100;// add in ms
 	private long duration = 5; // add in s
-	private Mark_SQL data2;
-	private ContinuousRecorder record;
 	private AndroidSensors androidSensors;
 
 	/** Called when the activity is first created. */
@@ -53,10 +43,12 @@ public class StartGUI extends Activity {
 		super.onCreate(savedInstanceState);
 
 		androidSensors = new AndroidSensors(this);
+
 		/*
 		 * This block of code creates and initializes a series of Views that are
 		 * used on the screen.
 		 */
+		
 		setContentView(R.layout.start_gui);
 		editText1 = (EditText) findViewById(R.id.editText1);
 		editText2 = (EditText) findViewById(R.id.editText2);
@@ -118,12 +110,6 @@ public class StartGUI extends Activity {
 				tv.setText(Sensors[i]);
 				runningSensors.addView(tv);
 			}
-
-		// If 'Write to File' is checked, use the RunningService to write to
-		// a file
-		if (state[0])
-			// Pass update rates to the sensors
-			SensorSetting.setRate(rates);
 
 		androidSensors.batchTest(sensorCheck, state, rates);
 		androidSensors.prepareForLogging();
@@ -190,44 +176,33 @@ public class StartGUI extends Activity {
 
 	public void onDestroy() {
 		// If both "stop" and "start" haven't been pushed
-		if (flag && flag3 && state[1])
+		if (flag && flag3)
 			try {
-				data2.close();
+				androidSensors.closeMarkSQL();
 			} catch (Exception e) {
 			}
-		// If the 'Stop' button has not been pushed and "Start" button has been
-		// pushed
+		/*
+		 * If the 'Stop' button has not been pushed and "Start" button has been
+		 * pushed
+		 */
 		if (flag && (flag3 == false)) {
-			// If 'Write to File' has been selected
-			if (state[0]) {
-				stopService(new Intent(this, RunningService.class));
-				if ((sensorCheck[13]) && (state[1] == false)) {
-					record.stop();
-					record.cancel();
-				}
-			}
+			androidSensors.stopFileLogging();
 
-			// If 'Write to SQLite' has been selected
-			if (state[1]) {
-				try {
-					data2.close();
-				} catch (Exception e) {
-				}
-				stopService(new Intent(this, Sensors_SQLite_Service.class));
-				if (sensorCheck[13]) {
-					record.stop();
-					record.cancel();
-				}
+			try {
+				androidSensors.closeMarkSQL();
+			} catch (Exception e) {
+
+				androidSensors.stopSQLiteLogging();
 
 			}
 			Toast.makeText(
 					this,
-					"Data are stored in: "
-							+ AndroidSensors.DataPath.toString() + "/",
-					Toast.LENGTH_LONG).show();
+					"Data are stored in: " + AndroidSensors.DataPath.toString()
+							+ "/", Toast.LENGTH_LONG).show();
 			mChronometer.stop();
+
 		}
 		super.onDestroy();
-	}
 
+	}
 }

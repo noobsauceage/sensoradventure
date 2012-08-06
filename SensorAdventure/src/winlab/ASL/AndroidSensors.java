@@ -3,7 +3,6 @@ package winlab.ASL;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import winlab.file.ContinuousSnapshot;
 import winlab.file.MarkValue;
 import winlab.file.RunningService;
@@ -54,7 +53,7 @@ public class AndroidSensors {
 			if (i < 3)
 				dataConfig[i] = false;
 		}
-		
+
 		Calendar c = Calendar.getInstance();
 		String Direc = "/" + Integer.toString(c.get(Calendar.YEAR)) + "_"
 				+ Integer.toString(c.get(Calendar.MONTH) + 1) + "_"
@@ -197,11 +196,45 @@ public class AndroidSensors {
 			}
 
 		}
-		Toast.makeText(
-				programContext,
-				"Data is stored in: "
-						+ DataPath.toString() + "/",
+		Toast.makeText(programContext,
+				"Data is stored in: " + DataPath.toString() + "/",
 				Toast.LENGTH_LONG).show();
+	}
+	
+	public void stopFileLogging() {
+		// If 'Write to File' has been selected
+		if (dataConfig[0]) {
+			programContext.stopService(new Intent(programContext,
+					RunningService.class));
+			if ((selectedSensors[13]) && (dataConfig[1] == false)) {
+				record.stop();
+				record.cancel();
+			}
+		}
+
+	}
+
+	public void closeMarkSQL() {
+		if (dataConfig[1])
+			markSQL.close();
+
+	}
+
+	public void stopSQLiteLogging() {
+		if (dataConfig[1]) {
+			try {
+				closeMarkSQL();
+			} catch (Exception e) {
+			}
+			programContext.stopService(new Intent(programContext,
+					Sensors_SQLite_Service.class));
+			if (selectedSensors[13]) {
+				record.stop();
+				record.cancel();
+			}
+
+		}
+
 	}
 
 	public void batchTest(boolean[] sensors, boolean[] data, int[] ratess) {
@@ -355,6 +388,5 @@ public class AndroidSensors {
 
 
 
-	public void onDestroy() {
-	}
+
 }
