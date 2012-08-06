@@ -2,8 +2,12 @@ package winlab.SensorGUI;
 
 import winlab.ASL.AndroidSensors;
 import winlab.sensoradventure.R;
+import winlab.sensoradventure.SendAll;
+import winlab.sensoradventure.SensorAdventureActivity;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
@@ -14,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+@SuppressLint("ParserError")
 @TargetApi(9)
 public class StartGUI extends Activity {
 	private boolean flag = true; // check whether "stop" button is ever pushed
@@ -151,6 +156,7 @@ public class StartGUI extends Activity {
 	};
 
 	private OnClickListener stopClick = new OnClickListener() {
+		@SuppressLint("ParserError")
 		public void onClick(View v) {
 			flag = false;
 			androidSensors.stopLogging();
@@ -161,6 +167,11 @@ public class StartGUI extends Activity {
 			startAndStop.setClickable(false);
 			mark.setEnabled(false);
 			snapshot.setEnabled(false);
+//			if (state[2])
+//			{
+//			Intent upload_to_server = new Intent(StartGUI.this, SendAll.class);
+//			startActivity(upload_to_server);
+//			}
 		}
 	};
 
@@ -205,4 +216,10 @@ public class StartGUI extends Activity {
 		super.onDestroy();
 
 	}
+	public static String phoneid="";
+	public static void SetID(String ids){
+		phoneid=ids;
+	}
+	
+	
 }

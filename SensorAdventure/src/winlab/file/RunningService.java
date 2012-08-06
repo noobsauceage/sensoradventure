@@ -75,6 +75,7 @@ public class RunningService extends Service implements SensorEventListener {
 		Toast.makeText(this, "Start taking data", Toast.LENGTH_LONG).show();
 		telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		StartGUI.SetID(telephonyManager.getDeviceId());
 		for (int i = 0; i < 13; i++)
 			// If the sensor exists on the phone
 			if (SensorSetting.sensors[i]) {
