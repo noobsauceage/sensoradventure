@@ -300,6 +300,8 @@ public class RunningService extends Service implements SensorEventListener {
 				if (file[i].exists())
 					file[i].delete();
 			}
+		for (int i = 0; i<count; i++)
+			captureFiles.get(i).close();
 		// Toast.makeText(this, "Data is saved in " + path.getPath(),
 		// Toast.LENGTH_LONG).show();
 
