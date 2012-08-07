@@ -4,14 +4,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import winlab.SensorGUI.OptionsGUI;
 import winlab.file.ContinuousSnapshot;
 import winlab.file.MarkValue;
 import winlab.file.RunningService;
 import winlab.file.SensorSetting;
-import winlab.sensoradventure.ContinuousRecorder;
-import winlab.sensoradventure.SendAll;
-import winlab.sensoradventure.SensorAdventureActivity;
 import winlab.sensoradventure.gps.GPSloggerService;
 import winlab.sql.Mark_SQL;
 import winlab.sql.Sensors_SQLite_Service;
