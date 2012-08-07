@@ -167,11 +167,11 @@ public class StartGUI extends Activity {
 			startAndStop.setClickable(false);
 			mark.setEnabled(false);
 			snapshot.setEnabled(false);
-//			if (state[2])
-//			{
-//			Intent upload_to_server = new Intent(StartGUI.this, SendAll.class);
-//			startActivity(upload_to_server);
-//			}
+			if (state[2])
+			{
+			Intent upload_to_server = new Intent(StartGUI.this, SendAll.class);
+			startActivity(upload_to_server);
+			}
 		}
 	};
 
