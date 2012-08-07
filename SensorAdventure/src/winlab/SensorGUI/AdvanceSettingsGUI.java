@@ -1,19 +1,11 @@
 package winlab.SensorGUI;
-
-/*This program is what creates the GUI for the Advanced Settings
- * option under the Android menu button.
- */
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-//import java.util.HashMap;
 import java.util.List;
-
 import org.xmlpull.v1.XmlPullParserException;
-
 import winlab.sensoradventure.R;
 import android.app.ListActivity;
 import android.content.Intent;
