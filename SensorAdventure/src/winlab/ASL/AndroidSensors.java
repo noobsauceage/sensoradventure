@@ -8,6 +8,7 @@ import winlab.file.ContinuousSnapshot;
 import winlab.file.MarkValue;
 import winlab.file.RunningService;
 import winlab.file.SensorSetting;
+import winlab.sensoradventure.UploadToServer;
 import winlab.sensoradventure.gps.GPSloggerService;
 import winlab.sql.Mark_SQL;
 import winlab.sql.Sensors_SQLite_Service;
@@ -203,7 +204,9 @@ public class AndroidSensors {
 		if (dataConfig[2]) {
 			programContext.stopService(new Intent(programContext,
 					RunningService.class));
-
+            UploadToServer uploadtoserver= new UploadToServer(programContext);
+            uploadtoserver.startUpload();
+            
 		}
 		Toast.makeText(programContext,
 				"Data is stored in: " + DataPath.toString() + "/",
