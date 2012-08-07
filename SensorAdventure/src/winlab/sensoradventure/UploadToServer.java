@@ -45,6 +45,11 @@ public class UploadToServer {
 	}
 
 	public void startUpload(){
+		if ((getID()==null)||(getID().length()==0)) 
+		{
+			//if the device is not a phone, do nothing.
+		}
+		else
 		new uploadTask().execute();
 	}
 	
@@ -60,6 +65,7 @@ public class UploadToServer {
 		      // When running this as a test we need to clear the database otherwise the users will already exist
 			gcrsClient.sendGetCommand("clear"); // clear the database
 			gcrsClient.sendGetCommand("demo?passkey=off"); // turn off demo mode
+			
 			
 			writeIP(getGuid(getID()));
 			return null;
