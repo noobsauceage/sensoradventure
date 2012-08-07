@@ -3,9 +3,14 @@
 
     <string name="hello">Hello World, SensorAdventureActivity!</string>
     <string name="app_name">SensorAdventure</string>
-	    <string-array name="gps_default">
-      			  <item>GPSLOGFILE.txt</item>
-      			  <item>SensorDatabase</item>
-      			  <item>gps</item> 
+    <string-array name="gps_default">
+      			  <item>GPSLOGFILE.txt</item> 
+      			  <item>SensorDatabaseGPS</item>
+      			  <item>GPS</item> 
+      			  <item>GPSDATABASEBKUP.txt</item>
+      			  <item>/data/winlab.sensoradventure/databases</item>
+      			  <item>NotificationFile.txt</item>
+      			  <item>SensorConfig</item>
+      			  <item>Config.txt</item>
  	</string-array> 
 </resources>

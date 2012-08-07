@@ -4,7 +4,9 @@ package winlab.SensorGUI;
  * option under the Android menu button.
  */
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 //import java.util.HashMap;
@@ -13,11 +15,9 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParserException;
 
 import winlab.sensoradventure.R;
-import android.annotation.SuppressLint;
 import android.app.ListActivity;
-//import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -30,7 +30,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -38,44 +37,44 @@ import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 import winlab.sensoradventure.*;
 import winlab.sensoradventure.gps.AdditionalFeaturesGPS;
-import winlab.sensoradventure.gps.AppLog;
-import android.widget.Toast;
-
-@SuppressLint("ParserError")
+/**
+ * @author malathidharmalingam
+ * Version 1.0
+ * This is the AdvanceSettings Screen for setting Sensor Configurations
+ * GPS, Microphone and the "Other Sensors" in the Phone
+ * It can also start the Additional GPS Features activity
+ * and also displays General Notification to User.
+ */
 public class AdvanceSettingsGUI extends ListActivity implements
 		OnClickListener, OnItemSelectedListener {
-	public OnLongClickListener longClickListner;
-	LinearLayout panel1, panel2, panel3, panel4, panel5, panel6, panel7;
-	TextView text1, text2, text3, text4, text5, text6, text7;
+	//There are Four Panels and Texts for GPS,Microphone,Other Sensors and Servers Respectively
+	LinearLayout panel1, panel2, panel3, panel4;
+	TextView text1, text2, text3, text4;
+	private TextView Notification;
 	View openLayout;
+	//GPS Configurations
 	private Spinner preferredNetworkType;
 	private Spinner preferredLoggingrategps;
+	//Microphone Configurations
 	private Spinner micsampleingrate;
 	private Spinner micchannelinput;
 	private Spinner micchannelaudio;
-	// private Spinner accelerometerate;
-	// private Spinner gyroscoperate;
-	// private Spinner magnetometerrate;
+	//Other Sampling Rate
 	private Spinner othersamplingrate;
+	//Server Names
 	private Spinner servernames;
 
 	private String[] mPreferredNetworkLabels = { "GPS", "NETWORK" };
-
 	private String[] mloggingrate = { "1", "5", "10", "30", "60" };
-
 	private String[] micloggingrate = { "44.1", "22.05", "16", "11.025" };
-
 	private String[] micchannelrate = { "MONO", "STEREO" };
-
 	private String[] micchannelencoding = { "16", "8" };
-
 	private String[] othersamplingrates1 = { "1", "5", "10", "30", "60" };
-
 	private String[] Server_Names = { "Server1", "Server2", "Server3" };
 	Button addition_gps_features;
-
+	private static String[]  file_default_string;
 	private int selection = 0;
-
+	StringBuilder text = new StringBuilder();
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -96,15 +95,36 @@ public class AdvanceSettingsGUI extends ListActivity implements
 		text2.setOnClickListener(this);
 		text3.setOnClickListener(this);
 		text4.setOnClickListener(this);
+		
+		Notification =  (TextView) findViewById(R.id.textnotification);
 
 		addition_gps_features = (Button) findViewById(R.id.Additional_GPS_Features);
+		//This is for Reading Notification File
+				Resources res = getResources();
+		file_default_string = res.getStringArray(R.array.gps_default);
+		File sdcard = Environment.getExternalStorageDirectory();
+		File file2 = new File(sdcard,file_default_string[5]);
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(file2));
+			String line;
 
+			while ((line = br.readLine()) != null) {
+				text.append(line);
+				text.append('\n');
+			}
+		}
+		catch (IOException e) {
+			//You'll need to add proper error handling here
+		}
+		
+		//Reads Notification File for User
+		Notification.setText(text); 
 		File folder = new File(Environment.getExternalStorageDirectory(),
-				"SensorConfig");
+				file_default_string[6]);
 
 		// If the "SensorConfig" folder exists in Download Directory
 		if (folder.exists()) {
-			File kmlFile = new File(folder.getPath(), "Config.txt");
+			File kmlFile = new File(folder.getPath(),file_default_string[7]);
 			// If "Config.txt" exists, use XML parser
 			if (kmlFile.exists()) {
 				ReadConf readparse = new ReadConf();
