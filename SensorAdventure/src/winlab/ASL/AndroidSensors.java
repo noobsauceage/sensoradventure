@@ -25,7 +25,7 @@ public class AndroidSensors {
 	private ContinuousRecorder record;
 	private Context programContext;
 	private boolean[] selectedSensors; // Which sensors are selected
-	private boolean[] dataConfig; // File,SQLite,Upload to Server
+	public static boolean[] dataConfig; // File,SQLite,Upload to Server
 	private int[] rates; // Update/sampling rates for the sensors
 	private String[] Sensors = { "Accelerometer ", "Magnetic ", "Orientation ",
 			"Gyroscope ", "Light ", "Pressure ", "Temperature ", "Proximity ",
@@ -119,7 +119,7 @@ public class AndroidSensors {
 	public void prepareForLogging() {
 		MarkValue.set();
 		record.setPath();
-		if ((dataConfig[0] == true)||(dataConfig[2])) {
+		if ((dataConfig[0] == true) || (dataConfig[2])) {
 			sensorSetting.selectSensors(selectedSensors);
 			SensorSetting.setRate(rates);
 
@@ -134,9 +134,9 @@ public class AndroidSensors {
 	}
 
 	public void startLogging() {
-		if (dataConfig[2]) 
+		if (dataConfig[2])
 			programContext.startService(new Intent(programContext,
-				RunningService.class));
+					RunningService.class));
 		if (dataConfig[0] == true) {
 			programContext.startService(new Intent(programContext,
 					RunningService.class));
@@ -199,18 +199,17 @@ public class AndroidSensors {
 			}
 
 		}
-		
-		if (dataConfig[2]){
+
+		if (dataConfig[2]) {
 			programContext.stopService(new Intent(programContext,
 					RunningService.class));
-			
-			
+
 		}
 		Toast.makeText(programContext,
 				"Data is stored in: " + DataPath.toString() + "/",
 				Toast.LENGTH_LONG).show();
 	}
-	
+
 	public void stopFileLogging() {
 		// If 'Write to File' has been selected
 		if (dataConfig[0]) {
@@ -395,8 +394,5 @@ public class AndroidSensors {
 		record = new ContinuousRecorder(mic, sample, channeli, channelo,
 				format, stream, mode, programContext);
 	}
-
-
-
 
 }
