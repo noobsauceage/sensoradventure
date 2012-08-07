@@ -1,31 +1,22 @@
 package winlab.SensorGUI;
 
-// This is a program that reads the configuration file created by
-// the AdvancedSettingsGUI.
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
-
-import android.app.Activity;
-import android.os.Bundle;
+import android.content.res.Resources;
 import android.os.Environment;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
+/**
+ * @author malathidharmalingam
+ * Version 1.0
+ * This is a program that reads the configuration file created by
+ * the AdvancedSettingsGUI.
+ */
 public class ReadConf  {
- 
 	private static final String mic_sample = "mic_sampling_rate";
 	private static final String mic_channel = "mic_channel_input";
 	private static final String mic_audio = "mic_channel_audio";
@@ -38,7 +29,7 @@ public class ReadConf  {
 	private String gps_provider_value;
 	private String gps_lograte_value;
 	private String other_lograte_value;
-	
+
 	public void parseXML() throws XmlPullParserException, IOException {
 		XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
 		factory.setNamespaceAware(true);
@@ -55,8 +46,6 @@ public class ReadConf  {
 		xpp.setInput(new InputStreamReader(fis));
 
 		int eventType = xpp.getEventType();
-
-		// /
 
 		while (eventType != XmlPullParser.END_DOCUMENT) {
 
@@ -87,62 +76,63 @@ public class ReadConf  {
 				if (nodeName.contentEquals(other_lograte)) {
 					setotherlog(xpp.nextText());
 				}
- 
+
 			} else if (eventType == XmlPullParser.END_TAG) {
 				// System.out.println("End tag " + nodeName);
 			} else if (eventType == XmlPullParser.TEXT) {
 			}
 			eventType = xpp.next();
 		}
- 
+
 	}
 
+
 	public void setmicsample(String micsamp) {
-		 this.mic_sample_value = micsamp;
+		this.mic_sample_value = micsamp;
 	}
-	
+
 	public void setmicchannel(String micchan) {
-		 this.mic_channel_value = micchan;
+		this.mic_channel_value = micchan;
 	}
-	
+
 	public void setmicaudio(String micsaudio) {
-		 this.mic_audio_value = micsaudio;
+		this.mic_audio_value = micsaudio;
 	}
-	
+
 	public void setgpsprov(String gpsprov) {
-		 this.gps_provider_value = gpsprov;
+		this.gps_provider_value = gpsprov;
 	}
-	
+
 	public void setgpslog(String gpslog) {
-		 this.gps_lograte_value = gpslog;
+		this.gps_lograte_value = gpslog;
 	}
-	
+
 	public void setotherlog(String otherlog) {
-		 this.other_lograte_value = otherlog;
+		this.other_lograte_value = otherlog;
 	}
-	 
+
 	public String getmicsample() {
-		 return mic_sample_value;
+		return mic_sample_value;
 	}
-	
+
 	public String getmicchannel() {
-		 return mic_channel_value;
+		return mic_channel_value;
 	}
-	
+
 	public String getmicaudio() {
-		 return mic_audio_value;
+		return mic_audio_value;
 	}
-	
+
 	public String getgpsprov() {
-		 return gps_provider_value;
+		return gps_provider_value;
 	}
-	
+
 	public String getgpslog() {
-		 return gps_lograte_value;
+		return gps_lograte_value;
 	}
-	
+
 	public String getotherlog() {
-		 return other_lograte_value;
+		return other_lograte_value;
 	}
-	
+
 }
