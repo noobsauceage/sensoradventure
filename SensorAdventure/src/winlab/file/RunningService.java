@@ -71,6 +71,17 @@ public class RunningService extends Service implements SensorEventListener {
 		telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		// StartGUI.SetID(telephonyManager.getDeviceId());
+		if (AndroidSensors.dataConfig[2])
+			try{
+		          File[] files = upload_path.listFiles();
+		
+		          for (File file : files)
+		           {   
+			          // Delete previous files    
+			            if (file.exists())   file.delete();
+		            }
+			} catch(Exception e){}
+		
 		for (int i = 0; i < 13; i++)
 			// If the sensor exists on the phone
 			if (SensorSetting.sensors[i]) {
@@ -142,6 +153,7 @@ public class RunningService extends Service implements SensorEventListener {
 					// For "upload to server" configuration
 					try {
 						upload_path.mkdirs();
+						
 						File myFile = new File(upload_path, mSensor.getType()
 								+ "_" + mSensor.getName() + ".csv");
 
