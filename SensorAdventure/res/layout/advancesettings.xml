@@ -207,5 +207,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Additional GPS Features" />
+    
+    
+      <View
+        android:layout_width="fill_parent"
+        android:layout_height="5dp"
+        />
+  
+    <TextView
+            android:id="@+id/textnot"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip"
+            android:text="                               Notification" />
+    
+    
+      <TextView
+        android:id="@+id/textnotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left" >
+    </TextView>
+    
+  
 
 </LinearLayout>
