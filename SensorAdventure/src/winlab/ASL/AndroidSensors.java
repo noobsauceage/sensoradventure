@@ -9,7 +9,7 @@ import winlab.file.MarkValue;
 import winlab.file.RunningService;
 import winlab.file.SensorSetting;
 import winlab.sensoradventure.UploadToServer;
-import winlab.sensoradventure.gps.GPSloggerService;
+import winlab.sensoradventure.gps.GPSLoggerService;
 import winlab.sql.Mark_SQL;
 import winlab.sql.Sensors_SQLite_Service;
 import winlab.sql.Sensors_SQLite_Setting;
@@ -148,7 +148,7 @@ public class AndroidSensors {
 			// If GPS is on and SQLite is not checked
 			if ((selectedSensors[14]) && (dataConfig[1] == false)) {
 				programContext.startService(new Intent(programContext,
-						GPSloggerService.class));
+						GPSLoggerService.class));
 			}
 		}
 		// If 'Write to SQLite Database' is checked
@@ -159,6 +159,11 @@ public class AndroidSensors {
 			if (selectedSensors[13]) {
 				record.writeToSQLite();
 				record.record();
+			}
+			
+			if ((selectedSensors[14])) {
+				programContext.startService(new Intent(programContext,
+						GPSLoggerService.class));
 			}
 		}
 	}
@@ -174,6 +179,11 @@ public class AndroidSensors {
 			if ((selectedSensors[13]) && (dataConfig[1] == false)) {
 				record.stop();
 				record.cancel();
+			}
+			
+			if ((selectedSensors[14]) && (dataConfig[1] == false)) {
+				programContext.stopService(new Intent(programContext,
+						GPSLoggerService.class));
 			}
 		}
 
@@ -199,6 +209,10 @@ public class AndroidSensors {
 				record.cancel();
 			}
 
+			if ((selectedSensors[14])) {
+				programContext.stopService(new Intent(programContext,
+						GPSLoggerService.class));
+			}
 		}
 
 		if (dataConfig[2]) {
@@ -222,6 +236,11 @@ public class AndroidSensors {
 				record.stop();
 				record.cancel();
 			}
+			
+			if ((selectedSensors[14]) && (dataConfig[1] == false)) {
+				programContext.stopService(new Intent(programContext,
+						GPSLoggerService.class));
+			}
 		}
 
 	}
@@ -244,7 +263,10 @@ public class AndroidSensors {
 				record.stop();
 				record.cancel();
 			}
-
+			if ((selectedSensors[14])) {
+				programContext.stopService(new Intent(programContext,
+						GPSLoggerService.class));
+			}
 		}
 
 	}

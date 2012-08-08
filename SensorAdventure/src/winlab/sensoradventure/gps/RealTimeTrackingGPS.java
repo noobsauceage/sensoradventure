@@ -16,8 +16,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 
 import winlab.sensoradventure.R;
-import winlab.sensoradventure.gps.GPSloggerService.LocalBinder;
-import winlab.sensoradventure.gps.GPSloggerService.MyLocationListener;
+import winlab.sensoradventure.gps.GPSLoggerService.MyLocationListener;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

@@ -1,23 +1,14 @@
 package winlab.sensoradventure.gps;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
- * This is the GPSloggerSQLite where we specify the columns and create , insert
+ * This is the GPSLoggerSQLite where we specify the columns and create , insert
  * table into Database The Database name is SensorDatabase and DATABASE_TABLE
  * name is 
  */
@@ -33,16 +24,17 @@ public class GPSLoggerSQLite {
 	public static final String KEY_PROVIDER  = "PROVIDER";
 	public static final String KEY_SPEED     = "SPEED";
 	private static final String TAG = "SQLtable";
-	private static final String DATABASE_NAME = "SensorDatabase1";
-	private static final String DATABASE_TABLE = "gps1";
+	private static String DATABASE_NAME = null;
+	private static String DATABASE_TABLE;
 	private static final int DATABASE_VERSION = 1;
-
 	private final Context context;
 
 	private DatabaseHelper DBHelper;
 	private SQLiteDatabase db;
 
-	public GPSLoggerSQLite(Context ctx) {
+	public GPSLoggerSQLite(Context ctx,String Dataabse_name,String Database_table) {
+		DATABASE_NAME =  Dataabse_name;
+		DATABASE_TABLE = Database_table;
 		this.context = ctx;
 	}
 
@@ -73,6 +65,7 @@ public class GPSLoggerSQLite {
 
 	// opens the database
 	public GPSLoggerSQLite open() throws SQLException {
+		  
 		DBHelper = new DatabaseHelper(context);
 		db = DBHelper.getWritableDatabase();
 		return this;

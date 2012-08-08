@@ -38,7 +38,7 @@
  		<activity android:name="winlab.sensoradventure.gps.AdditionalFeaturesGPS" />
 		<activity android:name="winlab.sensoradventure.gps.RealTimeTrackingGPS" />	
 		<activity android:name="winlab.sensoradventure.gps.TrackActivity" />
-		<activity android:name="winlab.sensoradventure.gps.BackupDatabase" />
+
         <service
             android:name="winlab.file.RunningService"
             android:enabled="true" />
@@ -46,7 +46,7 @@
             android:name="winlab.sql.Sensors_SQLite_Service"
             android:enabled="true" />
         <service
-            android:name="winlab.sensoradventure.gps.GPSloggerservice"
+            android:name="winlab.sensoradventure.gps.GPSLoggerService"
             android:enabled="true" />
 
         <activity android:name="winlab.SensorGUI.AdvanceSettingsGUI"/>
