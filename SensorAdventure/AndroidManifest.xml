@@ -46,7 +46,7 @@
             android:name="winlab.sql.Sensors_SQLite_Service"
             android:enabled="true" />
         <service
-            android:name="winlab.sensoradventure.gps.GPSloggerservice"
+            android:name="winlab.sensoradventure.gps.GPSloggerService"
             android:enabled="true" />
 
         <activity android:name="winlab.SensorGUI.AdvanceSettingsGUI"/>
