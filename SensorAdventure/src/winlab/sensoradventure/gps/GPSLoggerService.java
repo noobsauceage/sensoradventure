@@ -41,8 +41,13 @@ public class GPSLoggerService extends Service {
 	private String provider = "GPS";
 	private static long logsec;
 	private String lograte;
-	
-	
+	private static Double  Latitude=0d;
+	private static Double Longitude =0d;
+	private static Double Altitude;
+	private static Float Bearing;
+	private static Float Accuracy;
+	private static String Provider;
+	private static Float Speed;
 	private void startLoggerService() throws Exception {
 		setInitialCondition();
 		state = StartGUI.state;
@@ -91,6 +96,13 @@ public class GPSLoggerService extends Service {
 			Boolean a  = state[0];
 			Boolean b  = state[1];
 			if (loc != null) {
+				Latitude = loc.getLatitude();			
+				Longitude = loc.getLongitude();
+				 Altitude =loc.getAltitude();
+				 Bearing =loc.getBearing();
+				 Accuracy=loc.getAccuracy();
+				 Provider=SensorAdventureActivity.provider;
+				 Speed = loc.getSpeed() ;
 			  try {
 				 if(a && b){
 					saveCoordinatesfile(loc.getLatitude(),loc.getLongitude(),loc.getAltitude(),loc.getBearing(),loc.getAccuracy(),SensorAdventureActivity.provider,loc.getSpeed() );
@@ -252,6 +264,20 @@ public class GPSLoggerService extends Service {
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public static String [] getgpsmark()
+	{
+		if(Latitude == 0 && Longitude ==0)
+		{
+			return null;
+		}
+		else
+		{
+		String [] GPSValues = {Latitude.toString(),Longitude.toString(),Altitude.toString(),
+				Bearing.toString(),Accuracy.toString(),Provider,Speed.toString()};	
+		return GPSValues;
+		}
 	}
 
 }

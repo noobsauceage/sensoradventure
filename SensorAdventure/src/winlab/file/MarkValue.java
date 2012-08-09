@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileWriter;
 
 import winlab.ASL.AndroidSensors;
+import winlab.SensorGUI.StartGUI;
+import winlab.sensoradventure.SensorAdventureActivity;
+import winlab.sensoradventure.gps.GPSLoggerService;
 import winlab.sql.Mark_SQL;
 import winlab.sql.Sensors_SQLite_Setting;
 import android.annotation.TargetApi;
@@ -102,7 +105,7 @@ public class MarkValue {
 		time = String.format("%d", System.currentTimeMillis());
 		try {
 			path.mkdirs();
-			file.setWritable(true);
+		//	file.setWritable(true);
 			// If the FileWriter does not already exist
 			if (flag)
 				output = new FileWriter(file);
@@ -291,6 +294,22 @@ public class MarkValue {
 					}
 					str = str + "\n";
 				}
+			
+			boolean sensorcheck  =StartGUI.getsensorcheck();
+			if(sensorcheck)
+			{
+				if(GPSLoggerService.getgpsmark()!=null)
+				{
+					String a[] = GPSLoggerService.getgpsmark();
+					str = str + "Latitude    = " +a[0] + "\n";
+					str = str + "Longitude = " +a[1] + "\n";
+					str = str + "Altitude     = " +a[2]+ "\n";
+					str = str + "Bearing      = " +a[3]+ "\n";
+					str = str + "Accuracy   = " +a[4]+ "\n";
+					str = str + "Provider    = " +a[5]+ "\n";
+					str = str + "Speed	      = " +a[6]+ "\n";
+				}
+			}
 			str = str
 					+ "-----------------------------------------------------\n";
 			output.write(str);
@@ -310,7 +329,7 @@ public class MarkValue {
 			if (SensorSetting.sensors[i]) {
 				try {
 					path.mkdirs();
-					otherFile[i].setWritable(true);
+				//	otherFile[i].setWritable(true);
 					output = new FileWriter(otherFile[i], true);
 					output.write("\n" + sysTime
 							+ "***********MARK*********************");

@@ -41,7 +41,7 @@ public class StartGUI extends Activity {
 	private long rate = 100;// add in ms
 	private long duration = 5; // add in s
 	private AndroidSensors androidSensors;
-
+	private static boolean sensorgps;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -115,7 +115,10 @@ public class StartGUI extends Activity {
 				tv.setText(Sensors[i]);
 				runningSensors.addView(tv);
 			}
-
+		if(sensorCheck[14])
+		{
+			sensorgps = true;
+		}
 		androidSensors.batchTest(sensorCheck, state, rates);
 		androidSensors.prepareForLogging();
 
@@ -141,17 +144,17 @@ public class StartGUI extends Activity {
 	private OnClickListener markClick = new OnClickListener() {
 
 		public void onClick(View a) {
-
+		 
 			androidSensors.markEvent();
-
+ 
 			/*
 			 * This block of code dynamically adds the time the mark button is
 			 * pressed to the LinearLayout on the screen
 			 */
-
 			TextView tv = new TextView(StartGUI.this);
 			tv.setText(mChronometer.getInstantTime());
 			markTimes.addView(tv);
+		
 		}
 	};
 
@@ -221,5 +224,9 @@ public class StartGUI extends Activity {
 //		phoneid=ids;
 //	}
 	
+	public static boolean getsensorcheck()
+	{
+		return sensorgps;
+	}
 	
 }
