@@ -105,7 +105,7 @@ public class MarkValue {
 		time = String.format("%d", System.currentTimeMillis());
 		try {
 			path.mkdirs();
-		//	file.setWritable(true);
+		 	file.setWritable(true);
 			// If the FileWriter does not already exist
 			if (flag)
 				output = new FileWriter(file);
@@ -329,7 +329,7 @@ public class MarkValue {
 			if (SensorSetting.sensors[i]) {
 				try {
 					path.mkdirs();
-				//	otherFile[i].setWritable(true);
+				 	otherFile[i].setWritable(true);
 					output = new FileWriter(otherFile[i], true);
 					output.write("\n" + sysTime
 							+ "***********MARK*********************");
