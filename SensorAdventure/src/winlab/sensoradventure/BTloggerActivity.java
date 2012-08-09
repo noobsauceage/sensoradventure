@@ -1,4 +1,4 @@
-package winlab.sensoradventure;
+package com.btlogger;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -48,12 +48,13 @@ public class BTloggerActivity extends Activity {
 
 	ArrayAdapter<String> btArrayAdapter;
 	ArrayList<String> macIdList = new ArrayList<String>();
-
+	ArrayList<String> rssiList = new ArrayList<String>();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-
+		
 		try {
 			// Create file
 			File dataDir = new File("/sdcard/sensorData/");
@@ -68,27 +69,27 @@ public class BTloggerActivity extends Activity {
 		}
 
 		// csv field names
-		captureFile.println("`timestamp`" + "," + "`numDevices`"+ "," + "`macList`");
-
+//		captureFile.println("`timestamp`" + "," + "`numDevices`"+ "," + "`macList`");
+//		for experimental purposes, fields are [own macID][sight macID][signalstr]
+		captureFile.println("`timestamp`"
+				+ "," + "`selfMAC`"
+				+ "," + "`otherMAC`"
+				+ "," + "`RSSI`");
 		
-		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-		/*
+		
 		btnScanDevice = (Button) findViewById(R.id.scandevice);
 
 		stateBluetooth = (TextView) findViewById(R.id.bluetoothstate);
+		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
 		listDevicesFound = (ListView) findViewById(R.id.devicesfound);
 		btArrayAdapter = new ArrayAdapter<String>(BTloggerActivity.this,
 				android.R.layout.simple_list_item_1);
 		listDevicesFound.setAdapter(btArrayAdapter);
 
-		btnScanDevice.setOnClickListener(btnScanDeviceOnClickListener);
-		
-		*/
-		
 		CheckBlueToothState();
 
-		
+		btnScanDevice.setOnClickListener(btnScanDeviceOnClickListener);
 	}
 
 	public void onStart() {
@@ -119,8 +120,6 @@ public class BTloggerActivity extends Activity {
 	private void pollBT() {
 		Log.d(LOG_TAG, "Polling BT");
 		// btArrayAdapter.clear();
-		numDevices = 0;
-		macIdList.clear();
 		// btArrayAdapter.notifyDataSetChanged();
 		bluetoothAdapter.startDiscovery();
 
@@ -140,13 +139,6 @@ public class BTloggerActivity extends Activity {
 
 		// }
 
-		Log.d(LOG_TAG, "Printing");
-		timestamp = System.currentTimeMillis();
-		// captureFile.println(timestamp + "," + btArrayAdapter.getCount());
-		captureFile.println(timestamp + "," + numDevices + "," + TextUtils.join("|", macIdList));
-
-		// Log.d(LOG_TAG, timestamp + "," + btArrayAdapter.getCount());
-		Log.d(LOG_TAG, timestamp + "," + numDevices + "," + TextUtils.join("|", macIdList));
 
 	}
 
@@ -171,7 +163,6 @@ public class BTloggerActivity extends Activity {
 		}
 	}
 
-	/*
 	private Button.OnClickListener btnScanDeviceOnClickListener = new Button.OnClickListener() {
 
 		@Override
@@ -181,7 +172,6 @@ public class BTloggerActivity extends Activity {
 			bluetoothAdapter.startDiscovery();
 		}
 	};
-	*/
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -201,23 +191,28 @@ public class BTloggerActivity extends Activity {
 				
 				 BluetoothDevice device = intent
 				 .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-				 //btArrayAdapter.add(device.getName() + "\n" +
-				 //device.getAddress()); 
-				 //btArrayAdapter.notifyDataSetChanged();
 				 
-				 macIdList.add(device.getAddress());
+				 short rssi = intent.getShortExtra(BluetoothDevice.EXTRA_RSSI, 
+						 Short.MIN_VALUE); 
 				 
-
-				numDevices++;
-
-				/*
-				 * Toast.makeText(getBaseContext(), "# devices: " +
-				 * btArrayAdapter.getCount(), Toast.LENGTH_LONG).show();
-				 * 
-				 * timestamp = System.currentTimeMillis();
-				 * captureFile.println(timestamp + "," +
-				 * btArrayAdapter.getCount());
-				 */
+				 if (!(macIdList.contains(device.getAddress()))) {
+					 macIdList.add(device.getAddress());
+					 rssiList.add(String.valueOf(rssi));
+				 }
+				 
+				 timestamp = System.currentTimeMillis();
+				 
+				 // Printing row
+				 captureFile.println(timestamp
+						 	+ "," + bluetoothAdapter.getAddress()
+							+ "," + device.getAddress()
+							+ "," + String.valueOf(rssi));
+				 
+				 
+				 Toast.makeText(getBaseContext(), "strength: " +
+						 rssi, Toast.LENGTH_SHORT).show();
+				 
+				 
 			}
 			if (intent.getAction().equals(
 					BluetoothAdapter.ACTION_DISCOVERY_FINISHED)) {
