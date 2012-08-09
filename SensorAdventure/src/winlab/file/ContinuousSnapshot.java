@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 
 import winlab.ASL.AndroidSensors;
+import winlab.SensorGUI.StartGUI;
+import winlab.sensoradventure.gps.GPSLoggerService;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -99,7 +101,7 @@ public class ContinuousSnapshot {
 				+ String.format("%d", System.currentTimeMillis()) + "\n";
 		try {
 			path.mkdirs();
-			file.setWritable(true);
+			  file.setWritable(true);
 
 			// If the output object has not been created yet
 			// This method will be called multiple times
@@ -290,6 +292,21 @@ public class ContinuousSnapshot {
 					}
 					str = str + "\n";
 				}
+			boolean sensorcheck  =StartGUI.getsensorcheck();
+			if(sensorcheck)
+			{
+				if(GPSLoggerService.getgpsmark()!=null)
+				{
+					String a[] = GPSLoggerService.getgpsmark();
+					str = str + "Latitude    = " +a[0] + "\n";
+					str = str + "Longitude = " +a[1] + "\n";
+					str = str + "Altitude     = " +a[2]+ "\n";
+					str = str + "Bearing      = " +a[3]+ "\n";
+					str = str + "Accuracy   = " +a[4]+ "\n";
+					str = str + "Provider    = " +a[5]+ "\n";
+					str = str + "Speed	      = " +a[6]+ "\n";
+				}
+			}
 			str = str
 					+ "-----------------------------------------------------\n";
 			output.write(str);
