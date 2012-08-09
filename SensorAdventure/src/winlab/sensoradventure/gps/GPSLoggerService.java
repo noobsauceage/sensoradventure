@@ -48,6 +48,7 @@ public class GPSLoggerService extends Service {
 	private static Float Accuracy;
 	private static String Provider;
 	private static Float Speed;
+	public static String device_id;
 	private void startLoggerService() throws Exception {
 		setInitialCondition();
 		state = StartGUI.state;
@@ -103,6 +104,8 @@ public class GPSLoggerService extends Service {
 				 Accuracy=loc.getAccuracy();
 				 Provider=SensorAdventureActivity.provider;
 				 Speed = loc.getSpeed() ;
+				 TelephonyManager TelephonyMgr1 = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+					device_id = TelephonyMgr1.getDeviceId();
 			  try {
 				 if(a && b){
 					saveCoordinatesfile(loc.getLatitude(),loc.getLongitude(),loc.getAltitude(),loc.getBearing(),loc.getAccuracy(),SensorAdventureActivity.provider,loc.getSpeed() );
@@ -204,7 +207,7 @@ public class GPSLoggerService extends Service {
 	public void saveCoordinatesdb(double latitude, double longitude, double altitude, double bearing, double accuracy,String provider,double speed) throws IOException{
 		AppLog.logString("GPSLoggerService.onProviderEnabled().");
 		TelephonyManager TelephonyMgr1 = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-		String device_id = TelephonyMgr1.getDeviceId();
+		device_id = TelephonyMgr1.getDeviceId();
 		data.open();
 		long currentDeviceTime = Calendar.getInstance().getTimeInMillis();
 		data.insertgpsrow(currentDeviceTime, device_id, latitude, longitude,
@@ -274,7 +277,8 @@ public class GPSLoggerService extends Service {
 		}
 		else
 		{
-		String [] GPSValues = {Latitude.toString(),Longitude.toString(),Altitude.toString(),
+		
+		String [] GPSValues = {device_id.toString(),Latitude.toString(),Longitude.toString(),Altitude.toString(),
 				Bearing.toString(),Accuracy.toString(),Provider,Speed.toString()};	
 		return GPSValues;
 		}

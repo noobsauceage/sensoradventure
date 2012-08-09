@@ -4,9 +4,12 @@ package winlab.sql;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.Calendar;
 
 import winlab.ASL.AndroidSensors;
+import winlab.sensoradventure.gps.AppLog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -16,6 +19,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -27,14 +31,22 @@ public class Mark_SQL {
 	public static final String KEY_Z = "z";
 	public static final String KEY_SAMPLE = "sample";
 	private static final String TAG = "SQLtable";
-
+	public static final String KEY_ROWID1 = "ID";
+	public static final String KEY_TIME1  = "TIMESTAMP";
+	public static final String KEY_LAT       = "LAT";
+	public static final String KEY_LONG      = "LONG";
+	public static final String KEY_ALT       = "ALT";
+	public static final String KEY_BEARING   = "BEARING";
+	public static final String KEY_ACCURACY  = "ACCURACY";
+	public static final String KEY_PROVIDER  = "PROVIDER";
+	public static final String KEY_SPEED     = "SPEED";
 	private static final String DATABASE_NAME = "InstantReading.db";
 	private static final String DATABASE_TABLE[] = { "AccelerometerTable",
 		"MagneticTable", "OrientationTable", "GyroscopeTable",
 		"LightTable", "PressureTable", "TemperatureTable",
 		"ProximityTable", "GravityTable", "LinearAccelerometerTable",
 		"RotationVectorTable", "RelativeHumidityTable",
-		"AmbientTemperatureTable", "MicrophoneTable" };
+		"AmbientTemperatureTable", "MicrophoneTable" , "GPSTable" };
 
 private static final int DATABASE_VERSION = 1;
 
@@ -102,12 +114,20 @@ private static class DatabaseHelper extends SQLiteOpenHelper {
 						+ " text not null, " + "Scalar"
 						+ " text not null);");
 				break;
+		
 
 			}
 		/*db.execSQL("create table "
 				+ DATABASE_TABLE[DATABASE_TABLE.length - 1] + " ("
 				+ KEY_ROWID + " integer primary key autoincrement, "
 				+ KEY_SAMPLE + " blob not null);");*/
+		db.execSQL("create table " + DATABASE_TABLE[14] + " (" + KEY_ROWID1
+				+ " text not null, " + KEY_TIME1 + " text not null, "
+				+ KEY_LAT + " text not null, " + KEY_LONG
+				+ " text not null, " + KEY_ALT + " text not null, "
+				+ KEY_BEARING + " text not null, " + KEY_ACCURACY
+				+ " text not null, " + KEY_PROVIDER
+				+ " text not null, "+ KEY_SPEED + " text not null);");
 	}
 
 	@Override
@@ -208,6 +228,20 @@ public long insertMic(byte[] sample, int i) {
 	initialValues.put(KEY_SAMPLE, sample);
 	return db.insert(DATABASE_TABLE[DATABASE_TABLE.length - 1], null,
 			initialValues);
+}
+
+public long insertGPS(String device_id,String time ,String  latitude, String  longitude, String  altitude,String bearing, String  accuracy,String provider,String  speed,int i)  {
+
+	if (db.isOpen()==false) return 0;
+	  ContentValues initialValues = new ContentValues();
+	  initialValues.put(KEY_ROWID1, device_id);
+	  initialValues.put(KEY_TIME1, time); initialValues.put(KEY_LAT,latitude );
+	  initialValues.put(KEY_LONG, longitude); initialValues.put(KEY_ALT, altitude); 
+	  initialValues.put(KEY_BEARING, bearing);initialValues.put(KEY_ACCURACY, accuracy); 
+	  initialValues.put(KEY_PROVIDER, provider);initialValues.put(KEY_SPEED,speed);
+	  Log.i(device_id.toString(),time.toString());
+	  return db.insert(DATABASE_TABLE[i], null, initialValues);
+	 
 }
 
 // ---deletes a particular title---
