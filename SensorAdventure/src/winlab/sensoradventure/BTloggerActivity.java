@@ -1,4 +1,4 @@
-package com.btlogger;
+package winlab.sensoradventure;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -77,19 +77,15 @@ public class BTloggerActivity extends Activity {
 				+ "," + "`RSSI`");
 		
 		
-		btnScanDevice = (Button) findViewById(R.id.scandevice);
 
-		stateBluetooth = (TextView) findViewById(R.id.bluetoothstate);
 		bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-		listDevicesFound = (ListView) findViewById(R.id.devicesfound);
 		btArrayAdapter = new ArrayAdapter<String>(BTloggerActivity.this,
 				android.R.layout.simple_list_item_1);
 		listDevicesFound.setAdapter(btArrayAdapter);
 
 		CheckBlueToothState();
 
-		btnScanDevice.setOnClickListener(btnScanDeviceOnClickListener);
 	}
 
 	public void onStart() {
@@ -163,15 +159,6 @@ public class BTloggerActivity extends Activity {
 		}
 	}
 
-	private Button.OnClickListener btnScanDeviceOnClickListener = new Button.OnClickListener() {
-
-		@Override
-		public void onClick(View arg0) {
-			// TODO Auto-generated method stub
-			btArrayAdapter.clear();
-			bluetoothAdapter.startDiscovery();
-		}
-	};
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
