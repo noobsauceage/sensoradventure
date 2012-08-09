@@ -11,6 +11,7 @@ import winlab.sql.Mark_SQL;
 import winlab.sql.Sensors_SQLite_Setting;
 import android.annotation.TargetApi;
 import android.hardware.Sensor;
+import android.telephony.TelephonyManager;
 
 public class MarkValue {
 	public static double[][] instantValue = new double[13][];
@@ -105,7 +106,7 @@ public class MarkValue {
 		time = String.format("%d", System.currentTimeMillis());
 		try {
 			path.mkdirs();
-		 	file.setWritable(true);
+		 	 file.setWritable(true);
 			// If the FileWriter does not already exist
 			if (flag)
 				output = new FileWriter(file);
@@ -301,13 +302,14 @@ public class MarkValue {
 				if(GPSLoggerService.getgpsmark()!=null)
 				{
 					String a[] = GPSLoggerService.getgpsmark();
-					str = str + "Latitude    = " +a[0] + "\n";
-					str = str + "Longitude = " +a[1] + "\n";
-					str = str + "Altitude     = " +a[2]+ "\n";
-					str = str + "Bearing      = " +a[3]+ "\n";
-					str = str + "Accuracy   = " +a[4]+ "\n";
-					str = str + "Provider    = " +a[5]+ "\n";
-					str = str + "Speed	      = " +a[6]+ "\n";
+					str = str + "Device Id   = " +a[0] + "\n";
+					str = str + "Latitude    = " +a[1] + "\n";
+					str = str + "Longitude = " +a[2] + "\n";
+					str = str + "Altitude     = " +a[3]+ "\n";
+					str = str + "Bearing      = " +a[4]+ "\n";
+					str = str + "Accuracy   = " +a[5]+ "\n";
+					str = str + "Provider    = " +a[6]+ "\n";
+					str = str + "Speed	      = " +a[7]+ "\n";
 				}
 			}
 			str = str
