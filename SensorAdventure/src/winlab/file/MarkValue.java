@@ -302,6 +302,7 @@ public class MarkValue {
 				if(GPSLoggerService.getgpsmark()!=null)
 				{
 					String a[] = GPSLoggerService.getgpsmark();
+					str = str + "GPS " +"\n";
 					str = str + "Device Id   = " +a[0] + "\n";
 					str = str + "Latitude    = " +a[1] + "\n";
 					str = str + "Longitude = " +a[2] + "\n";
