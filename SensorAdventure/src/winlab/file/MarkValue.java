@@ -380,5 +380,24 @@ public class MarkValue {
 					instant.insertTitle3(timestamp, str1, str2, str3, str4, i);
 					break;
 				}
+		boolean sensorcheck  =StartGUI.getsensorcheck();
+		if(sensorcheck)
+		{
+			if(GPSLoggerService.getgpsmark()!=null)
+			{
+	 
+				timestamp = String.format("%d", System.currentTimeMillis());
+				String a[] = GPSLoggerService.getgpsmark();
+				String Device_id =  a[0];
+				String Latitide  =  a[1] ;
+				String Longitude =  a[2] ;
+				String Altitude  =  a[3] ;
+				String Bearing   =  a[4] ;
+				String Accuracy  =  a[5] ;
+				String Provider  =  a[6] ;
+				String Speed	 =  a[7] ;
+				instant.insertGPS(Device_id,timestamp, Latitide, Longitude,  Altitude, Bearing,Accuracy,Provider, Speed, 14);
+			}
+		}
 	}
 }
