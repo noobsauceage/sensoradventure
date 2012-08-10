@@ -25,7 +25,7 @@ public class AndroidSensors {
 	private Mark_SQL markSQL;
 	private ContinuousRecorder record;
 	private Context programContext;
-	private boolean[] selectedSensors; // Which sensors are selected
+	public static boolean[] selectedSensors; // Which sensors are selected
 	public static boolean[] dataConfig; // File,SQLite,Upload to Server
 	private int[] rates; // Update/sampling rates for the sensors
 	private String[] Sensors = { "Accelerometer ", "Magnetic ", "Orientation ",
@@ -37,6 +37,7 @@ public class AndroidSensors {
 	private ContinuousSnapshot continuoussnapshot;
 	public static File DataPath;
 
+
 	public AndroidSensors(Context context) {
 		programContext = context;
 		record = new ContinuousRecorder(programContext);
@@ -47,6 +48,7 @@ public class AndroidSensors {
 		rates = new int[15];
 		dataConfig = new boolean[3];
 		sensorSetting.testAvailableSensors();
+		MarkValue.programContext = programContext;
 
 		for (int i = 0; i < selectedSensors.length; i++) {
 			selectedSensors[i] = false;
@@ -419,5 +421,6 @@ public class AndroidSensors {
 		record = new ContinuousRecorder(mic, sample, channeli, channelo,
 				format, stream, mode, programContext);
 	}
+	
 
 }

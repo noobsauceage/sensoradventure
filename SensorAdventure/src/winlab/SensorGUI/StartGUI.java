@@ -2,12 +2,11 @@ package winlab.SensorGUI;
 
 import winlab.ASL.AndroidSensors;
 import winlab.sensoradventure.R;
-import winlab.sensoradventure.SendAll;
-import winlab.sensoradventure.SensorAdventureActivity;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
@@ -41,7 +40,6 @@ public class StartGUI extends Activity {
 	private long rate = 100;// add in ms
 	private long duration = 5; // add in s
 	private AndroidSensors androidSensors;
-	private static boolean sensorgps;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -115,10 +113,6 @@ public class StartGUI extends Activity {
 				tv.setText(Sensors[i]);
 				runningSensors.addView(tv);
 			}
-		if(sensorCheck[14])
-		{
-			sensorgps = true;
-		}
 		androidSensors.batchTest(sensorCheck, state, rates);
 		androidSensors.prepareForLogging();
 
@@ -154,6 +148,7 @@ public class StartGUI extends Activity {
 			TextView tv = new TextView(StartGUI.this);
 			tv.setText(mChronometer.getInstantTime());
 			markTimes.addView(tv);
+			
 		
 		}
 	};
@@ -224,9 +219,5 @@ public class StartGUI extends Activity {
 //		phoneid=ids;
 //	}
 	
-	public static boolean getsensorcheck()
-	{
-		return sensorgps;
-	}
 	
 }
