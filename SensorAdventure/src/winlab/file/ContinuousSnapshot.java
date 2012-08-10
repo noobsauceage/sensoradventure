@@ -292,8 +292,8 @@ public class ContinuousSnapshot {
 					}
 					str = str + "\n";
 				}
-			boolean sensorcheck  =StartGUI.getsensorcheck();
-			if(sensorcheck)
+
+			if(AndroidSensors.selectedSensors[14])
 			{
 				if(GPSLoggerService.getgpsmark()!=null)
 				{

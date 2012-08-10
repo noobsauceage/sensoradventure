@@ -5,13 +5,15 @@ import java.io.FileWriter;
 
 import winlab.ASL.AndroidSensors;
 import winlab.SensorGUI.StartGUI;
-import winlab.sensoradventure.SensorAdventureActivity;
 import winlab.sensoradventure.gps.GPSLoggerService;
 import winlab.sql.Mark_SQL;
 import winlab.sql.Sensors_SQLite_Setting;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.hardware.Sensor;
-import android.telephony.TelephonyManager;
+import android.widget.EditText;
 
 public class MarkValue {
 	public static double[][] instantValue = new double[13][];
@@ -27,6 +29,9 @@ public class MarkValue {
 	private static File otherFile[] = new File[13];
 	private static FileWriter output;
 	private static boolean flag = true;
+	public static Context programContext = null;
+	private static EditText input;
+	private static String event;
 
 	public MarkValue() {
 	}
@@ -95,6 +100,33 @@ public class MarkValue {
 		return instantValue[sensorType - 1];
 	}
 
+	private static void displayDialog() {
+
+		AlertDialog.Builder alert = new AlertDialog.Builder(programContext);
+
+		alert.setTitle("Event Descriptor");
+		alert.setMessage("Describe event");
+
+		// Set an EditText view to get user input.
+		input = new EditText(programContext);
+		alert.setView(input);
+
+		alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				event = input.getText().toString();
+			}
+		});
+
+		alert.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						// Canceled.
+					}
+				});
+
+		alert.show();
+	}
+
 	// This method performs the file writing portion of the Mark event.
 	@TargetApi(9)
 	public static void print() {
@@ -103,10 +135,14 @@ public class MarkValue {
 		String str = "";
 		str = str + "Timestamp (ms): "
 				+ String.format("%d", System.currentTimeMillis()) + "\n";
+		str = str + "Mark description : ";
+
+		displayDialog();
+		str = str + event + "\n";
 		time = String.format("%d", System.currentTimeMillis());
 		try {
 			path.mkdirs();
-		 	 file.setWritable(true);
+			file.setWritable(true);
 			// If the FileWriter does not already exist
 			if (flag)
 				output = new FileWriter(file);
@@ -121,152 +157,127 @@ public class MarkValue {
 						str = str
 								+ "Accelerometer x (m/s^2): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						str = str
 								+ "Accelerometer y (m/s^2): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][1])
-								+ "\n";
+										MarkValue.instantValue[i][1]) + "\n";
 						str = str
 								+ "Accelerometer z (m/s^2): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][2])
-								+ "\n";
+										MarkValue.instantValue[i][2]) + "\n";
 						break;
 					case Sensor.TYPE_MAGNETIC_FIELD:
 						str = str
 								+ "Magnetic Field x (uT): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						str = str
 								+ "Magnetic Field y (uT): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][1])
-								+ "\n";
+										MarkValue.instantValue[i][1]) + "\n";
 						str = str
 								+ "Magnetic Field z (uT): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][2])
-								+ "\n";
+										MarkValue.instantValue[i][2]) + "\n";
 						break;
 					case Sensor.TYPE_ORIENTATION:
 						str = str
 								+ "Orientation x (degrees): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						str = str
 								+ "Orientation y (degrees): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][1])
-								+ "\n";
+										MarkValue.instantValue[i][1]) + "\n";
 						str = str
 								+ "Orientation z (degrees): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][2])
-								+ "\n";
+										MarkValue.instantValue[i][2]) + "\n";
 						break;
 					case Sensor.TYPE_GYROSCOPE:
 						str = str
 								+ "Gyroscope x (rad/s): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						str = str
 								+ "Gyroscope y (rad/s): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][1])
-								+ "\n";
+										MarkValue.instantValue[i][1]) + "\n";
 						str = str
 								+ "Gyroscope z (rad/s): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][2])
-								+ "\n";
+										MarkValue.instantValue[i][2]) + "\n";
 
 						break;
 					case Sensor.TYPE_LIGHT:
 						str = str
 								+ "Light (lx): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						break;
 					case Sensor.TYPE_PRESSURE:
 						str = str
 								+ "Pressure (hPa): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						break;
 					case Sensor.TYPE_TEMPERATURE:
 						str = str
 								+ "Device Temperature (degree Celsius): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						break;
 					case Sensor.TYPE_PROXIMITY:
 						str = str
 								+ "Proximity (cm)"
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						break;
 
 					case Sensor.TYPE_GRAVITY:
 						str = str
 								+ "Gravity x (m/s^2): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						str = str
 								+ "Gravity x (m/s^2): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][1])
-								+ "\n";
+										MarkValue.instantValue[i][1]) + "\n";
 						str = str
 								+ "Gravity x (m/s^2): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][2])
-								+ "\n";
+										MarkValue.instantValue[i][2]) + "\n";
 
 						break;
 					case Sensor.TYPE_LINEAR_ACCELERATION:
 						str = str
 								+ "Linear Accelerometer x (m/s^2): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						str = str
 								+ "Linear Accelerometer y (m/s^2): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][1])
-								+ "\n";
+										MarkValue.instantValue[i][1]) + "\n";
 						str = str
 								+ "Linear Accelerometer z (m/s^2): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][2])
-								+ "\n";
+										MarkValue.instantValue[i][2]) + "\n";
 
 						break;
 					case Sensor.TYPE_ROTATION_VECTOR:
 						str = str
 								+ "Rotation Vector x unitless: "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						str = str
 								+ "Rotation Vector y unitless: "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][1])
-								+ "\n";
+										MarkValue.instantValue[i][1]) + "\n";
 						str = str
 								+ "Rotation Vector z unitless: "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][2])
-								+ "\n";
+										MarkValue.instantValue[i][2]) + "\n";
 						if (Math.abs(MarkValue.instantValue[i][3] - 0) < 1.0e-15)
 							str = str
 									+ "Rotation Vector scalar:                NA\n";
@@ -282,35 +293,30 @@ public class MarkValue {
 						str = str
 								+ "Relative Humidity %: "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						break;
 					case 13: // Sensor.TYPE_AMBIENT_TEMPERATURE
 						str = str
 								+ "Ambient air temperature (degree Celsius): "
 								+ String.format("%17.10f",
-										MarkValue.instantValue[i][0])
-								+ "\n";
+										MarkValue.instantValue[i][0]) + "\n";
 						break;
 					}
 					str = str + "\n";
 				}
-			
-			boolean sensorcheck  =StartGUI.getsensorcheck();
-			if(sensorcheck)
-			{
-				if(GPSLoggerService.getgpsmark()!=null)
-				{
+
+			if (AndroidSensors.selectedSensors[14]) {
+				if (GPSLoggerService.getgpsmark() != null) {
 					String a[] = GPSLoggerService.getgpsmark();
-					str = str + "GPS " +"\n";
-					str = str + "Device Id   = " +a[0] + "\n";
-					str = str + "Latitude    = " +a[1] + "\n";
-					str = str + "Longitude = " +a[2] + "\n";
-					str = str + "Altitude     = " +a[3]+ "\n";
-					str = str + "Bearing      = " +a[4]+ "\n";
-					str = str + "Accuracy   = " +a[5]+ "\n";
-					str = str + "Provider    = " +a[6]+ "\n";
-					str = str + "Speed	      = " +a[7]+ "\n";
+					str = str + "GPS " + "\n";
+					str = str + "Device Id   = " + a[0] + "\n";
+					str = str + "Latitude    = " + a[1] + "\n";
+					str = str + "Longitude = " + a[2] + "\n";
+					str = str + "Altitude     = " + a[3] + "\n";
+					str = str + "Bearing      = " + a[4] + "\n";
+					str = str + "Accuracy   = " + a[5] + "\n";
+					str = str + "Provider    = " + a[6] + "\n";
+					str = str + "Speed	      = " + a[7] + "\n";
 				}
 			}
 			str = str
@@ -332,7 +338,7 @@ public class MarkValue {
 			if (SensorSetting.sensors[i]) {
 				try {
 					path.mkdirs();
-				 	otherFile[i].setWritable(true);
+					otherFile[i].setWritable(true);
 					output = new FileWriter(otherFile[i], true);
 					output.write("\n" + sysTime
 							+ "***********MARK*********************");
@@ -383,23 +389,22 @@ public class MarkValue {
 					instant.insertTitle3(timestamp, str1, str2, str3, str4, i);
 					break;
 				}
-		boolean sensorcheck  =StartGUI.getsensorcheck();
-		if(sensorcheck)
-		{
-			if(GPSLoggerService.getgpsmark()!=null)
-			{
-	 
+
+		if (AndroidSensors.selectedSensors[14]) {
+			if (GPSLoggerService.getgpsmark() != null) {
+
 				timestamp = String.format("%d", System.currentTimeMillis());
 				String a[] = GPSLoggerService.getgpsmark();
-				String Device_id =  a[0];
-				String Latitide  =  a[1] ;
-				String Longitude =  a[2] ;
-				String Altitude  =  a[3] ;
-				String Bearing   =  a[4] ;
-				String Accuracy  =  a[5] ;
-				String Provider  =  a[6] ;
-				String Speed	 =  a[7] ;
-				instant.insertGPS(Device_id,timestamp, Latitide, Longitude,  Altitude, Bearing,Accuracy,Provider, Speed, 14);
+				String Device_id = a[0];
+				String Latitide = a[1];
+				String Longitude = a[2];
+				String Altitude = a[3];
+				String Bearing = a[4];
+				String Accuracy = a[5];
+				String Provider = a[6];
+				String Speed = a[7];
+				instant.insertGPS(Device_id, timestamp, Latitide, Longitude,
+						Altitude, Bearing, Accuracy, Provider, Speed, 14);
 			}
 		}
 	}
