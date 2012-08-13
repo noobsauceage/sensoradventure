@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -40,6 +41,8 @@ public class StartGUI extends Activity {
 	private long rate = 100;// add in ms
 	private long duration = 5; // add in s
 	private AndroidSensors androidSensors;
+	private int loggpsrate;
+	private String provider;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -105,7 +108,12 @@ public class StartGUI extends Activity {
 			micencode = 3;
 		androidSensors.configureMicrophone(1, micsampling, micchanneli,
 				micchannelo, micencode, 3, 1);
-
+		loggpsrate = rates[14];
+		provider = extras.getString("gpsprovide");
+		Integer ratecheck = loggpsrate;
+		Log.i("ratecheck",ratecheck.toString() );
+		androidSensors.configureGPS(loggpsrate , provider);
+		
 		// Print which sensors are on to the screen
 		for (int i = 0; i < sensorCheck.length; i++)
 			if (sensorCheck[i]) {

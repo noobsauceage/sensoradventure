@@ -36,6 +36,9 @@ public class AndroidSensors {
 	private ArrayList<String> unavailableSensors;
 	private ContinuousSnapshot continuoussnapshot;
 	public static File DataPath;
+	private static String typeoflog;
+	private static String provider;
+	private static String rategps;
 
 
 	public AndroidSensors(Context context) {
@@ -149,8 +152,12 @@ public class AndroidSensors {
 			}
 			// If GPS is on and SQLite is not checked
 			if ((selectedSensors[14]) && (dataConfig[1] == false)) {
-				programContext.startService(new Intent(programContext,
-						GPSLoggerService.class));
+				configuregpslogtype(dataConfig);
+				String[] gpsextra = new String[] {rategps,typeoflog,provider};
+				Intent intentgps = (new Intent(programContext,
+					  	GPSLoggerService.class));
+				intentgps.putExtra("gpsextra", gpsextra);
+				programContext.startService(intentgps);
 			}
 		}
 		// If 'Write to SQLite Database' is checked
@@ -164,8 +171,12 @@ public class AndroidSensors {
 			}
 			
 			if ((selectedSensors[14])) {
-				programContext.startService(new Intent(programContext,
-						GPSLoggerService.class));
+				configuregpslogtype(dataConfig);
+				String[] gpsextra = new String[] {rategps,typeoflog,provider};
+				Intent intentgps = (new Intent(programContext,
+					  	GPSLoggerService.class));
+				intentgps.putExtra("gpsextra", gpsextra);
+				programContext.startService(intentgps);
 			}
 		}
 	}
@@ -422,5 +433,38 @@ public class AndroidSensors {
 				format, stream, mode, programContext);
 	}
 	
+	/* 
+	 * Configure the Log type
+	 * type 0 : file
+	 * type 1 : sqlite
+	 * type 2 : both sql and file
+	 */
+	public void configuregpslogtype(boolean[] dataConfig2)
+	{
+		 typeoflog ="0";
+		if(dataConfig2[0]){
+			typeoflog = "0";
+		}
+		if(dataConfig2[1]){
+			typeoflog = "1";
+		}
+		if(dataConfig2[0] && dataConfig2[1] ){
+			typeoflog = "2";
+		}
+		
+	}
+	/*
+	 * This will configure the GPS settings for rate and provider
+	 */
+	public void configureGPS(int rate,String provider_gps)
+	{
+		setGPSRate(rate);
+		Integer rates;
+		rates= rate;
+		String rates_gps = rates.toString();
+		rategps = rates_gps;
+		provider = provider_gps;	
+	}
+
 
 }
