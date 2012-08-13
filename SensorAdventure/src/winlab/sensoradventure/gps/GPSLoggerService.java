@@ -47,7 +47,7 @@ public class GPSLoggerService extends Service {
 	public static String device_id;
 	private static long currentDeviceTime;
 	private static String[] datagps;
-
+	private  static int startdb=0;
 	/**
 	 * This is the method, that starts logging the procedure
 	 * This method checks for 3 values
@@ -210,6 +210,7 @@ public class GPSLoggerService extends Service {
 		TelephonyManager TelephonyMgr1 = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
 		device_id = TelephonyMgr1.getDeviceId();
 		data.open();
+		startdb=1;
 		data.insertgpsrow(currentDeviceTime, device_id, latitude, longitude,
 				altitude, bearing, accuracy, provider, speed);
 	}
@@ -246,7 +247,10 @@ public class GPSLoggerService extends Service {
 		super.onDestroy();
 		if(typeoflog == 1 || typeoflog == 2)
 		{
+			if(startdb==1)
+			{
 			data.close();
+			}
 		}
 		shutdownLoggerService();
 	}
@@ -255,7 +259,10 @@ public class GPSLoggerService extends Service {
 	public boolean stopService(Intent name) {
 		if(typeoflog == 1 || typeoflog == 2)
 		{
+			if(startdb==1)
+			{
 			data.close();
+			}
 		}
 		shutdownLoggerService();
 		return super.stopService(name);
