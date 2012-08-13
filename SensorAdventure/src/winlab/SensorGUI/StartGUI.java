@@ -110,8 +110,6 @@ public class StartGUI extends Activity {
 				micchannelo, micencode, 3, 1);
 		loggpsrate = rates[14];
 		provider = extras.getString("gpsprovide");
-		Integer ratecheck = loggpsrate;
-		Log.i("ratecheck",ratecheck.toString() );
 		androidSensors.configureGPS(loggpsrate , provider);
 		
 		// Print which sensors are on to the screen
