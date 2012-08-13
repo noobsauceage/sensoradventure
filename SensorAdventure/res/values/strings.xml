@@ -12,5 +12,6 @@
       			  <item>NotificationFile.txt</item>
       			  <item>SensorConfig</item>
       			  <item>Config.txt</item>
+      			   <item>FolderName.txt</item>
  	</string-array> 
 </resources>

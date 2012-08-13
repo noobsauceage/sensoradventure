@@ -1,10 +1,16 @@
 package winlab.sensoradventure.gps;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.List;
+
 import winlab.sensoradventure.R;
 import android.app.Activity;
 import android.content.Intent;
@@ -27,73 +33,83 @@ public class AdditionalFeaturesGPS extends  Activity{
 	private EditText file;
 	private String foldername; 
 	private String filename;  
-	private String b[]=null;
-	private String c[]=null;
+	private static String b[];
+	private static String c[];
 	private static String[]  file_default_string1;
 	private static FileWriter output;
-
+	private static String[]  file_default_string;
+	private static String[] getfile;
+	private static String[] relgetfile;
+	List<String> content = new ArrayList<String>();
+	private static int counter =0;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.advancefeaturesgps);
         folder = (EditText) findViewById(R.id.editText1);
-  	 	file = (EditText) findViewById(R.id.editText2);
+  	 	file   = (EditText) findViewById(R.id.editText2);
+  	 	Resources res = getResources();
+  	 	file_default_string = res.getStringArray(R.array.gps_default);
+  	 	File foldergps = new File(Environment.getExternalStorageDirectory() + File.separator + file_default_string[8]);
+  	 	try {
+  	 		BufferedReader br = new BufferedReader(new FileReader(foldergps));
+  	 		getfile = br.readLine().split(",");
+  	 		folder.setText(getfile[0]);
+  	 		file.setText(getfile[1]);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         realtimetrack = (Button) findViewById(R.id.realtimegps);
         realtimetrack.setOnClickListener(new OnClickListener() {
-
 	        public void onClick(View v) {
 	        	Intent myIntent = new Intent(AdditionalFeaturesGPS.this, RealTimeTrackingGPS.class);
 	        	AdditionalFeaturesGPS.this.startActivity(myIntent);
 	        }
 	    });
+        
+        
         trackmap = (Button) findViewById(R.id.trackmap);    
         trackmap.setOnClickListener(new OnClickListener() {
-
 	        public void onClick(View v) {
 	        	   folder = (EditText) findViewById(R.id.editText1);
-	        	  	 file = (EditText) findViewById(R.id.editText2);
-	             foldername = folder.getText().toString();
-	             filename = file.getText().toString();
-	             b = filename.split(",");
-	        	 for(int i=0;i<b.length;i++)
-	        	 {
-	        	 Log.i( foldername,b[i]);
+	        	   file   = (EditText) findViewById(R.id.editText2); 
+	        	   foldername = folder.getText().toString();
+	        	   filename   = file.getText().toString();
+	        	   b = filename.split(",");
+	        	 for(int i=0;i<b.length;i++){
+	        	 content.add(b[i]);
 	        	 }
-	    
-	        	 if( foldername.length() !=0 && filename.length()  !=0)
-		         {
+	        	 if( foldername.length() !=0 && filename.length()  !=0){
 	        		 File folder2 = new File(Environment.getExternalStorageDirectory(),foldername);
-	        		 if (!folder2.exists())
-	        			{
+	        		 if (!folder2.exists()){
 	        			   getUriListForImages1();
 	        			}
-	        		 int j=0;
-	        		 for(int i=0;i<b.length;i++)
-        			 {
+	        		
+	        		 for(int i=0;i<b.length;i++){
+	        			 Integer sac = b.length;
         				 String am = b[i];
-        			  Log.i("Value",am);
-        			 File file1 = new File(folder2.getPath(),am);
-        			 if (file1.exists())
+        				 File kmlFile = new File(folder2,b[i]);  
+        			  if (kmlFile.exists())
         				{
-        				 c[j] = b[i];
-        				 j++;
-        				}   
-        			 }
-
-        					Intent myIntent = new Intent(AdditionalFeaturesGPS.this, TrackActivity.class);
-        			        	myIntent.putExtra("folder", foldername);
-        			        	myIntent.putExtra("file", c);
-        			        	startActivity(myIntent);
-         
-	        		 
+        				  Integer s = counter;
+        				  String counter1  = b[i];
+        			 	  c=b; 
+ ;        			 	 
+         				}
+        				}
 		         }
-	        	 else
-	        	 {
+	        	 else{
 	        		 getUriListForImages1();
 	        	 }
+	        	 counter=0;
 	        	Intent myIntent = new Intent(AdditionalFeaturesGPS.this, TrackActivity.class);
-	        //	myIntent.putExtra("folder", folder1);
-	        //	myIntent.putExtra("file", b);
-	        	AdditionalFeaturesGPS.this.startActivity(myIntent);
+	        	myIntent.putExtra("foldername", foldername);
+    		 	myIntent.putExtra("filename",c);
+    		 	Log.i("Have come here","lala");
+	        	startActivity(myIntent);
 	        
 	        }
 	    });
