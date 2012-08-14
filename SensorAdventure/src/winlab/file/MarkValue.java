@@ -2,6 +2,7 @@ package winlab.file;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 
 import winlab.ASL.AndroidSensors;
 import winlab.SensorGUI.StartGUI;
@@ -107,13 +108,25 @@ public class MarkValue {
 		alert.setTitle("Event Descriptor");
 		alert.setMessage("Describe event");
 
-		// Set an EditText view to get user input.
+		// Set an EditText view to get user input
 		input = new EditText(programContext);
 		alert.setView(input);
 
 		alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				event = input.getText().toString();
+				try {
+					output = new FileWriter(file, true);
+					String str = "\n Mark Description: " + event;
+					str = str
+							+ "\n-----------------------------------------------------\n";
+					output.write(str);
+					output.close();
+					
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
@@ -135,10 +148,6 @@ public class MarkValue {
 		String str = "";
 		str = str + "Timestamp (ms): "
 				+ String.format("%d", System.currentTimeMillis()) + "\n";
-		str = str + "Mark description : ";
-
-		displayDialog();
-		str = str + event + "\n";
 		time = String.format("%d", System.currentTimeMillis());
 		try {
 			path.mkdirs();
@@ -319,13 +328,12 @@ public class MarkValue {
 					str = str + "Speed	      = " + a[7] + "\n";
 				}
 			}
-			str = str
-					+ "-----------------------------------------------------\n";
 			output.write(str);
 			output.close();
 		} catch (Exception e) {
 		}
 		print_others(time);
+		displayDialog();
 	}
 
 	// This method prints the marker in the file.
