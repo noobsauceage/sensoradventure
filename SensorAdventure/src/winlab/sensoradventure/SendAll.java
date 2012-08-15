@@ -49,6 +49,7 @@ public class SendAll extends Activity {
 	private class uploadTask extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {
+			putParams();
 			doUpload();
 			Log.d(LOG_TAG, "Done uploading everything");
 			
@@ -59,24 +60,33 @@ public class SendAll extends Activity {
 			gcrsClient.sendGetCommand("clear"); // clear the database
 			gcrsClient.sendGetCommand("demo?passkey=off"); // turn off demo mode
 			
-			writeIP(getGuid(getID()));
+//			writeIP(getGuid(getID()));
+			try {
+				writeIP(id_data.get("guid"));
+			} catch (RuntimeException e) {
+				Log.d(LOG_TAG, "Failed to write IP");
+			}
+			
 			return null;
 		}
 	}
 
 	private void doUpload() {
 
-		putParams();
-
-		// HttpURLConnection conn = null;
-		HttpsURLConnection conn = null;
+		HttpURLConnection conn = null;
+//		HttpsURLConnection conn = null;
 		DataOutputStream dos = null;
 		DataInputStream inStream = null;
 
 		
-		File dir = Environment
+		/*File dir = Environment
 				.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS
-						+ "/upload_to_server/");
+						+ "/sensorData/");
+		
+		File[] fileList = dir.listFiles();*/
+		
+		String dirPath = Environment.getExternalStorageDirectory().getPath() + "/sensorData/";
+		File dir = new File(dirPath);
 		File[] fileList = dir.listFiles();
 
 		String lineEnd = "\r\n";
@@ -88,8 +98,8 @@ public class SendAll extends Activity {
 		int maxBufferSize = 1 * 1024 * 1024;
 		// String responseFromServer = "";
 
-		// String urlString = "http://dolan.bounceme.net/file_tosql.php";
-		String urlString = "https://dolan.bounceme.net/file_tosql.php";
+		String urlString = "http://dolan.bounceme.net/file_tosql.php";
+//		String urlString = "https://dolan.bounceme.net/file_tosql.php";
 		//String urlString = "https://192.168.1.45/file_tosql.php";
 
 		for (File f : fileList) {
@@ -103,8 +113,8 @@ public class SendAll extends Activity {
 				URL url = new URL(urlString);
 
 				// Open a HTTP connection to the URL
-				// conn = (HttpURLConnection) url.openConnection();
-
+				conn = (HttpURLConnection) url.openConnection();
+/*
 				// Verify all hosts / certs
 				try {
 					HostnameVerifier hv = new HostnameVerifier() {
@@ -121,9 +131,10 @@ public class SendAll extends Activity {
 				} catch (Exception e) {
 					// nothing
 				}
-
+*/
+				
 				// Open HTTPS connection
-				conn = (HttpsURLConnection) url.openConnection();
+//				conn = (HttpsURLConnection) url.openConnection();
 				// conn.setSSLSocketFactory(context.getSocketFactory());/////////////////
 				// conn.setSSLSocketFactory(newSslSocketFactory(this));/////////////////
 
@@ -226,7 +237,7 @@ public class SendAll extends Activity {
 		return telephonyManager.getDeviceId();
 	}
 
-	private String getGuid(String username) {
+	private String getGuid(String username) throws RuntimeException{
 		Log.d(LOG_TAG, "Grabbing GUID");
 		String guid = null;
 
@@ -243,7 +254,7 @@ public class SendAll extends Activity {
 		} catch (IOException e) {
 			GCRS.getLogger().severe(e.toString());
 		}
-		if (guid.contains("+BADUSER+"))
+		if (guid.contains("+BADUSER+")) {
 			try {
 				guid =  gcrsClient.registerNewUser(username);
 			} catch (NoSuchAlgorithmException e1) {
@@ -251,20 +262,28 @@ public class SendAll extends Activity {
 			} catch (IOException e1) {
 				GCRS.getLogger().severe(e1.toString());
 			}
+		}
 		return guid;
 	}
 
 	// Parameters to send
 	private void putParams() {
 		String ourId = getID();
-		String ourGuid = getGuid(ourId);
+		String ourGuid = "";
+		
+		try {
+			ourGuid = getGuid(ourId);
+		} catch (RuntimeException e) {
+			ourGuid = "GCRS Fails";;
+		}
+		
 
 		id_data.put("id", ourId);
 		id_data.put("guid", ourGuid);
 	}
 
 	// Write the IP as a key-value pair to GCRS
-	public void writeIP(String guid) {
+	public void writeIP(String guid) throws RuntimeException {
 		Log.d(LOG_TAG, "Attempting to write ip to: " + guid);
 		HttpURLConnection conn = null;
 		DataInputStream inStream = null;
